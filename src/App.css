@@ -61,6 +61,10 @@
   max-width: 90%; /* Limit maximum width */
 }
 
+.login-form img {
+  margin: auto;
+}
+
 .login-form h2 {
   color: #333;
   margin-bottom: 30px;
@@ -224,7 +228,7 @@ ul {
 
 /* Signup Form Container */
 .signup-container {
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 30px;
   background-color: #ffffff;
@@ -262,7 +266,7 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 textarea {
-  width: 100%;
+  width: Calc(100% - 30px);
   padding: 12px;
   font-size: 16px;
   border: 1px solid #dddddd;
