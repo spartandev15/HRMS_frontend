@@ -37,7 +37,6 @@
   }
 }
 
-
 /* Login css */
 
 /* Login form container */
@@ -53,7 +52,7 @@
 /* Form styling */
 .login-form {
   width: 350px;
-  padding: 40px;
+  padding: 20px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -73,6 +72,11 @@
 .form-control {
   text-align: left; /* Align labels and inputs to the left */
   margin-bottom: 20px;
+  border: 0px;
+}
+
+form div {
+  padding: 6px 12px;
 }
 
 label {
@@ -84,7 +88,7 @@ label {
 
 input[type="text"],
 input[type="password"] {
-  width: calc(100% - 30px); /* Adjust width for padding */
+  width: 100%; /* Adjust width for padding */
   padding: 12px 15px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -99,7 +103,7 @@ input[type="password"]:focus {
 }
 
 button {
-  width: calc(100% - 30px); /* Adjust width for padding */
+  width: 100%; /* Adjust width for padding */
   padding: 12px;
   background-color: #007bff;
   color: #fff;
@@ -126,10 +130,11 @@ button:hover {
 @media (max-width: 768px) {
   .login-form {
     padding: 30px;
+    width: 80%;
   }
 }
 
-@media (min-width : 200px ) and (max-width: 480px)   {
+@media (min-width: 200px) and (max-width: 480px) {
   .login-form {
     padding: 20px;
     width: 80%;
@@ -151,12 +156,11 @@ button:hover {
   }
 }
 
-
 /* Leave management css */
 /* App.css */
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f0f0;
   margin: 0;
   padding: 0;
@@ -223,13 +227,17 @@ ul {
   margin-top: 20px; /* Adjust as needed for spacing */
 }
 
-
 /* Signup css */
 
 /* Signup Form Container */
 .signup-container {
   max-width: 500px;
-  margin: 0 auto;
+  position: absolute;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateY(-50%);
   padding: 30px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -252,7 +260,8 @@ form {
 
 /* Form Fields */
 form > div {
-  margin-bottom: 12px;
+  margin-bottom: 0px;
+  padding: 6px 12px;
 }
 
 label {
@@ -268,7 +277,7 @@ input[type="email"],
 input[type="password"],
 textarea {
   padding: 8px;
-  width: Calc(100% - 30px);
+  width: 100%;
   font-size: 12px;
   border: 1px solid #dddddd;
   border-radius: 6px;
@@ -318,7 +327,7 @@ button[type="submit"]:hover {
 
 /* toastify css */
 
-.toast-container{
+.toast-container {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -334,9 +343,9 @@ button[type="submit"]:hover {
 
 @keyframes toastify_animation {
   from {
-     opacity: 0.0;
+    opacity: 0;
   }
   to {
-     opacity: 1;
+    opacity: 1;
   }
 }
