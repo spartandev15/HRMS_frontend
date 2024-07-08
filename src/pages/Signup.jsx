@@ -1,63 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import orpectLogo from "../asset/images/orpect1.png";
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { SIGNUP_API } from "../api/Api";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    organisation: '',
-    organisation_id: '',
-    address: '',
-    email: '',
-    password: '',
-    confirm_password: '',
-    payment: 1
+    first_name: "",
+    last_name: "",
+    organisation: "",
+    organisation_id: "",
+    address: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+    payment: 1,
   });
 
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost/hrms_project/public/api/register', formData);
-      console.log('Response:', response.data);
-      setSuccessMessage('Signup successful!');
-      setError(null);
-      // Clear form data after successful submission if needed
-      setFormData({
-        first_name: '',
-        last_name: '',
-        organisation: '',
-        organisation_id: '',
-        address: '',
-        email: '',
-        password: '',
-        confirm_password: '',
-        payment: ''
-      });
-    } catch (error) {
-      console.error('Error:', error.response.data);
-      setError(error.response.data.message);
-      setSuccessMessage('');
-    }
+    SIGNUP_API(formData);
+    setFormData({
+      first_name: "",
+      last_name: "",
+      organisation: "",
+      organisation_id: "",
+      address: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+      payment: "",
+    });
   };
 
   return (
     <div className="signup-container">
-        <img src={orpectLogo} alt="Logo" height="50px" />
+      <img src={orpectLogo} alt="Logo" height="50px" />
       <h2>Signup Form</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="first_name">First Name</label>
@@ -147,6 +139,7 @@ const Signup = () => {
           />
         </div>
         <button type="submit">Signup</button>
+        <button onClick={() => navigate("/login")}>Login</button>
       </form>
     </div>
   );

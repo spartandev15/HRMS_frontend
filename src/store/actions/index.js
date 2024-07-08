@@ -6,3 +6,10 @@ export const isState = (flag) => {
       payload: flag
     }
   }
+
+export const IsToast = (data) => {
+  return {
+    type: "IS_TOAST",
+    payload: data
+  }
+}
