@@ -24,7 +24,7 @@ const Login = () => {
       setUsername("");
       setPassword("");
     } catch (err) {
-      console.log("aagya data: ", err);
+      console.log("Error: ", err.message);
     }
 
     if (username === "admin" && password === "admin") {

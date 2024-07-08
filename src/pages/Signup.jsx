@@ -30,18 +30,23 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    SIGNUP_API(formData);
-    setFormData({
-      first_name: "",
-      last_name: "",
-      organisation: "",
-      organisation_id: "",
-      address: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-      payment: "",
-    });
+    try {
+      const response = await SIGNUP_API(formData);
+      console.log("Aagya data, ", response);
+      setFormData({
+        first_name: "",
+        last_name: "",
+        organisation: "",
+        organisation_id: "",
+        address: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+        payment: "",
+      });
+    } catch (err) {
+      console.log("Error: ", err.message);
+    }
   };
 
   return (
