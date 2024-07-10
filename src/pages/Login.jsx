@@ -29,6 +29,10 @@ const Login = () => {
 
     if (username === "admin" && password === "admin") {
       dispatch(IsToast("Hi Admin, welcome to the HRMS"));
+      navigate("admin");
+    } else if(username === "test" && password === "test") {
+      dispatch(IsToast("Hi Test user, welcome to the HRMS"));
+      navigate("employee");
     }
   };
 

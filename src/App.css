@@ -104,7 +104,7 @@ input[type="password"]:focus {
 
 button {
   width: 100%; /* Adjust width for padding */
-  padding: 12px;
+  padding: 8px 12px;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -170,7 +170,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
 }
@@ -231,13 +230,12 @@ ul {
 
 /* Signup Form Container */
 .signup-container {
-  max-width: 500px;
+  width: 50%;
   position: absolute;
   margin: auto;
   top: 50%;
   left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   padding: 30px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -295,7 +293,7 @@ textarea:focus {
 /* Submit Button */
 button[type="submit"] {
   width: 100%;
-  padding: 12px;
+  padding: 8px 12px;
   background-color: #007bff;
   color: #ffffff;
   border: none;
@@ -349,3 +347,27 @@ button[type="submit"]:hover {
     opacity: 1;
   }
 }
+
+/* Admin dashboard */
+
+.hrms-dashboard-container {
+  padding: 20px;
+}
+
+.dashboard-card {
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 767px) {
+  .dashboard-card {
+    margin-bottom: 16px;
+  }
+}
+

@@ -20,7 +20,7 @@ const LOGIN_API = async (data) => {
 
 const SIGNUP_API = async (data) => {
   return axios
-    .post(`${BASE_URL}/api/register`, data, config)
+    .post(`${BASE_URL}/api/signup`, data, config)
     .then((res) => {
       return res
     })
