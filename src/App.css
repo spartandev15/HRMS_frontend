@@ -71,7 +71,7 @@
 
 .form-control {
   text-align: left; /* Align labels and inputs to the left */
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   border: 0px;
 }
 
@@ -329,7 +329,7 @@ button[type="submit"]:hover {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: red;
+  background-color: green;
   color: white;
   padding: 5px 20px;
   border-radius: 5px;

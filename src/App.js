@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <Toast/>
-      <BrowserRouter basename="/Orpect/hrms">
+      <BrowserRouter>
         <Navigation/>
       </BrowserRouter>
     </div>
