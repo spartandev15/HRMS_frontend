@@ -4,17 +4,23 @@ import logo from "../../asset/images/orpect1.png";
 import user from "../../asset/images/account.png";
 import "../../asset/css/dashboard.css";
 import { LOGOUT_API } from "../../api/Api";
+import { useDispatch } from "react-redux";
+import { isLoader } from "../../store/actions";
 
 const Header = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const onLogout = async () => {
     try {
+      dispatch(isLoader(true))
       const response = await LOGOUT_API();
       if(response.data.result){
+        dispatch(isLoader(false))
         localStorage.removeItem("token")
         navigate("/login")
       }
     } catch (err) {
+      dispatch(isLoader(false))
       console.log(err);
     }
   };
