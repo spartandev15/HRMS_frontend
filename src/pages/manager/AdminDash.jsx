@@ -5,7 +5,7 @@ import user from "../../asset/images/account.png";
 const AdminDash = () => {
   return (
     <>
-      <Layout> </Layout>
+      <Layout> 
       <section id="heading-txt">
         <div class="container">
           <div class="row">
@@ -739,6 +739,8 @@ const AdminDash = () => {
             </div>
           </div>
         </section>
+
+        </Layout>
     </>
   );
 };
