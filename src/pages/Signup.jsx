@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import orpectLogo from "../asset/images/orpect1.png";
 import { Link, useNavigate } from "react-router-dom";
 import { SIGNUP_API } from "../api/Api";
+import { useDispatch } from "react-redux";
+import { isLoader, IsToast } from "../store/actions";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -31,8 +34,14 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(isLoader(true))
       const response = await SIGNUP_API(formData);
       console.log("Aagya data, ", response);
+      if(response.data.message === "Registration successful."){
+        dispatch(isLoader(false))
+        dispatch(IsToast(`Registration successfull!`))
+        navigate("/")
+      }
       setFormData({
         first_name: "",
         last_name: "",
@@ -45,6 +54,7 @@ const Signup = () => {
         payment: "",
       });
     } catch (err) {
+      dispatch(isLoader(false))
       console.log("Error: ", err.message);
     }
   };
@@ -256,7 +266,7 @@ const Signup = () => {
                         Already have an account.
                         <a
                           onClick={() => navigate("/login")}
-                          style={{ color: "#134d75", fontWeight: "600" }}
+                          style={{ color: "#134d75", fontWeight: "600", cursor: "pointer"}}
                         >
                           Login
                         </a>

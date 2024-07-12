@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../component/layout/Layout";
 import user from "../../asset/images/account.png";
+import { useNavigate } from "react-router-dom";
 
 const AdminDash = () => {
+
+    const navigate = useNavigate();
+    const name = localStorage.getItem("userName")
+
+    useEffect(() => {
+      if(localStorage.getItem("token")){
+
+      } else {
+        navigate("/")
+      }
+    }, [])
+
   return (
     <>
+    
       <Layout> 
       <section id="heading-txt">
         <div class="container">
           <div class="row">
             <div class="col-lg-12 text-start">
               <div class="heading-text-msg">
-                <h3 className="m-0">Welcome Admin!</h3>
+                <h3 className="m-0">Welcome {name}!</h3>
                 <h5>
                   <i class="fa  fa-gauge"></i> HRMS Dashboard
                 </h5>

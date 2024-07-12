@@ -13,3 +13,10 @@ export const IsToast = (data) => {
     payload: data
   }
 }
+
+export const isLoader = (flag) => {
+  return {
+    type: "IS_LOADER",
+    payload: flag
+  }
+}

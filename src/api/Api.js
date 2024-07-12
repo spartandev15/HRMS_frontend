@@ -8,6 +8,7 @@ const config = {
 };
 
 const LOGIN_API = async (data) => {
+  
   return axios
     .post(`${BASE_URL}/api/login`, data, config)
     .then((res) => {
@@ -22,11 +23,24 @@ const SIGNUP_API = async (data) => {
   return axios
     .post(`${BASE_URL}/api/signup`, data, config)
     .then((res) => {
-      return res
+      return res;
     })
     .catch((err) => {
-      throw err
+      throw err;
     });
 };
 
-export { LOGIN_API, SIGNUP_API };
+const LOGOUT_API = async () => {
+  return axios
+    .get(`${BASE_URL}/api/logout`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API };

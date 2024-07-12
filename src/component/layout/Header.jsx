@@ -1,11 +1,25 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../asset/images/orpect1.png";
 import user from "../../asset/images/account.png";
 import "../../asset/css/dashboard.css";
+import { LOGOUT_API } from "../../api/Api";
 
 const Header = () => {
-  return ( 
+  const navigate = useNavigate()
+  const onLogout = async () => {
+    try {
+      const response = await LOGOUT_API();
+      if(response.data.result){
+        localStorage.removeItem("token")
+        navigate("/login")
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return (
     <header className="navheader">
       <nav className="navbar navbar-expand-lg sticky-top navbar-light navbar-fixed-top">
         <div className="container">
@@ -18,7 +32,7 @@ const Header = () => {
             className="navbar-toggler navbar-toggler-right  "
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbar1" 
+            data-bs-target="#navbar1"
           >
             <span></span>
             <span></span>
@@ -27,7 +41,7 @@ const Header = () => {
 
           <div
             className="collapse navbar-collapse justify-content-center"
-            id="navbar1" 
+            id="navbar1"
           >
             <ul className="navbar-nav navlink" id="navmenu">
               <li className="nav-item ">
@@ -52,58 +66,50 @@ const Header = () => {
                   Attendance
                 </NavLink>
               </li>
-              
+
               <li>
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Recruitment
                 </NavLink>
               </li>
-           
             </ul>
           </div>
-         
-            <div className="nav-item dropdown userdropdown  ">
-                <div
-                  className="nav-link dropdownicon"
-                  id="navbarDropdown"
-                  to="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-bs-expanded="false"
+
+          <div className="nav-item dropdown userdropdown  ">
+            <div
+              className="nav-link dropdownicon"
+              id="navbarDropdown"
+              to="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-bs-expanded="false"
+            >
+              <img
+                src={user}
+                className="droplogin"
+                alt="user"
+                height={35}
+                width={35}
+              />
+            </div>
+            <ul className="dropdown-menu dropdown-menu-end droplogin1">
+              <li>
+                <NavLink
+                  activeClassName="active"
+                  className="dropdown-item dropbtn-txt"
+                  to=" "
                 >
-                  <img
-                    src={user}
-                    className="droplogin"
-                    alt="user"
-                    height={35}
-                    width={35}
-                  />
-                </div>
-                <ul
-                  className="dropdown-menu dropdown-menu-end droplogin1"
-                >
-                  <li>
-                    <NavLink
-                      activeClassName="active" 
-                  className="dropdown-item dropbtn-txt"    to=" "
-                    > 
-                Profile
-                    </NavLink>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item dropbtn-txt" to=" "> 
-                    Logout
-                    </Link>
-                  </li>
-                </ul>
-               
+                  Profile
+                </NavLink>
+              </li>
+              <li onClick={onLogout}>
+                <Link className="dropdown-item dropbtn-txt" to=" ">Logout</Link>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
     </header>
-
-
- 
   );
 };
 

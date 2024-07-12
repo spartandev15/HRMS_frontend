@@ -3,7 +3,7 @@ import orpectLogo from "../asset/images/orpect1.png";
 import { Await, Link, useNavigate } from "react-router-dom";
 import { LOGIN_API } from "../api/Api";
 import { useDispatch } from "react-redux";
-import { IsToast } from "../store/actions";
+import { isLoader, IsToast } from "../store/actions";
 import "../asset/css/auth-page.css";
 
 const Login = () => {
@@ -20,11 +20,19 @@ const Login = () => {
         email: username,
         password: password,
       };
+      dispatch(isLoader(true))
       const response = await LOGIN_API(data);
-      console.log("Aagya data, ", response);
-      setUsername("");
-      setPassword("");
+      if (response.data.result) {
+        dispatch(isLoader(false))
+        localStorage.setItem("token", response.data.access_token);
+        localStorage.setItem("userName", response.data.user.name)
+        dispatch(IsToast(`Hi ${response.data.user.name}, welcome to the HRMS`));
+        navigate("/dashboard");
+      } else {
+        dispatch(IsToast(`${response.data.message}`));
+      }
     } catch (err) {
+      dispatch(isLoader(false))
       console.log("Error: ", err.message);
     }
 
@@ -38,41 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div
-    className="login-container"
-    >
-      {/* <form className="login-form" onSubmit={handleLogin}>
-        <img src={orpectLogo} alt="Logo" height="50px" width="180px" />
-        <h2>Login to HRMS</h2>
-        {error && <p className="error-message">{error}</p>}
-        <div className="form-control">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-control">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <button type="submit">Login</button>
-          <button onClick={() => navigate("/signup")}>signup</button>
-        </div>
-      </form>
-
- */}
-
+    <div className="login-container">
       <div className="container">
         <div className="row">
           <div className="col-lg-6 contact_form11">
@@ -96,7 +70,7 @@ const Login = () => {
                 >
                   <h3>Login to HRMS</h3>
                   {error && <p className="error-message">{error}</p>}
-                  <div className="form-outline"> 
+                  <div className="form-outline">
                     <input
                       type="text"
                       id="username"
@@ -104,16 +78,15 @@ const Login = () => {
                       onChange={(e) => setUsername(e.target.value)}
                       required
                     />
-                     <label
-                                className="form-label"
-                                for="typeText"
-                                style={{ background: "#fff" }}   
-                              >        
-                                E-Mail
-                              </label>
+                    <label
+                      className="form-label"
+                      for="typeText"
+                      style={{ background: "#fff" }}
+                    >
+                      E-Mail
+                    </label>
                   </div>
                   <div className="form-outline">
-                   
                     <input
                       type="password"
                       id="password"
@@ -121,33 +94,23 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
-                      <label
-                                className="form-label"
-                                for="typeText"
-                                style={{ background: "#fff" }}   
-                              >        
-                               Password
-                              </label>
-                  </div>
-                  {/* <div>
-                    <button type="submit">Login</button>
-                    <button onClick={() => navigate("/signup")}>signup</button>
-                  </div> */}
-                  <div className="row proceedbtn"  >
-                    <div
-                      className="auth_page_padding mx-auto"
-                      
+                    <label
+                      className="form-label"
+                      for="typeText"
+                      style={{ background: "#fff" }}
                     >
-                      <button   className="btn mybtn">
-                        Proceed
-                      </button>
+                      Password
+                    </label>
+                  </div>
+                  <div className="row proceedbtn">
+                    <div className="auth_page_padding mx-auto">
+                      <button className="btn mybtn">Proceed</button>
                       <p class="submitcontent mb-0">
                         Don't have an account.
                         <a
                           onClick={() => navigate("/signup")}
-                          style={{ color: "#134d75", fontWeight: "600" }}
-
-                          >
+                          style={{ color: "#134d75", fontWeight: "600", cursor: "pointer" }}
+                        >
                           Sign Up
                         </a>
                       </p>
@@ -155,7 +118,7 @@ const Login = () => {
                         <a
                           href=" "
                           style={{ color: "#134d75", fontWeight: "600" }}
-                        > 
+                        >
                           Forget Password
                         </a>
                       </p>
