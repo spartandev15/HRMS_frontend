@@ -4,9 +4,11 @@ import { Helmet } from "react-helmet";
 import { getDescription, getKeywords, getTitle } from "../helper/utilDetails";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
-import LeaveManagement from "../pages/LeaveManagement";
+import LeaveManagement from "../pages/employee/LeaveManagement";
 import EmpDashboard from "../pages/employee/EmpDashboard";
 import AdminDashboard from "../pages/manager/Admindashboard";
+import AdminDash from "../pages/manager/AdminDash";
+// import EmployeeManagement from "../pages/manager/EmployeeManagement";
 
 const Navigation = () => {
   const location = useLocation();
@@ -23,6 +25,8 @@ const Navigation = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/leave" element={<LeaveManagement />} />
+        <Route path="/dashboard" element={<AdminDash />} />
+        {/* <Route path="/employee-management" element={<EmployeeManagement />} /> */}
         <Route path="/employee" element={<EmpDashboard />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
