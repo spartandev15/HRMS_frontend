@@ -71,7 +71,8 @@
 
 .form-control {
   text-align: left; /* Align labels and inputs to the left */
-  margin-bottom: 0px;
+ 
+  margin-bottom: 0px; 
   border: 0px;
 }
 
