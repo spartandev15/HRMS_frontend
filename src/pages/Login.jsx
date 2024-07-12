@@ -29,6 +29,7 @@ const Login = () => {
         dispatch(IsToast(`Hi ${response.data.user.name}, welcome to the HRMS`));
         navigate("/dashboard");
       } else {
+        dispatch(isLoader(false))
         dispatch(IsToast(`${response.data.message}`));
       }
     } catch (err) {

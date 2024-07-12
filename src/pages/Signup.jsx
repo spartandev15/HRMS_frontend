@@ -41,6 +41,8 @@ const Signup = () => {
         dispatch(isLoader(false))
         dispatch(IsToast(`Registration successfull!`))
         navigate("/")
+      } else {
+        dispatch(isLoader(false))
       }
       setFormData({
         first_name: "",
