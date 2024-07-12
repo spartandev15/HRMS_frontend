@@ -1,3 +1,8 @@
+body{
+background-color: #F9FAFB;
+}
+
+
 .App {
   text-align: center;
 }
@@ -102,23 +107,7 @@ input[type="password"]:focus {
   outline: none;
   border-color: #007bff; /* Blue border on focus */
 }
-
-button {
-  width: 100%; /* Adjust width for padding */
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.3s ease-in-out;
-  margin-top: 10px; /* Add margin-top for spacing */
-}
-
-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-}
+ 
 
 .error-message {
   color: #dc3545;

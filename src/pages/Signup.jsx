@@ -66,7 +66,7 @@ const Signup = () => {
               </Link>
             </div>
           </div>
-          <div className="col-lg-6 contact_form12  ">git
+          <div className="col-lg-6 contact_form12  "> 
             <div className="row">
               <div className="col-lg-12 col-sm-12">
                 {error && <p style={{ color: "red" }}>{error}</p>}
