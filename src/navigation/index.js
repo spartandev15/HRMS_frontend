@@ -8,6 +8,12 @@ import LeaveManagement from "../pages/employee/LeaveManagement";
 import EmpDashboard from "../pages/employee/EmpDashboard";
 import AdminDashboard from "../pages/manager/Admindashboard";
 import AdminDash from "../pages/manager/AdminDash";
+import EmployeeManagement from "../pages/manager/EmployeeManagement";
+import AdminHome from "../pages/manager/AdminHome";
+import Checklist from "../pages/manager/Checklist";
+import TimeOff from "../pages/manager/TimeOff";
+import Attendance from "../pages/manager/Attendance";
+import Recruitment from "../pages/manager/Recruitment";
 // import EmployeeManagement from "../pages/manager/EmployeeManagement";
 
 const Navigation = () => {
@@ -25,10 +31,14 @@ const Navigation = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/leave" element={<LeaveManagement />} />
-        <Route path="/dashboard" element={<AdminDash />} />
-        {/* <Route path="/employee-management" element={<EmployeeManagement />} /> */}
-        <Route path="/employee" element={<EmpDashboard />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/dashboard" element={<AdminDash />}>
+          <Route path="" element={<AdminHome />} />
+          <Route path="manage_employee" element={<EmployeeManagement />} />
+          <Route path="checklist" element={<Checklist />} />
+          <Route path="timeoff" element={<TimeOff />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="recruitment" element={<Recruitment />} />
+        </Route>
       </Routes>
     </>
   );

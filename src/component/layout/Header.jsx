@@ -17,6 +17,7 @@ const Header = () => {
       if(response.data.result){
         dispatch(isLoader(false))
         localStorage.removeItem("token")
+        localStorage.removeItem("userName")
         navigate("/login")
       }
     } catch (err) {
@@ -29,10 +30,11 @@ const Header = () => {
     <header className="navheader">
       <nav className="navbar navbar-expand-lg sticky-top navbar-light navbar-fixed-top">
         <div className="container">
-          <Link className="navbar-brand logobar" href="/">
-            {" "}
-            <img src={logo} alt="Orpect" width={150} />
-          </Link>
+          
+          <div className="navbar-brand logobar" onClick={() => navigate("/dashboard")}>
+            <img src={logo} alt="Orpect" width={150}/>
+          </div>
+          
 
           <button
             className="navbar-toggler navbar-toggler-right  "
@@ -50,30 +52,30 @@ const Header = () => {
             id="navbar1"
           >
             <ul className="navbar-nav navlink" id="navmenu">
-              <li className="nav-item ">
+              <li className="nav-item " onClick={() => navigate("/dashboard/manage_employee")}>
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Employees
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="nav-item"  onClick={() => navigate("/dashboard/checklist")}>
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Checklists
                 </NavLink>
               </li>
 
-              <li className="nav-item">
+              <li className="nav-item"  onClick={() => navigate("/dashboard/timeoff")}>
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Time Off
                 </NavLink>
               </li>
-              <li>
+              <li onClick={() => navigate("/dashboard/attendance")}>
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   {" "}
                   Attendance
                 </NavLink>
               </li>
 
-              <li>
+              <li onClick={() => navigate("/dashboard/recruitment")}>
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Recruitment
                 </NavLink>

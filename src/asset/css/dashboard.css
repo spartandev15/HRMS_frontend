@@ -645,3 +645,7 @@ display: none;
   text-decoration: none;
 
 }
+.profile-action .dropdown-item:focus, .dropdown-item:hover{
+background-color: var(--primary-color);
+color: var(--white-color);
+}

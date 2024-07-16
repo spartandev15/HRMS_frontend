@@ -1,171 +1,181 @@
-import React, { useState } from 'react';
-import EmployeeCard from './EmployeeCard'; // Example EmployeeCard component
-import LeaveBalanceCard from './LeaveBalanceCard'; // Example LeaveBalanceCard component
-import EmployeeForm from './EmployeeForm'; // Example EmployeeForm component
-import LeaveForm from './LeaveForm'; // Example LeaveForm component
-import WorkingTimeForm from './WorkingTimeForm'; // Example WorkingTimeForm component
+import React, { useState } from "react";
+import user from "../../asset/images/profile.png";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 const EmployeeManagement = () => {
-  // Example data for employee management
-  const [employees, setEmployees] = useState([
-    { id: 1, name: 'John Doe', department: 'HR', position: 'Manager' },
-    { id: 2, name: 'Jane Smith', department: 'IT', position: 'Developer' },
-    { id: 3, name: 'Michael Johnson', department: 'Finance', position: 'Analyst' },
-  ]);
-
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [showEmployeeForm, setShowEmployeeForm] = useState(false);
-  const [showLeaveForm, setShowLeaveForm] = useState(false);
-  const [showWorkingTimeForm, setShowWorkingTimeForm] = useState(false);
-
-  // Example data for leave balances
-  const [leaveBalances, setLeaveBalances] = useState([
-    { employeeId: 1, type: 'annual', balance: 20 },
-    { employeeId: 2, type: 'sick', balance: 10 },
-    { employeeId: 3, type: 'maternity', balance: 12 },
-    { employeeId: 1, type: 'paternity', balance: 5 },
-  ]);
-
-  // Example data for working times
-  const [workingTimes, setWorkingTimes] = useState([
-    { employeeId: 1, days: 'Monday - Friday', hours: '9:00 AM - 5:00 PM' },
-    { employeeId: 2, days: 'Monday - Friday', hours: '10:00 AM - 6:00 PM' },
-    { employeeId: 3, days: 'Monday - Friday', hours: '8:00 AM - 4:00 PM' },
-  ]);
-
-  // Function to handle selecting an employee
-  const handleEmployeeSelect = (employeeId) => {
-    const employee = employees.find(emp => emp.id === employeeId);
-    setSelectedEmployee(employee);
-  };
-
-  // Function to handle editing employee details
-  const handleEditEmployee = (employeeData) => {
-    const updatedEmployees = employees.map(emp =>
-      emp.id === employeeData.id ? { ...emp, ...employeeData } : emp
-    );
-    setEmployees(updatedEmployees);
-    setSelectedEmployee(null);
-    setShowEmployeeForm(false);
-  };
-
-  // Function to handle deleting an employee
-  const handleDeleteEmployee = (employeeId) => {
-    const updatedEmployees = employees.filter(emp => emp.id !== employeeId);
-    setEmployees(updatedEmployees);
-    setSelectedEmployee(null);
-  };
-
-  // Function to handle submitting leave application
-  const handleApplyLeave = (leaveData) => {
-    // Example: Logic to update leave balances
-    const updatedLeaveBalances = leaveBalances.map(balance => {
-      if (balance.employeeId === leaveData.employeeId && balance.type === leaveData.type) {
-        return {
-          ...balance,
-          balance: balance.balance - leaveData.days, // Adjust based on your logic
-        };
-      }
-      return balance;
-    });
-    setLeaveBalances(updatedLeaveBalances);
-    setShowLeaveForm(false);
-  };
-
-  // Function to handle submitting working time
-  const handleSaveWorkingTime = (workingTimeData) => {
-    // Example: Logic to update working times
-    const updatedWorkingTimes = workingTimes.map(time =>
-      time.employeeId === workingTimeData.employeeId ? { ...time, ...workingTimeData } : time
-    );
-    setWorkingTimes(updatedWorkingTimes);
-    setShowWorkingTimeForm(false);
-  };
+  const Arraytopopulate = [1, 2, 3, 4, 5, 6 ];
 
   return (
-    <div className="employee-management">
-      <h2>Employee Management</h2>
-
-      <div className="employee-list">
-        <h3>Employee List</h3>
-        <div className="employee-cards">
-          {employees.map(employee => (
-            <EmployeeCard
-              key={employee.id}
-              employee={employee}
-              onSelect={handleEmployeeSelect}
-              onDelete={handleDeleteEmployee}
-            />
-          ))}
-        </div>
-      </div>
-
-      {selectedEmployee && (
-        <div className="employee-details">
-          <h3>Employee Details</h3>
-          <p><strong>Name:</strong> {selectedEmployee.name}</p>
-          <p><strong>Department:</strong> {selectedEmployee.department}</p>
-          <p><strong>Position:</strong> {selectedEmployee.position}</p>
-          <button onClick={() => setShowEmployeeForm(true)}>Edit Employee</button>
-        </div>
-      )}
-
-      {showEmployeeForm && (
-        <EmployeeForm
-          employee={selectedEmployee}
-          onSave={handleEditEmployee}
-          onCancel={() => setShowEmployeeForm(false)}
-        />
-      )}
-
-      {selectedEmployee && (
-        <div className="leave-balance">
-          <h3>Leave Balances</h3>
-          {leaveBalances
-            .filter(balance => balance.employeeId === selectedEmployee.id)
-            .map(balance => (
-              <LeaveBalanceCard
-                key={balance.type}
-                type={balance.type}
-                balance={balance.balance}
-              />
-            ))}
-          <button onClick={() => setShowLeaveForm(true)}>Apply for Leave</button>
-        </div>
-      )}
-
-      {showLeaveForm && (
-        <LeaveForm
-          employeeId={selectedEmployee.id}
-          onSave={handleApplyLeave}
-          onCancel={() => setShowLeaveForm(false)}
-        />
-      )}
-
-      {selectedEmployee && (
-        <div className="working-time">
-          <h3>Working Time</h3>
-          {workingTimes
-            .filter(time => time.employeeId === selectedEmployee.id)
-            .map(time => (
-              <div key={time.employeeId}>
-                <p><strong>Days:</strong> {time.days}</p>
-                <p><strong>Hours:</strong> {time.hours}</p>
+    <>
+     <section>
+        <div className="container">
+          <div className="row py-3">
+            <div className="col-4  text-start">
+              <div class="heading-text-msg">
+                <h3 class="m-0">Employee</h3>
               </div>
-            ))}
-          <button onClick={() => setShowWorkingTimeForm(true)}>Edit Working Time</button>
+            </div>
+            <div className="col-8 text-end">
+              <div>
+               
+              <Popup 
+                  trigger={<button className="btn mybtn">Add Employee</button>} 
+                  position="top center"
+                  modal
+                  closeOnDocumentClick
+                >
+                  {close => (
+                    <div className="modal-content p-4">
+                     <div className="d-flex justify-content-between"> 
+                     <h5>Add Employee</h5>
+                     <p type="button"  onClick={close}>X</p>
+                     </div> 
+                      <form>
+                        <div className="mb-3">
+                        <div className="form-outline">
+                        <input
+                          type="text"
+                          id="first_name"
+                          name="first_name"
+                          required
+                        />
+                        <label
+                          className="form-label"
+                          for="typeText"
+                        >
+                          {" "}
+                          First Name
+                        </label>
+                      </div>
+                          <label className="form-label">First Name</label>
+                          <input type="text" className="form-control" required />
+                        </div>
+                        <div className="mb-3">
+                          <label className="form-label">Last Name</label>
+                          <input type="text" className="form-control" required />
+                        </div>
+                        <div className="mb-3">
+                          <label className="form-label">Email</label>
+                          <input type="email" className="form-control" required />
+                        </div>
+                        <div className="mb-3">
+                          <label className="form-label">Phone</label>
+                          <input type="text" className="form-control" />
+                        </div>
+                        <div className="text-end">
+                          <button type="submit" className="btn btn-primary">Submit</button>
+                          
+                        </div>
+                      </form>
+                    </div>
+                  )}
+                </Popup>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </section>
 
-      {showWorkingTimeForm && (
-        <WorkingTimeForm
-          employeeId={selectedEmployee.id}
-          onSave={handleSaveWorkingTime}
-          onCancel={() => setShowWorkingTimeForm(false)}
-        />
-      )}
 
-    </div>
+
+
+    <section>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-3 col-md-3 ">
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Employee Id"
+              />
+            </div>
+            <div className="col-lg-3 col-md-3 ">
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Employee Name"
+              />
+            </div>
+            <div className="col-lg-3 col-md-3">
+              <select className="form-control">
+                <option selected disabled>
+                  Select
+                </option>
+                <option>Web Designer</option>
+                <option>Web Development</option>
+              </select>
+            </div>
+            <div className="col-lg-3 col-md-3 text-end">
+              <button className="btn mybtn">Search</button>
+            </div>
+          </div>
+        </div>
+      </section>  
+      <section>
+        <div className="container mt-4">
+          <div className="row">
+            {Arraytopopulate.map((x) => {
+              return (
+                <div className="col-lg-4 col-md-4 col-sm-6 col-12 mb-4" key={x}>
+                  <div className="profile-widget">
+                    <div className="profile-img">
+                      <a className="avatarimg" href="#">
+                        <img src={user} alt="" />
+                      </a>
+                    </div>
+                    <div className="dropdown profile-action">
+                      <a
+                        className="action-icon dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                      >
+                        <i class="fa fa-ellipsis-v "></i>
+                      </a>
+                      <div className="dropdown-menu dropdown-menu-right">
+                        <a
+                          className="dropdown-item"
+                          data-bs-toggle="modal"
+                          data-bs-target="#edit_employee"
+                          href="#"
+                        >
+                          <i className="fa fa-pencil m-r-5"></i> Edit
+                        </a>
+                        <a
+                          className="dropdown-item"
+                          data-bs-toggle="modal"
+                          data-bs-target="#delete"
+                          href="#"
+                        >
+                          <i className="fa-regular fa-trash-can m-r-5"></i>{" "}
+                          Delete
+                        </a>
+                      </div>
+                    </div>
+                    <h4 className="user-name m-t-10 mb-0 p-1 text-ellipsis">
+                      <a href="#">John Doe</a>
+                    </h4>
+                    <h6 className="user-name m-t-6 mb-0 text-ellipsis">
+                      <a href="#">SP1234</a>
+                    </h6>
+                    <div className="small text-muted">Web Designer</div>
+                    <div className="small text-muted" href="tel:+1-7807114210">
+                      <i className="fa fa-phone"></i>&nbsp;+1-7807114210
+                    </div>
+                    <div
+                      className="small text-muted"
+                      href="mailto:himanshu@spartanbots.com"
+                    >
+                      <i className="fa fa-envelope"></i>&nbsp;
+                      himanshu@spartanbots.com
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>  
+    </>
   );
 };
 

@@ -364,6 +364,10 @@ button[type="submit"]:hover {
 
 /* dashboard css */
 
+.navbar-brand img{
+  cursor: pointer;
+}
+
 .profile-button :active{
   border: none !important;
 }
@@ -412,6 +416,14 @@ button[type="submit"]:hover {
   background: #FF3D7F;
   --s:-1;
 }
+
+/* coming soon */
+
+.coming_soon_image img{
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
+}
+
 @keyframes l3-0 {
    0%,40%   {transform: rotate(0)}
    80%,100% {transform: rotate(.5turn)}
