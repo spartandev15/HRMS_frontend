@@ -1,10 +1,10 @@
 import React from 'react'
 import Coming_soon from '../../component/Coming_soon'
 
-const EmployeeManagement = () => {
+const Checklist = () => {
   return (
     <div><Coming_soon/></div>
   )
 }
 
-export default EmployeeManagement
+export default Checklist
