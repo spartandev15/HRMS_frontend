@@ -14,6 +14,7 @@ import Checklist from "../pages/manager/Checklist";
 import TimeOff from "../pages/manager/TimeOff";
 import Attendance from "../pages/manager/Attendance";
 import Recruitment from "../pages/manager/Recruitment";
+import Profile from "../pages/manager/Profile";
 // import EmployeeManagement from "../pages/manager/EmployeeManagement";
 
 const Navigation = () => {
@@ -38,6 +39,7 @@ const Navigation = () => {
           <Route path="timeoff" element={<TimeOff />} />
           <Route path="attendance" element={<Attendance />} />
           <Route path="recruitment" element={<Recruitment />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </>

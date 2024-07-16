@@ -13,7 +13,7 @@ const EmployeeManagement = () => {
           <div className="row py-3">
             <div className="col-4  text-start">
               <div class="heading-text-msg">
-                <h3 class="m-0">Employee</h3>
+                <h5 class="m-0">Employee</h5>
               </div>
             </div>
             <div className="col-8 text-end">
@@ -29,7 +29,7 @@ const EmployeeManagement = () => {
                       <div className="d-flex justify-content-between">
                         <h5>Add Employee</h5>
                         <p type="button" onClick={close}>
-                          X
+                        <i class="fa fa-x"></i>
                         </p>
                       </div>
                       <form>
@@ -44,7 +44,7 @@ const EmployeeManagement = () => {
                               />
                               <label className="form-label" for="typeText">
                                 {" "}
-                                First Name
+                                First Name<span className=" required">*</span>
                               </label>
                             </div>
                           </div>
@@ -74,7 +74,7 @@ const EmployeeManagement = () => {
                               />
                               <label className="form-label" for="typeText">
                                 {" "}
-                                User Name
+                                User Name<span className=" required">*</span>
                               </label>
                             </div>
                           </div>
@@ -88,7 +88,7 @@ const EmployeeManagement = () => {
                               />
                               <label className="form-label" for="typeText">
                                 {" "}
-                                Email
+                                Email<span className=" required">*</span>
                               </label>
                             </div>
                           </div>{" "}
@@ -99,7 +99,7 @@ const EmployeeManagement = () => {
                               <input type="password" required />
                               <label className="form-label" for="typeText">
                                 {" "}
-                                Password
+                                Password<span className=" required">*</span>
                               </label>
                             </div>
                           </div>
@@ -109,6 +109,7 @@ const EmployeeManagement = () => {
                               <label className="form-label" for="typeText">
                                 {" "}
                                 Confirm Password
+                                <span className=" required">*</span>
                               </label>
                             </div>
                           </div>{" "}
@@ -119,7 +120,7 @@ const EmployeeManagement = () => {
                               <input type="text" required />
                               <label className="form-label" for="typeText">
                                 {" "}
-                                Employee Id
+                                Employee Id<span className=" required">*</span>
                               </label>
                             </div>
                           </div>
@@ -132,7 +133,7 @@ const EmployeeManagement = () => {
                               />
                               <label className="form-label">
                                 {" "}
-                                Joining Date
+                                Joining Date<span className=" required">*</span>
                               </label>
                             </div>
                           </div>{" "}
@@ -143,7 +144,7 @@ const EmployeeManagement = () => {
                               <input type="text" required />
                               <label className="form-label" for="typeText">
                                 {" "}
-                                Phone Number
+                                Phone Number<span className=" required">*</span>
                               </label>
                             </div>
                           </div>
@@ -152,7 +153,7 @@ const EmployeeManagement = () => {
                               <input type="password" required />
                               <label className="form-label" for="typeText">
                                 {" "}
-                                Designation
+                                Designation<span className=" required">*</span>
                               </label>
                             </div>
                           </div>{" "}

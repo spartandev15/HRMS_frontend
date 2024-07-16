@@ -105,7 +105,7 @@ const Header = () => {
                 <NavLink
                   activeClassName="active"
                   className="dropdown-item dropbtn-txt"
-                  to=" "
+                  to="/dashboard/profile "
                 >
                   Profile
                 </NavLink>
