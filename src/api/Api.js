@@ -43,4 +43,17 @@ const LOGOUT_API = async () => {
     });
 };
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API };
+const GET_PROFILE = async () => {
+  return axios
+    .get(`${BASE_URL}/api/get/profile`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE };

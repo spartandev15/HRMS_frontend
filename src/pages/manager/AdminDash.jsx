@@ -4,15 +4,15 @@ import user from "../../asset/images/account.png";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const AdminDash = () => {
-  const navigate = useNavigate();
-  const name = localStorage.getItem("userName");
+  // const navigate = useNavigate();
+  // const name = localStorage.getItem("userName");
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-    } else {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //   } else {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   return (
     <>

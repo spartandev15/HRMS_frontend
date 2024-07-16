@@ -3,15 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import user from "../../asset/images/account.png";
 
 const AdminHome = () => {
-    const navigate = useNavigate();
-  const name = localStorage.getItem("userName");
+  //   const navigate = useNavigate();
+  // const name = localStorage.getItem("userName");
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-    } else {
-      navigate("/");
-    }
-  }, []);
+  const name = "name"
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //   } else {
+  //     navigate("/");
+  //   }
+  // }, []);
   return (
     <>
       <section id="heading-txt">
@@ -334,7 +336,7 @@ const AdminHome = () => {
                                 </small>
                               </div>
                             </div>
-                            <span>1 day • Unpaid Time Of</span>
+                            <span>1 day • Unpaid Time Off</span>
                           </li>
                         ))}
                       </ul>
