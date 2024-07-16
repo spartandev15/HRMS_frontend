@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import user from "../../asset/images/profile.png";
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 const EmployeeManagement = () => {
-  const Arraytopopulate = [1, 2, 3, 4, 5, 6 ];
+  const Arraytopopulate = [1, 2, 3, 4, 5, 6];
 
   return (
     <>
-     <section>
+      <section>
         <div className="container">
           <div className="row py-3">
             <div className="col-4  text-start">
@@ -18,54 +18,149 @@ const EmployeeManagement = () => {
             </div>
             <div className="col-8 text-end">
               <div>
-               
-              <Popup 
-                  trigger={<button className="btn mybtn">Add Employee</button>} 
+                <Popup
+                  trigger={<button className="btn mybtn">Add Employee</button>}
                   position="top center"
                   modal
                   closeOnDocumentClick
                 >
-                  {close => (
+                  {(close) => (
                     <div className="modal-content p-4">
-                     <div className="d-flex justify-content-between"> 
-                     <h5>Add Employee</h5>
-                     <p type="button"  onClick={close}>X</p>
-                     </div> 
-                      <form>
-                        <div className="mb-3">
-                        <div className="form-outline">
-                        <input
-                          type="text"
-                          id="first_name"
-                          name="first_name"
-                          required
-                        />
-                        <label
-                          className="form-label"
-                          for="typeText"
-                        >
-                          {" "}
-                          First Name
-                        </label>
+                      <div className="d-flex justify-content-between">
+                        <h5>Add Employee</h5>
+                        <p type="button" onClick={close}>
+                          X
+                        </p>
                       </div>
-                          <label className="form-label">First Name</label>
-                          <input type="text" className="form-control" required />
+                      <form>
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input
+                                type="text"
+                                id="first_name"
+                                name="first_name"
+                                required
+                              />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                First Name
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input
+                                type="text"
+                                id="last_name"
+                                name="last_name"
+                                required
+                              />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                Last Name
+                              </label>
+                            </div>
+                          </div>{" "}
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">Last Name</label>
-                          <input type="text" className="form-control" required />
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input
+                                type="text"
+                                id="user_name"
+                                name="user_name"
+                                required
+                              />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                User Name
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                              />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                Email
+                              </label>
+                            </div>
+                          </div>{" "}
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">Email</label>
-                          <input type="email" className="form-control" required />
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input type="password" required />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                Password
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input type="password" required />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                Confirm Password
+                              </label>
+                            </div>
+                          </div>{" "}
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">Phone</label>
-                          <input type="text" className="form-control" />
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input type="text" required />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                Employee Id
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input
+                                type="date"
+                                name="dateOfJoining"
+                                required
+                              />
+                              <label className="form-label">
+                                {" "}
+                                Joining Date
+                              </label>
+                            </div>
+                          </div>{" "}
                         </div>
-                        <div className="text-end">
-                          <button type="submit" className="btn btn-primary">Submit</button>
-                          
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input type="text" required />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                Phone Number
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-lg-6">
+                            <div className="form-outline">
+                              <input type="password" required />
+                              <label className="form-label" for="typeText">
+                                {" "}
+                                Designation
+                              </label>
+                            </div>
+                          </div>{" "}
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-12 text-center">
+                            <button className="btn mybtn">Submit</button>
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -77,10 +172,7 @@ const EmployeeManagement = () => {
         </div>
       </section>
 
-
-
-
-    <section>
+      <section>
         <div className="container">
           <div className="row">
             <div className="col-lg-3 col-md-3 ">
@@ -111,7 +203,7 @@ const EmployeeManagement = () => {
             </div>
           </div>
         </div>
-      </section>  
+      </section>
       <section>
         <div className="container mt-4">
           <div className="row">
@@ -174,7 +266,7 @@ const EmployeeManagement = () => {
             })}
           </div>
         </div>
-      </section>  
+      </section>
     </>
   );
 };

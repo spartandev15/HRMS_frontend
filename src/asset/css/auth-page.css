@@ -142,7 +142,7 @@ color: #fff;
   padding: .375rem .75rem;
     padding-left: 23px;
     padding-right: 12px;
-    border-radius: 0.50rem;
+    border-radius: 0.3rem;
     line-height: 2;
   }
   
@@ -154,8 +154,8 @@ color: #fff;
   
   .form-outline label {
     position: absolute;
-   top: 14px; 
-    left: 25px;
+   top: 8px; 
+    left: 20px;
     font-size: 14px;
     color: #4a4a4a;
     pointer-events: none;
@@ -166,8 +166,8 @@ color: #fff;
    
   .form-outline input:focus + label,
   .form-outline input:valid + label {
-    top: -6px;
-    left: 32px;
+    top: -8px;
+    left: 20px;
     font-size: 14px;
     color:  var(--main-color);
     font-weight: 400;
@@ -211,3 +211,13 @@ color: #fff;
       transition: 0.2s ease-in-out;
   }
    
+  
+
+input[type=date]:required:invalid::-webkit-datetime-edit {
+  color: transparent;
+  line-height: 1.6;
+}
+input[type=date]:focus::-webkit-datetime-edit {
+  color: black !important;
+}
+ 
