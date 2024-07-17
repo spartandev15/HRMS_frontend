@@ -1,41 +1,124 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import user from "../../asset/images/profile.png";
 import $ from "jquery";
+import { GET_PROFILE, UPDATE_PROFILE } from "../../api/Api";
+import { useDispatch } from "react-redux";
+import { isLoader } from "../../store/actions";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const oldData = JSON.parse(localStorage.getItem("user"));
+
+  const [data, setData] = useState({
+    fullname: oldData.name || "",
+    email: oldData.email || "",
+    employee_id: oldData.emp_id || "",
+    date_of_joining: oldData.joining_date || "",
+    tax_number: oldData.tax_number || "",
+    date_of_birth: oldData.dob || "",
+    phone_number: oldData.phone_number || "",
+    position: oldData.job_title || "",
+    address: oldData.address || "",
+    profile_photo: oldData.profile_photo || "",
+  });
+
+  const getProfile = async () => {
+    try {
+      const response = await GET_PROFILE();
+      if (response.data.result) {
+        console.log(response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onSave = async (e) => {
+    e.preventDefault();
+    const postData = {
+      name: data.fullname,
+      email: data.email,
+      emp_id: data.employee_id,
+      joining_date: data.date_of_joining,
+      tax_number: data.tax_number,
+      dob: data.date_of_birth,
+      phone: data.phone_number,
+      job_title: data.position,
+      profile_photo: data.profile_photo,
+      address: data.address,
+    };
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_PROFILE(postData);
+      if (response.data.status) {
+        $(".editable-form1").hide();
+        $("#editButton1").show();
+        $(".readonly-form1").show();
+        $(".readonly-form2").show();
+        $("#editButton2").show();
+        $("#cancelButton2").hide();
+        dispatch(isLoader(false));
+        console.log(response.data.message);
+      }
+      dispatch(isLoader(false));
+    } catch (err) {
+      dispatch(isLoader(false));
+      console.log(err);
+    }
+  };
+
+  const handleInput = (e) => {
+    const name = e.target.name;
+    const Value = e.target.value;
+    setData({ ...data, [name]: Value });
+  };
+
   //  // Event Listner function for form
   $(document).ready(function () {
     $("#editButton1").click(function () {
       $(".editable-form1").show();
       $(".readonly-form1").hide();
+      $(".readonly-form2").hide();
       $("#editButton1").hide();
       $("#cancelButton1").show();
+      $("#cancelButton2").show();
     });
 
-    $("#cancelButton1").click(function () {
-      $(".editable-form1").hide();
-      $(".readonly-form1").show();
-      $("#editButton1").show();
-      $("#cancelButton1").hide();
-    });
+    // $("#cancelButton1").click(function () {
+    //   $(".editable-form1").hide();
+    //   $(".readonly-form1").show();
+    //   $("#editButton1").show();
+    //   $("#cancelButton1").hide();
+    // });
   });
 
   //  // Event Listner function for form
   $(document).ready(function () {
-    $("#editButton2").click(function () {
-      $(".editable-form2").show();
-      $(".readonly-form2").hide();
-      $("#editButton2").hide();
-      $("#cancelButton2").show();
-    });
+    // $("#editButton2").click(function () {
+    //   $(".editable-form2").show();
+    //   $(".readonly-form2").hide();
+    //   $("#editButton2").hide();
+    //   $("#cancelButton2").show();
+    // });
 
     $("#cancelButton2").click(function () {
-      $(".editable-form2").hide();
+      $(".editable-form1").hide();
+      $("#editButton1").show();
+      $(".readonly-form1").show();
       $(".readonly-form2").show();
       $("#editButton2").show();
       $("#cancelButton2").hide();
     });
   });
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
     <>
@@ -96,16 +179,17 @@ const Profile = () => {
                     </div>
                   </div>
                   <div class="editable-form1" style={{ display: "none" }}>
-                    <form novalidate="">
+                    <form novalidate="" onSubmit={(e) => e.preventDefault()}>
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
                           <div class="form-outline">
                             <input
                               type="text"
-                              name="empName"
+                              name="fullname"
+                              onChange={handleInput}
                               class="form-control"
                               required=""
-                              value="Mohit"
+                              value={data.fullname}
                             />
                             <label
                               class="form-label"
@@ -121,9 +205,10 @@ const Profile = () => {
                             <input
                               type="text"
                               name="email"
+                              onChange={handleInput}
                               class="form-control"
                               required=""
-                              value="Mohit@gmail.com"
+                              value={data.email}
                             />
                             <label
                               class="form-label"
@@ -139,10 +224,11 @@ const Profile = () => {
                           <div class="form-outline">
                             <input
                               type="text"
-                              name="empId"
+                              name="employee_id"
+                              onChange={handleInput}
                               class="form-control"
                               required=""
-                              value="16332"
+                              value={data.employee_id}
                             />
                             <label
                               class="form-label"
@@ -157,10 +243,11 @@ const Profile = () => {
                           <div class="form-outline">
                             <input
                               type="date"
-                              name="dateOfJoining"
+                              name="date_of_joining"
+                              onChange={handleInput}
                               class="form-control"
                               required=""
-                              value="2023-11-20"
+                              value={data.date_of_joining}
                             />
                             <label
                               class="form-label"
@@ -177,10 +264,11 @@ const Profile = () => {
                           <div class="form-outline">
                             <input
                               type="text"
-                              name="pan_number"
+                              name="tax_number"
+                              onChange={handleInput}
                               class="form-control"
                               required=""
-                              value="234543"
+                              value={data.tax_number}
                             />
                             <label
                               class="form-label"
@@ -195,10 +283,11 @@ const Profile = () => {
                           <div class="form-outline">
                             <input
                               type="date"
-                              name="dateOfBirth"
+                              name="date_of_birth"
+                              onChange={handleInput}
                               class="form-control"
                               required=""
-                              value="1998-06-29"
+                              value={data.date_of_birth}
                             />
                             <label
                               class="form-label"
@@ -215,10 +304,11 @@ const Profile = () => {
                           <div class="form-outline">
                             <input
                               type="text"
-                              name="phone"
+                              name="phone_number"
+                              onChange={handleInput}
                               class="form-control"
                               required=""
-                              value="2344565442"
+                              value={data.phone_number}
                             />
                             <label
                               class="form-label"
@@ -234,6 +324,8 @@ const Profile = () => {
                             <select
                               class="form-control main_inner_dropdown"
                               name="position"
+                              onChange={handleInput}
+                              value={data.position}
                             >
                               <option value="Content Writer">
                                 Content Writer
@@ -272,8 +364,8 @@ const Profile = () => {
                           </div>
                         </div>
                       </div>
-                      
-                      <div class="row mt-2">
+
+                      {/* <div class="row mt-2">
                         <div class="col-lg-12 text-start">
                             <button type="submit" class="btn infoedit3">
                               Save
@@ -287,7 +379,7 @@ const Profile = () => {
                               Cancel
                             </p>
                         </div>
-                      </div>
+                      </div> */}
                     </form>
                   </div>
                   <div class="readonly-form1">
@@ -298,45 +390,55 @@ const Profile = () => {
                           class="profileimgboxcompanydetail2"
                           style={{ textTransform: "capitalize" }}
                         >
-                          Mohit
+                          {data.fullname}
                         </h6>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <p class="addlabelcard2">E-Mail</p>
                         <h6 class="profileimgboxcompanydetail2">
-                          Mohit@gmail.com
+                          {data.email}
                         </h6>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <p class="addlabelcard2">Employee Id</p>
-                        <h6 class="profileimgboxcompanydetail2">16332</h6>
+                        <h6 class="profileimgboxcompanydetail2">
+                          {data.employee_id}
+                        </h6>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <p class="addlabelcard2">Date of Joining</p>
-                        <h6 class="profileimgboxcompanydetail2">20-11-2023</h6>
+                        <h6 class="profileimgboxcompanydetail2">
+                          {data.date_of_joining}
+                        </h6>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <p class="addlabelcard2">Tax Number</p>
-                        <h6 class="profileimgboxcompanydetail2">234543</h6>
+                        <h6 class="profileimgboxcompanydetail2">
+                          {data.tax_number}
+                        </h6>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <p class="addlabelcard2">Date of Birth</p>
-                        <h6 class="profileimgboxcompanydetail2">29-06-1998</h6>
+                        <h6 class="profileimgboxcompanydetail2">
+                          {data.date_of_birth}
+                        </h6>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <p class="addlabelcard2">Phone Number</p>
-                        <h6 class="profileimgboxcompanydetail2">2344565442</h6>
+                        <h6 class="profileimgboxcompanydetail2">
+                          {data.phone_number}
+                        </h6>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-12">
                         <p class="addlabelcard2">Position</p>
                         <h6 class="profileimgboxcompanydetail2">
-                          React Developer
+                          {data.position}
                         </h6>
                       </div>
                     </div>
@@ -353,22 +455,23 @@ const Profile = () => {
                       </svg>{" "}
                       &nbsp; Address
                     </h5>
-                    <div className="infoedit1">
+                    {/* <div className="infoedit1">
                       <button id="editButton2" className="infoedit3">
                         Edit
                       </button>
-                    </div>
+                    </div> */}
                   </div>
-                  <div className="editable-form2" style={{ display: "none" }}>
-                    <form noValidate="noValidate">
+                  <div className="editable-form1" style={{ display: "none" }}>
+                    <form noValidate="noValidate" onSubmit={onSave}>
                       <div className="row">
                         <div className="col-lg-12 col-md-12 col-sm-12">
                           <div className="form-outline">
                             <textarea
                               className="form-control"
-                              name="permanentAddress"
+                              name="address"
+                              onChange={handleInput}
                               placeholder=" "
-                              value="values"
+                              value={data.address}
                               required
                             ></textarea>
                             <label
@@ -391,7 +494,7 @@ const Profile = () => {
                         </div>
                       </div>
 
-                      <div className="row">
+                      {/* <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <div className="form-outline">
                             <input
@@ -424,10 +527,16 @@ const Profile = () => {
                             </label>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="row mt-4">
                         <div className="col-lg-12">
-                          <button type="submit">Save</button>
+                          <button
+                            type="submit"
+                            class="btn infoedit3"
+                            onClick={onSave}
+                          >
+                            Save
+                          </button>
                           &nbsp;
                           <p
                             id="cancelButton2"
@@ -449,11 +558,11 @@ const Profile = () => {
                         className="profileimgboxcompanydetail2"
                         style={{ textAlign: "left" }}
                       >
-                        My address
+                        {data.address}
                       </h6>
                     </div>
                   </div>
-                  <div className="row">
+                  {/* <div className="row">
                     <div className="col-lg-6 col-md-6 col-sm-12">
                       <p className="addlabelcard2">ABC</p>
                       <h6 className="profileimgboxcompanydetail2">dsddsdsds</h6>
@@ -464,7 +573,7 @@ const Profile = () => {
                       <p className="addlabelcard2">ABC</p>
                       <h6 className="profileimgboxcompanydetail2">dsddsdsds</h6>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

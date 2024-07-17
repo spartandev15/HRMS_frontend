@@ -56,4 +56,17 @@ const GET_PROFILE = async () => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE };
+const UPDATE_PROFILE = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/update/profile`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE };
