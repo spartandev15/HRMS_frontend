@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import user from "../../asset/images/profile.png";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { Link } from "react-router-dom";
 
 const EmployeeManagement = () => {
   const Arraytopopulate = [1, 2, 3, 4, 5, 6];
@@ -225,23 +226,18 @@ const EmployeeManagement = () => {
                         <i class="fa fa-ellipsis-v "></i>
                       </a>
                       <div className="dropdown-menu dropdown-menu-right">
-                        <a
+                        <Link
                           className="dropdown-item"
-                          data-bs-toggle="modal"
-                          data-bs-target="#edit_employee"
-                          href="#"
+                          to="viewPersonalDetails"
                         >
                           <i className="fa fa-pencil m-r-5"></i> Edit
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           className="dropdown-item"
-                          data-bs-toggle="modal"
-                          data-bs-target="#delete"
-                          href="#"
                         >
                           <i className="fa-regular fa-trash-can m-r-5"></i>{" "}
                           Delete
-                        </a>
+                        </Link>
                       </div>
                     </div>
                     <h4 className="user-name m-t-10 mb-0 p-1 text-ellipsis">
@@ -261,6 +257,11 @@ const EmployeeManagement = () => {
                       <i className="fa fa-envelope"></i>&nbsp;
                       himanshu@spartanbots.com
                     </div>
+                    <hr
+                    class="hr"
+                    style={{ marginBlock: "0.5rem", opacity: "0.1" }}
+                  />
+                     <div className="small text-muted">Line Manager -</div>
                   </div>
                 </div>
               );

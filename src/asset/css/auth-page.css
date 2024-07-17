@@ -216,9 +216,44 @@ color: #fff;
     color: red;
   } 
 
+  .form-outline select {
+    max-width: 100%;
+    width: 100%;
+    padding: 0 10px;
+   background: #fff;
+    color: #4a4a4a;
+    border: 2px solid #eaecf0;
+    transition: 0.2s ease-in-out;
+    transition-property: color, background-color, border;
+  padding: .375rem .75rem;
+    padding-left: 23px;
+    padding-right: 12px;
+    border-radius: 0.50rem;
+    line-height: 2;
+  }
+  
+  .form-outline select:focus {
+    border-color: #154f76;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .form-outline select:focus + label,
+  .form-outline select:valid + label {
+    top: -12px;
+    left: 20px;
+    font-size: 14px;
+    color:  var(--main-color);
+    font-weight: 400;
+    background:#fff; 
+      padding: 0 5px;
+      transition: 0.2s ease-in-out;
+     border-radius: 0.5rem;
+  }
+  
 input[type=date]:required:invalid::-webkit-datetime-edit {
   color: transparent;
-  line-height: 1.6;
+  line-height: 1.8;
 }
 input[type=date]:focus::-webkit-datetime-edit {
   color: black !important;
