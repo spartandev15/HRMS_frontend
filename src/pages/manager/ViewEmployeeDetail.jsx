@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import user from "../../asset/images/profile.png";
 import $ from "jquery";
 
-const Profile = () => {
+const ViewEmployeeDetail = () => {
+
   //  // Event Listner function for form
   $(document).ready(function () {
     $("#editButton1").click(function () {
@@ -55,14 +56,18 @@ const Profile = () => {
   });
 
   const [activeTab, setActiveTab] = useState("General");
+
+
+
+
   return (
-    <>
+   <>
       <section>
         <div className="container">
           <div className="row py-3">
             <div className="col-12  text-start">
               <div class="heading-text-msg">
-                <h5 class="m-0">Profile</h5>
+                <h5 class="m-0">View Mohit Profile</h5>
               </div>
             </div>
           </div>
@@ -1491,7 +1496,8 @@ const Profile = () => {
         </div>
       </section>
     </>
-  );
-};
+   
+  )
+}
 
-export default Profile;
+export default ViewEmployeeDetail;

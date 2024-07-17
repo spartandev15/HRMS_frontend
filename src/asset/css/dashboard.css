@@ -194,6 +194,12 @@ li a.dropbtn-txt:hover {
 }
 
 /*Dashbard CSS*/
+
+.page-wrapper{
+  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
+}
 #heading-txt {
   height: 100px;
   display: flex;
@@ -809,4 +815,19 @@ color: var(--white-color);
   border: none;
   border-radius: 0.2rem;
   font-size: 14px;
+}
+
+.profile-nav{
+  color: var(--primary-color);
+  cursor: pointer;
+ padding: 0.8rem;
+  font-weight: 500;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+.profile-nav-hover{
+color: var(--black-color);
+cursor: pointer;
+font-weight: 500;
+padding: 0.8rem;
 }
