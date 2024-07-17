@@ -40,6 +40,7 @@ const Navigation = () => {
           <Route path="timeoff" element={<TimeOff />} />
           <Route path="attendance" element={<Attendance />} />
           <Route path="recruitment" element={<Recruitment />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </>
