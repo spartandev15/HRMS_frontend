@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import user from "../../asset/images/profile.png";
 import $ from "jquery";
-import { GET_PROFILE, UPDATE_PROFILE } from "../../api/Api";
+import { GET_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_IMAGE } from "../../api/Api";
 import { useDispatch } from "react-redux";
-import { isLoader, IsToast } from "../../store/actions";
+import { isLoader, IsToast, updateProfile } from "../../store/actions";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -128,9 +128,11 @@ const Profile = () => {
         const postData = {
           profile_photo:  e.target.files[0]
         }
-        const response = await UPDATE_PROFILE(postData)
+        const response = await UPDATE_PROFILE_IMAGE(postData)
         if(response.data.status){
-          console.log(response.data.message)
+          console.log(response.data.user.profile_photo)
+          dispatch(updateProfile(response.data.user))
+          localStorage.setItem("user", JSON.stringify(response.data.user))
         }
       } catch (err) {
         console.log(err)

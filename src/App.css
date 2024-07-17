@@ -348,7 +348,7 @@ input[type="password"]:focus {
   position: relative;
   border-radius: 50%;
   width: 200px;
-  height: 200px;
+  max-height: 200px;
   overflow: hidden;
   display: flex;
   justify-content: center;

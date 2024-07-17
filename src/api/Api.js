@@ -69,4 +69,21 @@ const UPDATE_PROFILE = async (data) => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE };
+const UPDATE_PROFILE_IMAGE = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/update/profile-image`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        // "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_IMAGE };

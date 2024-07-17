@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../asset/images/orpect1.png";
 import user from "../../asset/images/account.png";
@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { isLoader } from "../../store/actions";
 
 const Header = () => {
+  const profile_photo = JSON.parse(localStorage.getItem("user")).profile_photo
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const onLogout = async () => {
@@ -93,7 +94,7 @@ const Header = () => {
               aria-bs-expanded="false"
             >
               <img
-                src={user}
+                src={profile_photo ? profile_photo : user}
                 className="droplogin"
                 alt="user"
                 height={35}

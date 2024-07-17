@@ -20,3 +20,10 @@ export const isLoader = (flag) => {
     payload: flag
   }
 }
+
+export const updateProfile = (data) => {
+  return {
+    type: "UPDATE_PROFILE",
+    payload: data
+  }
+}
