@@ -20,6 +20,23 @@ const Profile = () => {
     });
   });
 
+  //  // Event Listner function for form
+  $(document).ready(function () {
+    $("#editButton2").click(function () {
+      $(".editable-form2").show();
+      $(".readonly-form2").hide();
+      $("#editButton2").hide();
+      $("#cancelButton2").show();
+    });
+
+    $("#cancelButton2").click(function () {
+      $(".editable-form2").hide();
+      $(".readonly-form2").show();
+      $("#editButton2").show();
+      $("#cancelButton2").hide();
+    });
+  });
+
   return (
     <>
       <section>

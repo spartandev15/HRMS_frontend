@@ -5,6 +5,30 @@
   --white-color: #fff;
 }
 
+
+input[type="date"] {
+  position: relative;
+}
+
+/* For WebKit browsers */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0); /* Remove inversion */
+  background-color: transparent; /* Set background color to transparent */
+  color: #134d75; /* Set icon color to #134d75 */
+  cursor: pointer;
+  position: absolute;
+  left: 90%;
+  right: 10px;
+  width: auto;
+}
+
+/* For non-WebKit browsers */
+input[type="date"]::-moz-inner-spin-button,
+input[type="date"]::-moz-calendar-picker-indicator {
+  background-color: transparent; /* Set background color to transparent */
+  color: #134d75; /* Set icon color to #134d75 */
+}
+
 /*Header*/
 
 .navheader {
@@ -655,7 +679,6 @@ color: var(--white-color);
 /*Profile PAge CSS*/
 
 .profile-pic-wrapper {
-
   width: 100%;
   position: relative;
   display: flex;
@@ -721,9 +744,9 @@ color: var(--white-color);
   opacity: 1;
 }
 
-input[type="date"] {
+/* input[type="date"] {
   line-height: 1.6;
-}
+} */
 
 .viewem {
   background: #fff;

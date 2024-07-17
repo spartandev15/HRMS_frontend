@@ -154,7 +154,7 @@ color: #fff;
   
   .form-outline label {
     position: absolute;
-   top: 8px; 
+   top: 12px; 
     left: 20px;
     font-size: 14px;
     color: #4a4a4a;
@@ -162,6 +162,7 @@ color: #fff;
     transition: all 0.3s;
     background: #fff;
   padding-right: 1rem;
+  margin-bottom: 0px;
   }
    
   .form-outline input:focus + label,
