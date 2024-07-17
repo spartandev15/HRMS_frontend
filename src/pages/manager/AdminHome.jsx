@@ -6,7 +6,7 @@ const AdminHome = () => {
   //   const navigate = useNavigate();
   // const name = localStorage.getItem("userName");
 
-  const name = "name"
+  const user = JSON.parse(localStorage.getItem("user"))
 
   // useEffect(() => {
   //   if (localStorage.getItem("token")) {
@@ -21,7 +21,7 @@ const AdminHome = () => {
             <div class="row">
               <div class="col-lg-12 text-start">
                 <div class="heading-text-msg">
-                  <h3 className="m-0">Welcome {name}!</h3>
+                  <h3 className="m-0">Welcome {user.name}!</h3>
                   <h5>
                     <i class="fa  fa-gauge"></i> HRMS Dashboard
                   </h5>
@@ -89,7 +89,6 @@ const AdminHome = () => {
                         </div>
                         <div className="text-end">
                           <button type="button" className="hrdetailbtn rounded">
-                            {" "}
                             Wish Them
                           </button>
                         </div>

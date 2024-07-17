@@ -25,7 +25,7 @@ const Login = () => {
       if (response.data.result) {
         dispatch(isLoader(false))
         localStorage.setItem("token", response.data.access_token);
-        localStorage.setItem("userName", response.data.user.name)
+        localStorage.setItem("user", JSON.stringify(response.data.user))
         dispatch(IsToast(`Hi ${response.data.user.name}, welcome to the HRMS`));
         navigate("/dashboard");
       } else {
