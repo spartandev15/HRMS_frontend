@@ -3,13 +3,15 @@ import user from "../../asset/images/profile.png";
 import $ from "jquery";
 import { GET_PROFILE, UPDATE_PROFILE } from "../../api/Api";
 import { useDispatch } from "react-redux";
-import { isLoader } from "../../store/actions";
+import { isLoader, IsToast } from "../../store/actions";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const [profileImageFile, setprofileImageFile] = useState()
 
   const oldData = JSON.parse(localStorage.getItem("user"));
 
@@ -116,6 +118,65 @@ const Profile = () => {
     });
   });
 
+  const profileUpload = async (e) => {
+    // dispatch(isLoader(true))
+    setprofileImageFile(e.target.files[0])
+    const [file] = document.getElementById("newProfilePhoto").files
+    if (file) {
+      dispatch(isLoader(true));
+      try{
+        const postData = {
+          profile_photo:  e.target.files[0]
+        }
+        const response = await UPDATE_PROFILE(postData)
+        if(response.data.status){
+          console.log(response.data.message)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+      
+      // const customConfig = {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     // "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // }
+      // let postImage = {
+      //   profile_photo: e.target.files[0],
+      // }
+      // dispatch(isLoader(true))
+      // await axios
+      //   .post(
+      //     `${process.env.REACT_APP_API_URL}/api/update-profile-photo-admin`,
+      //     postImage,
+      //     customConfig
+      //   )
+      //   .then((res) => {
+      //     axios
+      //       .get(`${process.env.REACT_APP_API_URL}/api/get-user`, {
+      //         headers: { Authorization: `Bearer ${token}` },
+      //       })
+      //       .then((res) => {
+      //         dispatch(userData(res.data.user))
+      //       })
+      //       .catch((err) => {
+      //         dispatch(isLoader(false))
+      //         // navigate("/login")
+      //       })
+      //   })
+      //   .catch((err) => {
+      //     dispatch(isLoader(false))
+      //     console.log(err)
+      //   })
+      let image_url = URL.createObjectURL(file)
+      dispatch(IsToast('Profile picture updated Successfully!'))
+      setData({ ...data, profile_photo: image_url })
+      dispatch(isLoader(false))
+    }
+  }
+
   useEffect(() => {
     getProfile();
   }, []);
@@ -140,9 +201,31 @@ const Profile = () => {
             <div className="col-lg-3 col-md-3 col-sm-12 pd-4 ">
               <div className="viewem border">
                 <div className="employebox">
-                  <div className="profile-pic-wrapper">
-                    <div className="pic-holder">
-                      <img className="pic" src={user} alt="profile" />
+                  <div className="d-flex justify-content-center">
+                    <div className="pic-holder-account">
+                      <img
+                        src={data.profile_photo}
+                        alt="UploadPhoto"
+                        id="blah1"
+                        className="pic"
+                      />
+                      <label
+                        htmlFor="newProfilePhoto"
+                        className="upload-file-block"
+                      >
+                        <input
+                          id="newProfilePhoto"
+                          className="form-control"
+                          type="file"
+                          onChange={profileUpload}
+                          accept="image/*"
+                        />
+                        <span className="text-center">
+                          <i className="fa fa-camera fa-2x"></i>
+                          <br />
+                          Update <br /> Profile Photo
+                        </span>
+                      </label>
                     </div>
                   </div>
                   <div className="profileimgboxdetail">
