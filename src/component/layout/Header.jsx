@@ -94,7 +94,8 @@ const Header = () => {
               aria-bs-expanded="false"
             >
               <img
-                src={profile_photo ? profile_photo : user}
+                // src={profile_photo ? profile_photo : user}
+                src={user}
                 className="droplogin"
                 alt="user"
                 height={35}
@@ -106,7 +107,7 @@ const Header = () => {
                 <NavLink
                   activeClassName="active"
                   className="dropdown-item dropbtn-txt"
-                  to="profile"
+                  to="viewPersonalDetails"
                 >
                   Profile
                 </NavLink>

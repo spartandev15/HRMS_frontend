@@ -1,8 +1,105 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import user from "../../asset/images/profile.png";
 import $ from "jquery";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { isLoader, IsToast, updateProfile } from "../../store/actions";
+import { GET_PROFILE, UPDATE_PROFILE_IMAGE } from "../../api/Api";
 
 const ViewEmployeeDetail = () => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const [profileImageFile, setprofileImageFile] = useState();
+
+  const oldData = JSON.parse(localStorage.getItem("user"));
+
+  const [data, setData] = useState({
+    fullname: oldData.name || "",
+    email: oldData.email || "",
+    employee_id: oldData.emp_id || "",
+    date_of_joining: oldData.joining_date || "",
+    tax_number: oldData.tax_number || "",
+    date_of_birth: oldData.dob || "",
+    phone_number: oldData.phone_number || "",
+    position: oldData.job_title || "",
+    address: oldData.address || "",
+    profile_photo: oldData.profile_photo || "",
+  });
+
+  const profileUpload = async (e) => {
+    // dispatch(isLoader(true))
+    setprofileImageFile(e.target.files[0]);
+    const [file] = document.getElementById("newProfilePhoto").files;
+    if (file) {
+      dispatch(isLoader(true));
+      try {
+        const postData = {
+          profile_photo: e.target.files[0],
+        };
+        const response = await UPDATE_PROFILE_IMAGE(postData);
+        if (response.data.status) {
+          console.log(response.data.user.profile_photo);
+          dispatch(updateProfile(response.data.user));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
+      // const customConfig = {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     // "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // }
+      // let postImage = {
+      //   profile_photo: e.target.files[0],
+      // }
+      // dispatch(isLoader(true))
+      // await axios
+      //   .post(
+      //     `${process.env.REACT_APP_API_URL}/api/update-profile-photo-admin`,
+      //     postImage,
+      //     customConfig
+      //   )
+      //   .then((res) => {
+      //     axios
+      //       .get(`${process.env.REACT_APP_API_URL}/api/get-user`, {
+      //         headers: { Authorization: `Bearer ${token}` },
+      //       })
+      //       .then((res) => {
+      //         dispatch(userData(res.data.user))
+      //       })
+      //       .catch((err) => {
+      //         dispatch(isLoader(false))
+      //         // navigate("/login")
+      //       })
+      //   })
+      //   .catch((err) => {
+      //     dispatch(isLoader(false))
+      //     console.log(err)
+      //   })
+      let image_url = URL.createObjectURL(file);
+      dispatch(IsToast("Profile picture updated Successfully!"));
+      setData({ ...data, profile_photo: image_url });
+      dispatch(isLoader(false));
+    }
+  };
+
+  const getProfile = async () => {
+    try {
+      const response = await GET_PROFILE();
+      if (response.data.result) {
+        console.log(response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   //  // Event Listner function for form
   $(document).ready(function () {
@@ -57,11 +154,12 @@ const ViewEmployeeDetail = () => {
 
   const [activeTab, setActiveTab] = useState("General");
 
-
-
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
-   <>
+    <>
       <section>
         <div className="container">
           <div className="row py-3">
@@ -80,6 +178,33 @@ const ViewEmployeeDetail = () => {
             <div className="col-lg-3 col-md-3 col-sm-12 pd-4 ">
               <div className="viewem border">
                 <div className="employebox">
+                  {/* <div className="w-100 d-flex justify-content-center">
+                    <div className="pic-holder-account">
+                      <img
+                        src={data.profile_photo ? data.profile_photo : user}
+                        alt="UploadPhoto"
+                        id="blah1"
+                        className="pic"
+                      />
+                      <label
+                        htmlFor="newProfilePhoto"
+                        className="upload-file-block"
+                      >
+                        <input
+                          id="newProfilePhoto"
+                          className="form-control"
+                          type="file"
+                          onChange={profileUpload}
+                          accept="image/*"
+                        />
+                        <span className="text-center">
+                          <i className="fa fa-camera fa-2x"></i>
+                          <br />
+                          Update <br /> Profile Photo
+                        </span>
+                      </label>
+                    </div>
+                  </div> */}
                   <div className="profile-pic-wrapper">
                     <div className="pic-holder">
                       <img className="pic" src={user} alt="profile" />
@@ -155,9 +280,7 @@ const ViewEmployeeDetail = () => {
             </div>
 
             <div className="col-lg-9 col-md-9 col-sm-12 ">
-              <nav
-                className="navbar navbar-white bg-white mb-3 py-0 px-4  border" 
-              >
+              <nav className="navbar navbar-white bg-white mb-3 py-0 px-4  border">
                 <div className="d-flex gap-4">
                   <span
                     className={
@@ -171,9 +294,7 @@ const ViewEmployeeDetail = () => {
                   </span>
                   <span
                     className={
-                      activeTab === "Job"
-                       ? "profile-nav"
-                        : "profile-nav-hover"
+                      activeTab === "Job" ? "profile-nav" : "profile-nav-hover"
                     }
                     onClick={() => setActiveTab("Job")}
                   >
@@ -182,7 +303,7 @@ const ViewEmployeeDetail = () => {
                   <span
                     className={
                       activeTab === "Qualifications"
-                       ? "profile-nav"
+                        ? "profile-nav"
                         : "profile-nav-hover"
                     }
                     onClick={() => setActiveTab("Qualifications")}
@@ -192,7 +313,7 @@ const ViewEmployeeDetail = () => {
                   <span
                     className={
                       activeTab === "Salary"
-                       ? "profile-nav"
+                        ? "profile-nav"
                         : "profile-nav-hover"
                     }
                     onClick={() => setActiveTab("Salary")}
@@ -655,8 +776,7 @@ const ViewEmployeeDetail = () => {
                     <div className="row">
                       <div className="col-lg-12 col-md-12 col-sm-12  ">
                         <h5 className="infoedit">
-                        <i class="fa fa-bolt"></i>{" "}
-                          &nbsp; Emergency Contact
+                          <i class="fa fa-bolt"></i> &nbsp; Emergency Contact
                         </h5>
                         <div className="infoedit1">
                           <button id="editButton3" className="infoedit3">
@@ -803,8 +923,7 @@ const ViewEmployeeDetail = () => {
                   <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12  ">
                       <h5 className="infoedit">
-                      <i class="fa fa-briefcase"></i>{" "}
-                        &nbsp; Job Details
+                        <i class="fa fa-briefcase"></i> &nbsp; Job Details
                       </h5>
                       <div className="infoedit1">
                         <button id="editButton3" className="infoedit3">
@@ -969,8 +1088,7 @@ const ViewEmployeeDetail = () => {
                     <div className="row">
                       <div className="col-lg-12 col-md-12 col-sm-12  ">
                         <h5 className="infoedit">
-                        <i class="fa fa-user-graduate"></i>{" "}
-                          &nbsp; Education
+                          <i class="fa fa-user-graduate"></i> &nbsp; Education
                         </h5>
                         <div className="infoedit1">
                           <button id="editButton3" className="infoedit3">
@@ -1013,8 +1131,7 @@ const ViewEmployeeDetail = () => {
                                   class="form-label"
                                   style={{ background: "#fff" }}
                                 >
-                                  Institute
-                                  &nbsp;
+                                  Institute &nbsp;
                                   <span class=" required">*</span>
                                 </label>
                               </div>
@@ -1050,8 +1167,7 @@ const ViewEmployeeDetail = () => {
                                   class="form-label"
                                   style={{ background: "#fff" }}
                                 >
-                                  Score
-                                  &nbsp;
+                                  Score &nbsp;
                                   <span class=" required">*</span>
                                 </label>
                               </div>
@@ -1085,22 +1201,18 @@ const ViewEmployeeDetail = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Institute</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          Punjab Technical University
+                            Punjab Technical University
                           </h6>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Year</p>
-                          <h6 className="profileimgboxcompanydetail2">
-                            2022
-                          </h6>
+                          <h6 className="profileimgboxcompanydetail2">2022</h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Score</p>
-                          <h6 className="profileimgboxcompanydetail2">
-                            80%
-                          </h6>
+                          <h6 className="profileimgboxcompanydetail2">80%</h6>
                         </div>
                       </div>
                     </div>
@@ -1110,7 +1222,7 @@ const ViewEmployeeDetail = () => {
                     <div className="row">
                       <div className="col-lg-12 col-md-12 col-sm-12  ">
                         <h5 className="infoedit">
-                        <i class="fa fa-briefcase"></i>
+                          <i class="fa fa-briefcase"></i>
                           &nbsp; Work Experience
                         </h5>
                         <div className="infoedit1">
@@ -1245,13 +1357,12 @@ const ViewEmployeeDetail = () => {
                     </div>
                   </div>
                 </>
-              )  : activeTab === "Salary" ? (
+              ) : activeTab === "Salary" ? (
                 <div className="viewem pd-4 border  ">
                   <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12  ">
                       <h5 className="infoedit">
-                      <i class="fa fa-wallet"></i>{" "}
-                        &nbsp; Salary Detail 
+                        <i class="fa fa-wallet"></i> &nbsp; Salary Detail
                       </h5>
                       <div className="infoedit1">
                         <button id="editButton3" className="infoedit3">
@@ -1273,8 +1384,7 @@ const ViewEmployeeDetail = () => {
                                 class="form-label"
                                 style={{ background: "#fff" }}
                               >
-                               Salary Component
-                               &nbsp;
+                                Salary Component &nbsp;
                                 <span class=" required">*</span>
                               </label>
                             </div>
@@ -1292,8 +1402,7 @@ const ViewEmployeeDetail = () => {
                                 class="form-label"
                                 style={{ background: "#fff" }}
                               >
-                                Pay Frequency
-                                &nbsp;
+                                Pay Frequency &nbsp;
                                 <span class=" required">*</span>
                               </label>
                             </div>
@@ -1322,7 +1431,7 @@ const ViewEmployeeDetail = () => {
 
                           <div className="col-lg-6 col-md-6 col-sm-12">
                             <div className="form-outline">
-                            <input
+                              <input
                                 type="text"
                                 name="phone"
                                 class="form-control"
@@ -1352,8 +1461,7 @@ const ViewEmployeeDetail = () => {
                                 class="form-label"
                                 style={{ background: "#fff" }}
                               >
-                                Account Number
-                                &nbsp;
+                                Account Number &nbsp;
                                 <span class=" required">*</span>
                               </label>
                             </div>
@@ -1389,8 +1497,7 @@ const ViewEmployeeDetail = () => {
                                 class="form-label"
                                 style={{ background: "#fff" }}
                               >
-                                Bank Name
-                                &nbsp;
+                                Bank Name &nbsp;
                                 <span class=" required">*</span>
                               </label>
                             </div>
@@ -1407,7 +1514,7 @@ const ViewEmployeeDetail = () => {
                                 class="form-label"
                                 style={{ background: "#fff" }}
                               >
-                               IFSC Code&nbsp;
+                                IFSC Code&nbsp;
                                 <span class=" required">*</span>
                               </label>
                             </div>
@@ -1435,56 +1542,46 @@ const ViewEmployeeDetail = () => {
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Salary Component</p>
-                        <h6 className="profileimgboxcompanydetail2">
-                          ABC
-                        </h6>
+                        <h6 className="profileimgboxcompanydetail2">ABC</h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
-                        <p className="addlabelcard2">Pay Frequency  </p>
-                        <h6 className="profileimgboxcompanydetail2">
-                          Monthly
-                        </h6>
+                        <p className="addlabelcard2">Pay Frequency </p>
+                        <h6 className="profileimgboxcompanydetail2">Monthly</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Currency</p>
-                        <h6 className="profileimgboxcompanydetail2">
-                        INR
-                        </h6>
+                        <h6 className="profileimgboxcompanydetail2">INR</h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Amount</p>
-                        <h6 className="profileimgboxcompanydetail2">
-                          15000
-                        </h6>
+                        <h6 className="profileimgboxcompanydetail2">15000</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Account Number</p>
                         <h6 className="profileimgboxcompanydetail2">
-                        1236547890
+                          1236547890
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Account Type</p>
-                        <h6 className="profileimgboxcompanydetail2">
-                        Saving
-                        </h6>
+                        <h6 className="profileimgboxcompanydetail2">Saving</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Bank Name</p>
                         <h6 className="profileimgboxcompanydetail2">
-                       HDFC Bank
+                          HDFC Bank
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">IFSC Code</p>
                         <h6 className="profileimgboxcompanydetail2">
-                       HDFC0136542
+                          HDFC0136542
                         </h6>
                       </div>
                     </div>
@@ -1496,8 +1593,7 @@ const ViewEmployeeDetail = () => {
         </div>
       </section>
     </>
-   
-  )
-}
+  );
+};
 
 export default ViewEmployeeDetail;

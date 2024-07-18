@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const dispatch = useDispatch();
 
+  const [activeTab, setActiveTab] = useState("")
+
   const navigate = useNavigate();
 
   const [profileImageFile, setprofileImageFile] = useState();
