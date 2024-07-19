@@ -1,16 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../asset/images/orpect1.png";
 import user from "../../asset/images/account.png";
 import "../../asset/css/dashboard.css";
-import { LOGOUT_API } from "../../api/Api";
+import { GET_PROFILE, LOGOUT_API } from "../../api/Api";
 import { useDispatch } from "react-redux";
 import { isLoader } from "../../store/actions";
 
 const Header = () => {
-  const profile_photo = JSON.parse(localStorage.getItem("user")).profile_photo
+  const [Profile_data, setProfile_data] = useState(JSON.parse(localStorage.getItem("user"))) 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const getProfile = async () => {
+    try {
+      const response = await GET_PROFILE();
+      if (response.data.result) {
+        console.log(response.data.user);
+        setProfile_data(response.data.user.profile_photo)
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const onLogout = async () => {
     try {
       dispatch(isLoader(true))
@@ -18,7 +30,7 @@ const Header = () => {
       if(response.data.result){
         dispatch(isLoader(false))
         localStorage.removeItem("token")
-        localStorage.removeItem("userName")
+        localStorage.removeItem("user")
         navigate("/login")
       }
     } catch (err) {
@@ -26,6 +38,11 @@ const Header = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    getProfile()
+  }, [])
+  
 
   return (
     <header className="navheader">
@@ -95,7 +112,7 @@ const Header = () => {
             >
               <img
                 // src={profile_photo ? profile_photo : user}
-                src={user}
+                src={Profile_data? Profile_data : user}
                 className="droplogin"
                 alt="user"
                 height={35}

@@ -4,10 +4,18 @@ import $ from "jquery";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { isLoader, IsToast, updateProfile } from "../../store/actions";
-import { GET_PROFILE, UPDATE_PROFILE_IMAGE } from "../../api/Api";
+import {
+  GET_PROFILE,
+  UPDATE_ADDRESS,
+  UPDATE_EMERGENCY_CONTACT,
+  UPDATE_PROFILE_IMAGE,
+  UPDATE_PROFILE_INFORMATION,
+} from "../../api/Api";
 
 const ViewEmployeeDetail = () => {
   const dispatch = useDispatch();
+
+  const Profile_data = JSON.parse(localStorage.getItem("user"));
 
   const navigate = useNavigate();
 
@@ -29,37 +37,41 @@ const ViewEmployeeDetail = () => {
   });
 
   const [information, setInformation] = useState({
-    full_name: "",
-    email: "",
-    emp_id: "",
-    date_of_joining: "",
-    tax_number: "",
-    dob: "",
-    phone: "",
-    position: ""
-  })
+    name: Profile_data.name ? Profile_data.name : "",
+    email: Profile_data.email ? Profile_data.email : "",
+    emp_id: Profile_data.emp_id ? Profile_data.emp_id : "",
+    joining_date: Profile_data.joining_date ? Profile_data.joining_date : "",
+    tax_number: Profile_data.tax_number ? Profile_data.tax_number : "",
+    dob: Profile_data.dob ? Profile_data.dob : "",
+    phone: Profile_data.phone ? Profile_data.phone : "",
+    job_title: Profile_data.job_title ? Profile_data.job_title : "",
+  });
 
   const [address, setAddress] = useState({
-    address: "",
-    country: "",
-    state: "",
-    city: "",
-    zip: ""
-  })
+    address: Profile_data.address ? Profile_data.address : "",
+    country: Profile_data.country ? Profile_data.country : "",
+    state: Profile_data.state ? Profile_data.state : "",
+    city: Profile_data.city ? Profile_data.city : "",
+    zipcode: Profile_data.zipcode ? Profile_data.zipcode : "",
+  });
 
   const [emergency_contact, setEmergency_contact] = useState({
-    name: "",
-    relation: "",
-    phone: "",
-  })
+    emergency_name: Profile_data.emergency_name
+      ? Profile_data.emergency_name
+      : "",
+    relationship: Profile_data.relationship ? Profile_data.relationship : "",
+    emergency_phone: Profile_data.emergency_phone
+      ? Profile_data.emergency_phone
+      : "",
+  });
 
   const [job_details, setJob_details] = useState({
     job_title: "",
     joined_date: "",
     job_category: "",
     employement_status: "",
-    line_manager: ""
-  })
+    line_manager: "",
+  });
 
   const handleInformation = (e) => {
     const name = e.target.name;
@@ -68,9 +80,20 @@ const ViewEmployeeDetail = () => {
   };
 
   const onSubmitInformation = async (e) => {
-    e.preventDefault()
-    console.log(information)
-  }
+    e.preventDefault();
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_PROFILE_INFORMATION(information);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
+  };
 
   const handleAddress = (e) => {
     const name = e.target.name;
@@ -79,9 +102,54 @@ const ViewEmployeeDetail = () => {
   };
 
   const onSubmitAddress = async (e) => {
-    e.preventDefault()
-    console.log(address)
-  }
+    e.preventDefault();
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_ADDRESS(address);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
+  };
+
+  const handleEmergency_contact = (e) => {
+    const name = e.target.name;
+    const Value = e.target.value;
+    setEmergency_contact({ ...emergency_contact, [name]: Value });
+  };
+
+  const onSubmitEmergency_contact = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_EMERGENCY_CONTACT(emergency_contact);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+      console.log(err);
+    }
+  };
+
+  const handleJob_details = (e) => {
+    const name = e.target.name;
+    const Value = e.target.value;
+    setJob_details({ ...job_details, [name]: Value });
+  };
+
+  const onSubmitJob_details = async (e) => {
+    e.preventDefault();
+    console.log(job_details);
+  };
 
   const profileUpload = async (e) => {
     setprofileImageFile(e.target.files[0]);
@@ -175,7 +243,7 @@ const ViewEmployeeDetail = () => {
 
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [onSubmitEmergency_contact, onSubmitAddress, onSubmitInformation]);
 
   return (
     <>
@@ -184,7 +252,7 @@ const ViewEmployeeDetail = () => {
           <div className="row py-3">
             <div className="col-12  text-start">
               <div class="heading-text-msg">
-                <h5 class="m-0">View Mohit Profile</h5>
+                <h5 class="m-0">View {information.name}</h5>
               </div>
             </div>
           </div>
@@ -226,11 +294,21 @@ const ViewEmployeeDetail = () => {
                   </div> */}
                   <div className="profile-pic-wrapper">
                     <div className="pic-holder">
-                      <img className="pic" src={user} alt="profile" />
+                      <img
+                        className="pic"
+                        src={
+                          Profile_data.profile_photo
+                            ? Profile_data.profile_photo
+                            : user
+                        }
+                        alt="profile"
+                      />
                     </div>
                   </div>
                   <div className="profileimgboxdetail">
-                    <h5 style={{ textTransform: "capitalize" }}>John dee</h5>
+                    <h5 style={{ textTransform: "capitalize" }}>
+                      {information.name}
+                    </h5>
                   </div>
                   <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12"></div>
@@ -241,7 +319,7 @@ const ViewEmployeeDetail = () => {
                         className="profileimgboxcompanydetail1 text-capitalize"
                         style={{ color: "#134d75", font: "bold" }}
                       >
-                        S0001
+                        {information.emp_id}
                       </h6>
                     </div>
                   </div>
@@ -253,7 +331,7 @@ const ViewEmployeeDetail = () => {
                     <div className="col-lg-12 col-md-12 col-sm-12">
                       <div class="small text-muted" href="tel:+1-7807114210">
                         <i class="fa fa-phone" aria-hidden="true"></i>
-                        &nbsp;+1-7807114210
+                        &nbsp;91+ {information.phone}
                       </div>
                     </div>
                   </div>
@@ -264,7 +342,7 @@ const ViewEmployeeDetail = () => {
                         href="mailto:himanshu@spartanbots.com"
                       >
                         <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;
-                        himanshu@spartanbots.com
+                        {information.email}
                       </div>
                     </div>
                   </div>
@@ -280,7 +358,9 @@ const ViewEmployeeDetail = () => {
                       >
                         Department
                       </h6>
-                      <div class="small text-muted">Admin</div>
+                      <div class="small text-muted">
+                        {information.job_title}
+                      </div>
                     </div>
                   </div>
                   <div className="row">
@@ -362,11 +442,11 @@ const ViewEmployeeDetail = () => {
                               <div class="form-outline">
                                 <input
                                   type="text"
-                                  name="full_name"
+                                  name="name"
                                   onChange={handleInformation}
                                   class="form-control"
                                   required=""
-                                  value={information.full_name}
+                                  value={information.name}
                                 />
                                 <label
                                   class="form-label"
@@ -420,11 +500,11 @@ const ViewEmployeeDetail = () => {
                               <div class="form-outline">
                                 <input
                                   type="date"
-                                  name="date_of_joining"
+                                  name="joining_date"
                                   onChange={handleInformation}
                                   class="form-control"
                                   required=""
-                                  value={information.date_of_joining}
+                                  value={information.joining_date}
                                 />
                                 <label
                                   class="form-label"
@@ -500,9 +580,9 @@ const ViewEmployeeDetail = () => {
                               <div class="form-outline">
                                 <select
                                   class="form-control main_inner_dropdown"
-                                  name="position"
+                                  name="job_title"
                                   onChange={handleInformation}
-                                  value={information.position}
+                                  value={information.job_title}
                                 >
                                   <option value="Content Writer">
                                     Content Writer
@@ -546,7 +626,11 @@ const ViewEmployeeDetail = () => {
 
                           <div class="row mt-2">
                             <div class="col-lg-12 text-start">
-                              <button type="submit" class="btn infoedit3">
+                              <button
+                                id="cancelButton1"
+                                type="submit"
+                                class="btn infoedit3"
+                              >
                                 Save
                               </button>
                               &nbsp;
@@ -569,37 +653,41 @@ const ViewEmployeeDetail = () => {
                               class="profileimgboxcompanydetail2"
                               style={{ textTransform: "capitalize" }}
                             >
-                              {information.full_name}
+                              {information.name}
                             </h6>
                           </div>
                           <div class="col-lg-6 col-md-6 col-sm-12">
                             <p class="addlabelcard2">E-Mail</p>
                             <h6 class="profileimgboxcompanydetail2">
-                            {information.email}
+                              {information.email}
                             </h6>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-6 col-md-6 col-sm-12">
                             <p class="addlabelcard2">Employee Id</p>
-                            <h6 class="profileimgboxcompanydetail2">{information.emp_id}</h6>
+                            <h6 class="profileimgboxcompanydetail2">
+                              {information.emp_id}
+                            </h6>
                           </div>
                           <div class="col-lg-6 col-md-6 col-sm-12">
                             <p class="addlabelcard2">Date of Joining</p>
                             <h6 class="profileimgboxcompanydetail2">
-                            {information.date_of_joining}
+                              {information.joining_date}
                             </h6>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-6 col-md-6 col-sm-12">
                             <p class="addlabelcard2">Tax Number</p>
-                            <h6 class="profileimgboxcompanydetail2">{information.tax_number}</h6>
+                            <h6 class="profileimgboxcompanydetail2">
+                              {information.tax_number}
+                            </h6>
                           </div>
                           <div class="col-lg-6 col-md-6 col-sm-12">
                             <p class="addlabelcard2">Date of Birth</p>
                             <h6 class="profileimgboxcompanydetail2">
-                            {information.dob}
+                              {information.dob}
                             </h6>
                           </div>
                         </div>
@@ -607,13 +695,13 @@ const ViewEmployeeDetail = () => {
                           <div class="col-lg-6 col-md-6 col-sm-12">
                             <p class="addlabelcard2">Phone Number</p>
                             <h6 class="profileimgboxcompanydetail2">
-                            {information.phone}
+                              {information.phone}
                             </h6>
                           </div>
                           <div class="col-lg-6 col-md-6 col-sm-12">
                             <p class="addlabelcard2">Position</p>
                             <h6 class="profileimgboxcompanydetail2">
-                            {information.position}
+                              {information.job_title}
                             </h6>
                           </div>
                         </div>
@@ -640,7 +728,10 @@ const ViewEmployeeDetail = () => {
                         className="editable-form2"
                         style={{ display: "none" }}
                       >
-                        <form noValidate="noValidate" onSubmit={onSubmitAddress}>
+                        <form
+                          noValidate="noValidate"
+                          onSubmit={onSubmitAddress}
+                        >
                           <div className="row">
                             <div className="col-lg-12 col-md-12 col-sm-12">
                               <div className="form-outline">
@@ -736,9 +827,9 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="text"
-                                  name="zip"
+                                  name="zipcode"
                                   onChange={handleAddress}
-                                  value={address.zip}
+                                  value={address.zipcode}
                                   className="form-control"
                                   required
                                 />
@@ -754,7 +845,11 @@ const ViewEmployeeDetail = () => {
                           </div>
                           <div className="row mt-4">
                             <div class="col-lg-12 text-start">
-                              <button type="submit" class="btn infoedit3">
+                              <button
+                                id="cancelButton2"
+                                type="submit"
+                                class="btn infoedit3"
+                              >
                                 Save
                               </button>
                               &nbsp;
@@ -786,13 +881,13 @@ const ViewEmployeeDetail = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Country</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          {address.country}
+                            {address.country}
                           </h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">State</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          {address.state}
+                            {address.state}
                           </h6>
                         </div>
                       </div>
@@ -800,13 +895,13 @@ const ViewEmployeeDetail = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">City</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          {address.city}
+                            {address.city}
                           </h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Zip COde</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          {address.zip}
+                            {address.zipcode}
                           </h6>
                         </div>
                       </div>
@@ -829,16 +924,20 @@ const ViewEmployeeDetail = () => {
                         className="editable-form3"
                         style={{ display: "none" }}
                       >
-                        <form noValidate="noValidate">
+                        <form
+                          noValidate="noValidate"
+                          onSubmit={onSubmitEmergency_contact}
+                        >
                           <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12">
                               <div className="form-outline">
                                 <input
                                   type="text"
-                                  name="phone"
+                                  name="emergency_name"
+                                  onChange={handleEmergency_contact}
                                   class="form-control"
                                   required=""
-                                  value="2344565442"
+                                  value={emergency_contact.emergency_name}
                                 />
                                 <label
                                   class="form-label"
@@ -854,10 +953,11 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="text"
-                                  name="phone"
+                                  name="relationship"
+                                  onChange={handleEmergency_contact}
                                   class="form-control"
                                   required=""
-                                  value="2344565442"
+                                  value={emergency_contact.relationship}
                                 />
                                 <label
                                   class="form-label"
@@ -875,10 +975,11 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="text"
-                                  name="phone"
+                                  name="emergency_phone"
+                                  onChange={handleEmergency_contact}
                                   class="form-control"
                                   required=""
-                                  value="2344565442"
+                                  value={emergency_contact.emergency_phone}
                                 />
                                 <label
                                   class="form-label"
@@ -890,7 +991,7 @@ const ViewEmployeeDetail = () => {
                               </div>
                             </div>
 
-                            <div className="col-lg-6 col-md-6 col-sm-12">
+                            {/* <div className="col-lg-6 col-md-6 col-sm-12">
                               <div className="form-outline">
                                 <input
                                   type="text"
@@ -907,11 +1008,15 @@ const ViewEmployeeDetail = () => {
                                   <span class=" required">*</span>
                                 </label>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                           <div className="row mt-4">
                             <div class="col-lg-12 text-start">
-                              <button type="submit" class="btn infoedit3">
+                              <button
+                                id="cancelButton3"
+                                type="submit"
+                                class="btn infoedit3"
+                              >
                                 Save
                               </button>
                               &nbsp;
@@ -932,13 +1037,13 @@ const ViewEmployeeDetail = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Name</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            Narender Kumar
+                            {emergency_contact.emergency_name}
                           </h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Relationship</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            Father
+                            {emergency_contact.relationship}
                           </h6>
                         </div>
                       </div>
@@ -946,15 +1051,15 @@ const ViewEmployeeDetail = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Phone Number</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            9874563210
+                            {emergency_contact.emergency_phone}
                           </h6>
                         </div>
-                        <div className="col-lg-6 col-md-6 col-sm-12">
+                        {/* <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Mobile Number</p>
                           <h6 className="profileimgboxcompanydetail2">
                             9874563210
                           </h6>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -973,12 +1078,18 @@ const ViewEmployeeDetail = () => {
                       </div>
                     </div>
                     <div className="editable-form3" style={{ display: "none" }}>
-                      <form noValidate="noValidate">
+                      <form
+                        noValidate="noValidate"
+                        onSubmit={onSubmitJob_details}
+                      >
                         <div className="row">
                           <div className="col-lg-6 col-md-6 col-sm-12">
                             <div className="form-outline">
                               <input
                                 type="text"
+                                name="job_title"
+                                onChange={handleJob_details}
+                                value={job_details.job_title}
                                 class="form-control"
                                 required=""
                               />
@@ -996,7 +1107,9 @@ const ViewEmployeeDetail = () => {
                             <div className="form-outline">
                               <input
                                 type="date"
-                                name="phone"
+                                name="joined_date"
+                                onChange={handleJob_details}
+                                value={job_details.joined_date}
                                 class="form-control"
                                 required=""
                               />
@@ -1016,10 +1129,11 @@ const ViewEmployeeDetail = () => {
                             <div className="form-outline">
                               <input
                                 type="text"
-                                name="phone"
+                                name="job_category"
+                                onChange={handleJob_details}
+                                value={job_details.job_category}
                                 class="form-control"
                                 required=""
-                                value="Development"
                               />
                               <label
                                 class="form-label"
@@ -1033,7 +1147,12 @@ const ViewEmployeeDetail = () => {
 
                           <div className="col-lg-6 col-md-6 col-sm-12">
                             <div className="form-outline">
-                              <select className="form-control">
+                              <select
+                                className="form-control"
+                                name="employement_status"
+                                onChange={handleJob_details}
+                                value={job_details.employement_status}
+                              >
                                 <option selected disabled>
                                   Select
                                 </option>
@@ -1054,7 +1173,9 @@ const ViewEmployeeDetail = () => {
                                 type="text"
                                 class="form-control"
                                 required=""
-                                value="Ramesh Kumar"
+                                name="line_manager"
+                                onChange={handleJob_details}
+                                value={job_details.line_manager}
                               />
                               <label
                                 class="form-label"
@@ -1089,13 +1210,13 @@ const ViewEmployeeDetail = () => {
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Job Tittle</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          Web Developer
+                          {job_details.job_title}
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Joined Date</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          10-02-2012
+                          {job_details.joined_date}
                         </h6>
                       </div>
                     </div>
@@ -1103,13 +1224,13 @@ const ViewEmployeeDetail = () => {
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Job Category</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          Development
+                          {job_details.job_category}
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Employment Status</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          Full Time
+                          {job_details.employement_status}
                         </h6>
                       </div>
                     </div>
@@ -1117,7 +1238,7 @@ const ViewEmployeeDetail = () => {
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Line Manager</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          Ramesh Kumar
+                          {job_details.line_manager}
                         </h6>
                       </div>
                     </div>
@@ -1335,7 +1456,8 @@ const ViewEmployeeDetail = () => {
                             <div className="col-lg-6 col-md-6 col-sm-12">
                               <div className="form-outline">
                                 <input
-                                  type="date"ds
+                                  type="date"
+                                  ds
                                   class="form-control"
                                   required=""
                                 />

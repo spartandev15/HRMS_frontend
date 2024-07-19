@@ -3,7 +3,6 @@ import user from "../../asset/images/profile.png";
 import $ from "jquery";
 import {
   GET_PROFILE,
-  UPDATE_PROFILE,
   UPDATE_PROFILE_IMAGE,
 } from "../../api/Api";
 import { useDispatch } from "react-redux";

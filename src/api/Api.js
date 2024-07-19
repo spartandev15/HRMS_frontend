@@ -56,7 +56,7 @@ const GET_PROFILE = async () => {
     });
 }
 
-const UPDATE_PROFILE = async (data) => {
+const UPDATE_PROFILE_INFORMATION = async (data) => {
   return axios
     .post(`${BASE_URL}/api/update/profile`, data, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -86,4 +86,30 @@ const UPDATE_PROFILE_IMAGE = async (data) => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE, UPDATE_PROFILE_IMAGE };
+const UPDATE_EMERGENCY_CONTACT = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/user/emergency_contact`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const UPDATE_ADDRESS = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/user/address`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS };
