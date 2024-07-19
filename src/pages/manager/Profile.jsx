@@ -4,6 +4,7 @@ import $ from "jquery";
 import {
   GET_PROFILE,
   UPDATE_PROFILE_IMAGE,
+  UPDATE_PROFILE_INFORMATION,
 } from "../../api/Api";
 import { useDispatch } from "react-redux";
 import { isLoader, IsToast, updateProfile } from "../../store/actions";
@@ -61,7 +62,7 @@ const Profile = () => {
     };
     try {
       dispatch(isLoader(true));
-      const response = await UPDATE_PROFILE(postData);
+      const response = await UPDATE_PROFILE_INFORMATION(postData);
       if (response.data.status) {
         $(".editable-form1").hide();
         $("#editButton1").show();
