@@ -35,7 +35,7 @@ input[type="date"]::-moz-calendar-picker-indicator {
   background: var(--white-color);
   position: sticky;
   top: 0;
-  z-index: 1020;
+  z-index: 1;
   padding: 3px;
   border-bottom: 1px solid #dee2e6 !important;
 }
@@ -830,4 +830,50 @@ color: var(--black-color);
 cursor: pointer;
 font-weight: 500;
 padding: 0.8rem;
+}
+/*Employee Time OFF CSS*/
+.head-text{
+background-color: var(--white-color);
+}
+
+ .sub-heading-text-msg h5{
+  color: var(--primary-color);
+}
+
+.sub-heading-text-msg i{
+  background: var(--primary-color);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  color: var(--white-color);
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.time-off-head{
+display: flex;
+align-items: center;
+}
+.time-off-head  .heading-text-msg{
+  width: 25%;
+    }
+    .time-off-head nav{
+      width: 50%;
+    }
+@media (max-width:767px){
+  .time-off-head {
+    display: flex; 
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .time-off-head  .heading-text-msg{
+width: 100%;
+padding-block: 0.5rem;
+  }
+  .time-off-head nav{
+    width: 100%;
+    justify-content: start;
+  }
 }
