@@ -7,9 +7,13 @@ import { isLoader, IsToast, updateProfile } from "../../store/actions";
 import {
   GET_PROFILE,
   UPDATE_ADDRESS,
+  UPDATE_EDUCATION,
   UPDATE_EMERGENCY_CONTACT,
+  UPDATE_JOB_DETAILS,
   UPDATE_PROFILE_IMAGE,
   UPDATE_PROFILE_INFORMATION,
+  UPDATE_SALARY,
+  UPDATE_WORK_EXPERIENCE,
 } from "../../api/Api";
 
 const ViewEmployeeDetail = () => {
@@ -66,12 +70,49 @@ const ViewEmployeeDetail = () => {
   });
 
   const [job_details, setJob_details] = useState({
-    job_title: "",
-    joined_date: "",
-    job_category: "",
-    employement_status: "",
-    line_manager: "",
+    job_title: Profile_data.job_title ? Profile_data.job_title : "",
+    joined_date: Profile_data.join_date ? Profile_data.join_date : "",
+    job_category: Profile_data.job_category ? Profile_data.job_category : "",
+    employement_status: Profile_data.employement_status ? Profile_data.employement_status : "",
+    line_member: Profile_data.line_member ? Profile_data.line_member : "",
   });
+
+  const [education, setEducation] = useState({
+    education_level: "",
+    education_institute: "",
+    education_year: "",
+    education_score: "",
+  });
+
+  const [experience, setExperience] = useState({
+    work_experience_company: "",
+    work_experience_job_title: "",
+    work_experience_from: "",
+    work_experience_to: "",
+  });
+
+  const [salary_details, setSalary_details] = useState({
+    salary_component: "",
+    salary_pay_frequency: "",
+    salary_currency: "",
+    salary_amount: "",
+    salary_account_number: "",
+    salary_account_type: "",
+    salary_bank_name: "",
+    salary_ifsc_code: "",
+  });
+
+  const getProfile = async () => {
+    try {
+      const response = await GET_PROFILE();
+      if (response.data.result) {
+        console.log(response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleInformation = (e) => {
     const name = e.target.name;
@@ -86,6 +127,7 @@ const ViewEmployeeDetail = () => {
       const response = await UPDATE_PROFILE_INFORMATION(information);
       if (response.data.result) {
         dispatch(isLoader(false));
+        getProfile();
         dispatch(IsToast("Success"));
       } else {
         dispatch(isLoader(false));
@@ -108,6 +150,7 @@ const ViewEmployeeDetail = () => {
       const response = await UPDATE_ADDRESS(address);
       if (response.data.result) {
         dispatch(isLoader(false));
+        getProfile();
         dispatch(IsToast("Success"));
       } else {
         dispatch(isLoader(false));
@@ -130,6 +173,7 @@ const ViewEmployeeDetail = () => {
       const response = await UPDATE_EMERGENCY_CONTACT(emergency_contact);
       if (response.data.result) {
         dispatch(isLoader(false));
+        getProfile();
         dispatch(IsToast("Success"));
       } else {
         dispatch(isLoader(false));
@@ -148,7 +192,87 @@ const ViewEmployeeDetail = () => {
 
   const onSubmitJob_details = async (e) => {
     e.preventDefault();
-    console.log(job_details);
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_JOB_DETAILS(job_details);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        getProfile();
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
+  };
+
+  const handleEducation = (e) => {
+    const name = e.target.name;
+    const Value = e.target.value;
+    setEducation({ ...education, [name]: Value });
+  };
+
+  const onSubmit_education = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_EDUCATION(education);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        getProfile();
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
+  };
+
+  const handleExperience = (e) => {
+    const name = e.target.name;
+    const Value = e.target.value;
+    setExperience({ ...experience, [name]: Value });
+  };
+
+  const onSubmit_experience = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_WORK_EXPERIENCE(experience);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        getProfile();
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
+  };
+
+  const handleSalary = (e) => {
+    const name = e.target.name;
+    const Value = e.target.value;
+    setSalary_details({ ...salary_details, [name]: Value });
+  };
+
+  const onSubmitSalary = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(isLoader(true));
+      const response = await UPDATE_SALARY(salary_details);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
   };
 
   const profileUpload = async (e) => {
@@ -176,17 +300,7 @@ const ViewEmployeeDetail = () => {
     }
   };
 
-  const getProfile = async () => {
-    try {
-      const response = await GET_PROFILE();
-      if (response.data.result) {
-        console.log(response.data.user);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  
 
   //  // Event Listner function for form
   $(document).ready(function () {
@@ -243,7 +357,7 @@ const ViewEmployeeDetail = () => {
 
   useEffect(() => {
     getProfile();
-  }, [onSubmitEmergency_contact, onSubmitAddress, onSubmitInformation]);
+  }, []);
 
   return (
     <>
@@ -665,7 +779,7 @@ const ViewEmployeeDetail = () => {
                         </div>
                         <div class="row">
                           <div class="col-lg-6 col-md-6 col-sm-12">
-                            <p class="addlabelcard2">Employee Id</p>
+                            <p class="addlabelcard2">Employee Id</p> 
                             <h6 class="profileimgboxcompanydetail2">
                               {information.emp_id}
                             </h6>
@@ -692,7 +806,7 @@ const ViewEmployeeDetail = () => {
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-lg-6 col-md-6 col-sm-12">
+                          <div class="col-lg-6 col-md-6 col-sm-12">                  
                             <p class="addlabelcard2">Phone Number</p>
                             <h6 class="profileimgboxcompanydetail2">
                               {information.phone}
@@ -1095,7 +1209,7 @@ const ViewEmployeeDetail = () => {
                               />
                               <label
                                 class="form-label"
-                                style={{ background: "#fff" }}
+                                style={{ background: "#fff" }} 
                               >
                                 Job Title &nbsp;
                                 <span class=" required">*</span>
@@ -1118,8 +1232,8 @@ const ViewEmployeeDetail = () => {
                                 style={{ background: "#fff" }}
                               >
                                 Joined Date &nbsp;
-                                <span class=" required">*</span>
-                              </label>
+                                <span class=" required">*</span> 
+                              </label>  
                             </div>
                           </div>
                         </div>
@@ -1173,9 +1287,9 @@ const ViewEmployeeDetail = () => {
                                 type="text"
                                 class="form-control"
                                 required=""
-                                name="line_manager"
+                                name="line_member"
                                 onChange={handleJob_details}
-                                value={job_details.line_manager}
+                                value={job_details.line_member}
                               />
                               <label
                                 class="form-label"
@@ -1238,7 +1352,7 @@ const ViewEmployeeDetail = () => {
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Line Manager</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          {job_details.line_manager}
+                          {job_details.line_member}
                         </h6>
                       </div>
                     </div>
@@ -1262,12 +1376,15 @@ const ViewEmployeeDetail = () => {
                         className="editable-form3"
                         style={{ display: "none" }}
                       >
-                        <form noValidate="noValidate">
+                        <form noValidate="noValidate" onSubmit={onSubmit_education}>
                           <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12">
                               <div className="form-outline">
                                 <input
                                   type="text"
+                                  name="education_level"
+                                  value={education.education_level}
+                                  onChange={handleEducation}
                                   class="form-control"
                                   required=""
                                 />
@@ -1284,8 +1401,10 @@ const ViewEmployeeDetail = () => {
                             <div className="col-lg-6 col-md-6 col-sm-12">
                               <div className="form-outline">
                                 <input
-                                  type="type"
-                                  name="phone"
+                                  type="text"
+                                  name="education_institute"
+                                  value={education.education_institute}
+                                  onChange={handleEducation}
                                   class="form-control"
                                   required=""
                                 />
@@ -1305,6 +1424,9 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="date"
+                                  name="education_year"
+                                  value={education.education_year}
+                                  onChange={handleEducation}
                                   class="form-control"
                                   required=""
                                 />
@@ -1322,6 +1444,9 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="date"
+                                  name="education_score"
+                                  value={education.education_score}
+                                  onChange={handleEducation}
                                   class="form-control"
                                   required=""
                                 />
@@ -1358,23 +1483,23 @@ const ViewEmployeeDetail = () => {
                       <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Level</p>
-                          <h6 className="profileimgboxcompanydetail2">10+2</h6>
+                          <h6 className="profileimgboxcompanydetail2">{Profile_data.education_level}</h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Institute</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            Punjab Technical University
+                          {Profile_data.education_institude}
                           </h6>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Year</p>
-                          <h6 className="profileimgboxcompanydetail2">2022</h6>
+                          <h6 className="profileimgboxcompanydetail2">{Profile_data.education_year}</h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Score</p>
-                          <h6 className="profileimgboxcompanydetail2">80%</h6>
+                          <h6 className="profileimgboxcompanydetail2">{Profile_data.education_score}</h6>
                         </div>
                       </div>
                     </div>
@@ -1397,12 +1522,15 @@ const ViewEmployeeDetail = () => {
                         className="editable-form2"
                         style={{ display: "none" }}
                       >
-                        <form noValidate="noValidate">
+                        <form noValidate="noValidate" onSubmit={onSubmit_experience}>
                           <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12">
                               <div className="form-outline">
                                 <input
                                   type="text"
+                                  name="work_experience_company"
+                                  value={experience.work_experience_company}
+                                  onChange={handleExperience}
                                   class="form-control"
                                   required=""
                                 />
@@ -1420,7 +1548,9 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="type"
-                                  name="phone"
+                                  name="work_experience_job_title"
+                                  value={experience.work_experience_job_title}
+                                  onChange={handleExperience}
                                   class="form-control"
                                   required=""
                                 />
@@ -1428,7 +1558,7 @@ const ViewEmployeeDetail = () => {
                                   class="form-label"
                                   style={{ background: "#fff" }}
                                 >
-                                  Job Title &nbsp;
+                                  Profile &nbsp;
                                   <span class=" required">*</span>
                                 </label>
                               </div>
@@ -1440,6 +1570,9 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="date"
+                                  name="work_experience_from"
+                                  value={experience.work_experience_from}
+                                  onChange={handleExperience}
                                   class="form-control"
                                   required=""
                                 />
@@ -1457,7 +1590,9 @@ const ViewEmployeeDetail = () => {
                               <div className="form-outline">
                                 <input
                                   type="date"
-                                  ds
+                                  name="work_experience_to"
+                                  value={experience.work_experience_to}
+                                  onChange={handleExperience}
                                   class="form-control"
                                   required=""
                                 />
@@ -1494,12 +1629,12 @@ const ViewEmployeeDetail = () => {
                       <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Company</p>
-                          <h6 className="profileimgboxcompanydetail2">ABC</h6>
+                          <h6 className="profileimgboxcompanydetail2">{Profile_data.work_experience_company}</h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
-                          <p className="addlabelcard2">Job Title</p>
+                          <p className="addlabelcard2">Profile</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            Developer
+                          {Profile_data.work_experience_job_title}
                           </h6>
                         </div>
                       </div>
@@ -1507,13 +1642,13 @@ const ViewEmployeeDetail = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">From</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            15-07-2022
+                            {Profile_data.work_experience_from}
                           </h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">To</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            20-08-2024
+                          {Profile_data.work_experience_to}
                           </h6>
                         </div>
                       </div>
@@ -1534,12 +1669,15 @@ const ViewEmployeeDetail = () => {
                       </div>
                     </div>
                     <div className="editable-form3" style={{ display: "none" }}>
-                      <form noValidate="noValidate">
+                      <form noValidate="noValidate" onSubmit={onSubmitSalary}>
                         <div className="row">
                           <div className="col-lg-6 col-md-6 col-sm-12">
                             <div className="form-outline">
                               <input
                                 type="text"
+                                name="salary_component"
+                                onChange={handleSalary}
+                                value={salary_details.salary_component}
                                 class="form-control"
                                 required=""
                               />
@@ -1557,7 +1695,9 @@ const ViewEmployeeDetail = () => {
                             <div className="form-outline">
                               <input
                                 type="date"
-                                name="phone"
+                                name="salary_pay_frequency"
+                                onChange={handleSalary}
+                                value={salary_details.salary_pay_frequency}
                                 class="form-control"
                                 required=""
                               />
@@ -1577,10 +1717,11 @@ const ViewEmployeeDetail = () => {
                             <div className="form-outline">
                               <input
                                 type="text"
-                                name="phone"
                                 class="form-control"
                                 required=""
-                                value="Development"
+                                name="salary_currency"
+                                onChange={handleSalary}
+                                value={salary_details.salary_currency}
                               />
                               <label
                                 class="form-label"
@@ -1596,10 +1737,11 @@ const ViewEmployeeDetail = () => {
                             <div className="form-outline">
                               <input
                                 type="text"
-                                name="phone"
                                 class="form-control"
                                 required=""
-                                value="Development"
+                                name="salary_amount"
+                                onChange={handleSalary}
+                                value={salary_details.salary_amount}
                               />
                               <label
                                 class="form-label"
@@ -1618,7 +1760,9 @@ const ViewEmployeeDetail = () => {
                                 type="text"
                                 class="form-control"
                                 required=""
-                                value="01236547895"
+                                name="salary_account_number"
+                                onChange={handleSalary}
+                                value={salary_details.salary_account_number}
                               />
                               <label
                                 class="form-label"
@@ -1635,7 +1779,9 @@ const ViewEmployeeDetail = () => {
                                 type="text"
                                 class="form-control"
                                 required=""
-                                value="Saving"
+                                name="salary_account_type"
+                                onChange={handleSalary}
+                                value={salary_details.salary_account_type}
                               />
                               <label
                                 class="form-label"
@@ -1654,7 +1800,9 @@ const ViewEmployeeDetail = () => {
                                 type="text"
                                 class="form-control"
                                 required=""
-                                value="HDFC Bank"
+                                name="salary_bank_name"
+                                onChange={handleSalary}
+                                value={salary_details.salary_bank_name}
                               />
                               <label
                                 class="form-label"
@@ -1671,7 +1819,9 @@ const ViewEmployeeDetail = () => {
                                 type="text"
                                 class="form-control"
                                 required=""
-                                value="HDFC0000125"
+                                name="salary_ifsc_code"
+                                onChange={handleSalary}
+                                value={salary_details.salary_ifsc_code}
                               />
                               <label
                                 class="form-label"
@@ -1705,46 +1855,46 @@ const ViewEmployeeDetail = () => {
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Salary Component</p>
-                        <h6 className="profileimgboxcompanydetail2">ABC</h6>
+                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_component}</h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Pay Frequency </p>
-                        <h6 className="profileimgboxcompanydetail2">Monthly</h6>
+                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_pay_frequency}</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Currency</p>
-                        <h6 className="profileimgboxcompanydetail2">INR</h6>
+                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_currency}</h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Amount</p>
-                        <h6 className="profileimgboxcompanydetail2">15000</h6>
+                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_amount}</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Account Number</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          1236547890
+                        {Profile_data.salary_account_number}
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Account Type</p>
-                        <h6 className="profileimgboxcompanydetail2">Saving</h6>
+                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_account_type}</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Bank Name</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          HDFC Bank
+                        {Profile_data.salary_bank_name}
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">IFSC Code</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          HDFC0136542
+                        {Profile_data.salary_ifsc_code}
                         </h6>
                       </div>
                     </div>

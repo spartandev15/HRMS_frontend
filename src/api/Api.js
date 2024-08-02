@@ -112,4 +112,56 @@ const UPDATE_ADDRESS = async (data) => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS };
+const UPDATE_SALARY = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/update/salary-detail`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const UPDATE_JOB_DETAILS = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/update/job-details`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const UPDATE_EDUCATION = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/update/eduction/details`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const UPDATE_WORK_EXPERIENCE = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/update/work-experience`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE };
