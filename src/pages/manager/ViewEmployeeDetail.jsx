@@ -71,35 +71,35 @@ const ViewEmployeeDetail = () => {
 
   const [job_details, setJob_details] = useState({
     job_title: Profile_data.job_title ? Profile_data.job_title : "",
-    joined_date: Profile_data.join_date ? Profile_data.join_date : "",
+    join_date: Profile_data.join_date ? Profile_data.join_date : "",
     job_category: Profile_data.job_category ? Profile_data.job_category : "",
-    employement_status: Profile_data.employement_status ? Profile_data.employement_status : "",
+    employment_status: Profile_data.employment_status ? Profile_data.employment_status : "",
     line_member: Profile_data.line_member ? Profile_data.line_member : "",
   });
 
   const [education, setEducation] = useState({
-    education_level: "",
-    education_institute: "",
-    education_year: "",
-    education_score: "",
+    education_level: Profile_data.education_level ? Profile_data.education_level : "",
+    education_institute: Profile_data.education_institude ? Profile_data.education_institude : "",
+    education_year: Profile_data.education_year ? Profile_data.education_year : "",
+    education_score: Profile_data.education_score ? Profile_data.education_score : "",
   });
 
   const [experience, setExperience] = useState({
-    work_experience_company: "",
-    work_experience_job_title: "",
-    work_experience_from: "",
-    work_experience_to: "",
+    work_experience_company: Profile_data.work_experience_company ? Profile_data.work_experience_company : "",
+    work_experience_job_title: Profile_data.work_experience_job_title ? Profile_data.work_experience_job_title : "",
+    work_experience_from: Profile_data.work_experience_from ? Profile_data.work_experience_from : "",
+    work_experience_to: Profile_data.work_experience_to ? Profile_data.work_experience_to : "",
   });
 
   const [salary_details, setSalary_details] = useState({
-    salary_component: "",
-    salary_pay_frequency: "",
-    salary_currency: "",
-    salary_amount: "",
-    salary_account_number: "",
-    salary_account_type: "",
-    salary_bank_name: "",
-    salary_ifsc_code: "",
+    salary_component: Profile_data.salary_component ? Profile_data.salary_component : "",
+    salary_pay_frequency: Profile_data.salary_pay_frequency ? Profile_data.salary_pay_frequency : "",
+    salary_currency: Profile_data.salary_currency ? Profile_data.salary_currency : "",
+    salary_amount: Profile_data.salary_amount ? Profile_data.salary_amount : "",
+    salary_account_number: Profile_data.salary_account_number ? Profile_data.salary_account_number : "",
+    salary_account_type: Profile_data.salary_account_type ? Profile_data.salary_account_type : "",
+    salary_bank_name: Profile_data.salary_bank_name ? Profile_data.salary_bank_name : "",
+    salary_ifsc_code: Profile_data.salary_ifsc_code ? Profile_data.salary_ifsc_code : "",
   });
 
   const getProfile = async () => {
@@ -266,6 +266,7 @@ const ViewEmployeeDetail = () => {
       const response = await UPDATE_SALARY(salary_details);
       if (response.data.result) {
         dispatch(isLoader(false));
+        getProfile();
         dispatch(IsToast("Success"));
       } else {
         dispatch(isLoader(false));
@@ -317,6 +318,13 @@ const ViewEmployeeDetail = () => {
       $("#editButton1").show();
       $("#cancelButton1").hide();
     });
+
+    $("#cancelButton1c").click(function () {
+      $(".editable-form1").hide();
+      $(".readonly-form1").show();
+      $("#editButton1").show();
+      $("#cancelButton1").hide();
+    });
   });
 
   //  // Event Listner function for form
@@ -334,6 +342,13 @@ const ViewEmployeeDetail = () => {
       $("#editButton2").show();
       $("#cancelButton2").hide();
     });
+
+    $("#cancelButton2c").click(function () {
+      $(".editable-form2").hide();
+      $(".readonly-form2").show();
+      $("#editButton2").show();
+      $("#cancelButton2").hide();
+    });
   });
 
   //  // Event Listner function for form
@@ -346,6 +361,13 @@ const ViewEmployeeDetail = () => {
     });
 
     $("#cancelButton3").click(function () {
+      $(".editable-form3").hide();
+      $(".readonly-form3").show();
+      $("#editButton3").show();
+      $("#cancelButton3").hide();
+    });
+
+    $("#cancelButton3c").click(function () {
       $(".editable-form3").hide();
       $(".readonly-form3").show();
       $("#editButton3").show();
@@ -749,7 +771,7 @@ const ViewEmployeeDetail = () => {
                               </button>
                               &nbsp;
                               <p
-                                id="cancelButton1"
+                                id="cancelButton1c"
                                 class="btn infoedit4"
                                 style={{ margin: "0px" }}
                               >
@@ -867,15 +889,6 @@ const ViewEmployeeDetail = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="row">
-                            <div className="col-lg-6 col-md-6 col-sm-12">
-                              <div className="form-outline"></div>
-                            </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12">
-                              <div className="form-outline"></div>
-                            </div>
-                          </div>
 
                           <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12">
@@ -968,7 +981,7 @@ const ViewEmployeeDetail = () => {
                               </button>
                               &nbsp;
                               <p
-                                id="cancelButton2"
+                                id="cancelButton2c"
                                 class="btn infoedit4"
                                 style={{ margin: "0px" }}
                               >
@@ -1135,7 +1148,7 @@ const ViewEmployeeDetail = () => {
                               </button>
                               &nbsp;
                               <p
-                                id="cancelButton3"
+                                id="cancelButton3c"
                                 class="btn infoedit4"
                                 style={{ margin: "0px" }}
                               >
@@ -1221,9 +1234,9 @@ const ViewEmployeeDetail = () => {
                             <div className="form-outline">
                               <input
                                 type="date"
-                                name="joined_date"
+                                name="join_date"
                                 onChange={handleJob_details}
-                                value={job_details.joined_date}
+                                value={job_details.join_date}
                                 class="form-control"
                                 required=""
                               />
@@ -1263,9 +1276,9 @@ const ViewEmployeeDetail = () => {
                             <div className="form-outline">
                               <select
                                 className="form-control"
-                                name="employement_status"
+                                name="employment_status"
                                 onChange={handleJob_details}
-                                value={job_details.employement_status}
+                                value={job_details.employment_status}
                               >
                                 <option selected disabled>
                                   Select
@@ -1303,12 +1316,12 @@ const ViewEmployeeDetail = () => {
                         </div>
                         <div className="row mt-4">
                           <div class="col-lg-12 text-start">
-                            <button type="submit" class="btn infoedit3">
+                            <button id="cancelButton3" type="submit" class="btn infoedit3">
                               Save
                             </button>
                             &nbsp;
                             <p
-                              id="cancelButton3"
+                              id="cancelButton3c"
                               class="btn infoedit4"
                               style={{ margin: "0px" }}
                             >
@@ -1330,7 +1343,7 @@ const ViewEmployeeDetail = () => {
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Joined Date</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          {job_details.joined_date}
+                          {job_details.join_date}
                         </h6>
                       </div>
                     </div>
@@ -1344,7 +1357,7 @@ const ViewEmployeeDetail = () => {
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Employment Status</p>
                         <h6 className="profileimgboxcompanydetail2">
-                          {job_details.employement_status}
+                          {job_details.employment_status}
                         </h6>
                       </div>
                     </div>
@@ -1463,12 +1476,12 @@ const ViewEmployeeDetail = () => {
 
                           <div className="row mt-4">
                             <div class="col-lg-12 text-start">
-                              <button type="submit" class="btn infoedit3">
+                              <button id="cancelButton3" type="submit" class="btn infoedit3">
                                 Save
                               </button>
                               &nbsp;
                               <p
-                                id="cancelButton3"
+                                id="cancelButton3c"
                                 class="btn infoedit4"
                                 style={{ margin: "0px" }}
                               >
@@ -1483,23 +1496,23 @@ const ViewEmployeeDetail = () => {
                       <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Level</p>
-                          <h6 className="profileimgboxcompanydetail2">{Profile_data.education_level}</h6>
+                          <h6 className="profileimgboxcompanydetail2">{education.education_level}</h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Institute</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          {Profile_data.education_institude}
+                          {education.education_institute}
                           </h6>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Year</p>
-                          <h6 className="profileimgboxcompanydetail2">{Profile_data.education_year}</h6>
+                          <h6 className="profileimgboxcompanydetail2">{education.education_year}</h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Score</p>
-                          <h6 className="profileimgboxcompanydetail2">{Profile_data.education_score}</h6>
+                          <h6 className="profileimgboxcompanydetail2">{education.education_score}</h6>
                         </div>
                       </div>
                     </div>
@@ -1609,12 +1622,12 @@ const ViewEmployeeDetail = () => {
 
                           <div className="row mt-4">
                             <div class="col-lg-12 text-start">
-                              <button type="submit" class="btn infoedit3">
+                              <button id="cancelButton2" type="submit" class="btn infoedit3">
                                 Save
                               </button>
                               &nbsp;
                               <p
-                                id="cancelButton2"
+                                id="cancelButton2c"
                                 class="btn infoedit4"
                                 style={{ margin: "0px" }}
                               >
@@ -1629,12 +1642,12 @@ const ViewEmployeeDetail = () => {
                       <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Company</p>
-                          <h6 className="profileimgboxcompanydetail2">{Profile_data.work_experience_company}</h6>
+                          <h6 className="profileimgboxcompanydetail2">{experience.work_experience_company}</h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">Profile</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          {Profile_data.work_experience_job_title}
+                          {experience.work_experience_job_title}
                           </h6>
                         </div>
                       </div>
@@ -1642,13 +1655,13 @@ const ViewEmployeeDetail = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">From</p>
                           <h6 className="profileimgboxcompanydetail2">
-                            {Profile_data.work_experience_from}
+                            {experience.work_experience_from}
                           </h6>
                         </div>
                         <div className="col-lg-6 col-md-6 col-sm-12">
                           <p className="addlabelcard2">To</p>
                           <h6 className="profileimgboxcompanydetail2">
-                          {Profile_data.work_experience_to}
+                          {experience.work_experience_to}
                           </h6>
                         </div>
                       </div>
@@ -1835,12 +1848,12 @@ const ViewEmployeeDetail = () => {
                         </div>
                         <div className="row mt-4">
                           <div class="col-lg-12 text-start">
-                            <button type="submit" class="btn infoedit3">
+                            <button id="cancelButton3" type="submit" class="btn infoedit3">
                               Save
                             </button>
                             &nbsp;
                             <p
-                              id="cancelButton3"
+                              id="cancelButton3c"
                               class="btn infoedit4"
                               style={{ margin: "0px" }}
                             >
@@ -1855,46 +1868,46 @@ const ViewEmployeeDetail = () => {
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Salary Component</p>
-                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_component}</h6>
+                        <h6 className="profileimgboxcompanydetail2">{salary_details.salary_component}</h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Pay Frequency </p>
-                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_pay_frequency}</h6>
+                        <h6 className="profileimgboxcompanydetail2">{salary_details.salary_pay_frequency}</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Currency</p>
-                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_currency}</h6>
+                        <h6 className="profileimgboxcompanydetail2">{salary_details.salary_currency}</h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Amount</p>
-                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_amount}</h6>
+                        <h6 className="profileimgboxcompanydetail2">{salary_details.salary_amount}</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Account Number</p>
                         <h6 className="profileimgboxcompanydetail2">
-                        {Profile_data.salary_account_number}
+                        {salary_details.salary_account_number}
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Account Type</p>
-                        <h6 className="profileimgboxcompanydetail2">{Profile_data.salary_account_type}</h6>
+                        <h6 className="profileimgboxcompanydetail2">{salary_details.salary_account_type}</h6>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">Bank Name</p>
                         <h6 className="profileimgboxcompanydetail2">
-                        {Profile_data.salary_bank_name}
+                        {salary_details.salary_bank_name}
                         </h6>
                       </div>
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <p className="addlabelcard2">IFSC Code</p>
                         <h6 className="profileimgboxcompanydetail2">
-                        {Profile_data.salary_ifsc_code}
+                        {salary_details.salary_ifsc_code}
                         </h6>
                       </div>
                     </div>

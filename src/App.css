@@ -339,6 +339,12 @@ input[type="password"]:focus {
   --s:-1;
 }
 
+/* Popup css */
+
+.popup-overlay{
+  z-index: 9999 !important;
+}
+
 /* Profile page css */
 
 .pic-holder-account {

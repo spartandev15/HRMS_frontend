@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import user from "../../asset/images/account.png";
+import userLogo from "../../asset/images/account.png";
 
 const AdminHome = () => {
   //   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const AdminHome = () => {
                       <div className="border d-flex justify-content-between align-items-center bg-white px-4 py-2">
                         <div className="d-flex align-items-center ">
                           <a href="#" className="hravatar">
-                            <img src={user} alt="userimg" />
+                            <img src={userLogo} alt="userimg" />
                           </a>
                           <div className="hrmr-3">
                             <h6 className="mb-0 font-weight-bold">
@@ -73,7 +73,7 @@ const AdminHome = () => {
                       <div className="border d-flex justify-content-between align-items-center bg-white px-4 py-2">
                         <div className="d-flex align-items-center ">
                           <a href="#" className="hravatar">
-                            <img src={user} alt="userimg" />
+                            <img src={userLogo} alt="userimg" />
                           </a>
                           <div className="hrmr-3">
                             <h6 className="mb-0 font-weight-bold">
@@ -192,7 +192,7 @@ const AdminHome = () => {
                                 <div className="d-flex align-items-center justify-content-between">
                                   <div className=" hravatar">
                                     <img
-                                      src={user}
+                                      src={userLogo}
                                       alt="img"
                                       className="img-fluid"
                                     />
@@ -246,7 +246,7 @@ const AdminHome = () => {
                                 <div className="d-flex align-items-center justify-content-between">
                                   <div className=" hravatar">
                                     <img
-                                      src={user}
+                                      src={userLogo}
                                       alt="img"
                                       className="img-fluid"
                                     />
@@ -495,7 +495,7 @@ const AdminHome = () => {
                     <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                       <div className="d-flex align-items-center">
                         <a href="#" className="hravatar">
-                          <img src={user} alt="userimg" className="img-fluid" />
+                          <img src={userLogo} alt="userimg" className="img-fluid" />
                         </a>
                         <div className="hrmr-3">
                           <h6 className="mb-0 font-weight-bold">John Doe</h6>
@@ -517,7 +517,7 @@ const AdminHome = () => {
                     <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                       <div className="d-flex align-items-center">
                         <a href="#" className="hravatar">
-                          <img src={user} alt="userimg" className="img-fluid" />
+                          <img src={userLogo} alt="userimg" className="img-fluid" />
                         </a>
                         <div className="hrmr-3">
                           <h6 className="mb-0 font-weight-bold">John Doe</h6>
@@ -566,7 +566,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">John Doe</h6>
@@ -581,7 +581,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">John Doe</h6>
@@ -596,7 +596,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">John Doe</h6>
@@ -622,7 +622,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center ">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">Jens Brincker</h6>
@@ -641,7 +641,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center ">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">Jens Brincker</h6>
@@ -661,7 +661,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center ">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">Jens Brincker</h6>
@@ -687,7 +687,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center ">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">
@@ -713,7 +713,7 @@ const AdminHome = () => {
                   <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                     <div className="d-flex align-items-center ">
                       <a href="#" className="hravatar">
-                        <img src={user} alt="userimg" />
+                        <img src={userLogo} alt="userimg" />
                       </a>
                       <div className="hrmr-3">
                         <h6 className="mb-0 font-weight-bold">
