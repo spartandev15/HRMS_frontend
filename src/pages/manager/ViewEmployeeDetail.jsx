@@ -378,7 +378,7 @@ const ViewEmployeeDetail = () => {
   const [activeTab, setActiveTab] = useState("General");
 
   useEffect(() => {
-    getProfile();
+    // getProfile();
   }, []);
 
   return (

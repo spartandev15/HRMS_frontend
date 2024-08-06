@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { isLoader } from "../../store/actions";
 
 const Header = () => {
-  const [Profile_data, setProfile_data] = useState(JSON.parse(localStorage.getItem("user"))) 
+  const [Profile_data, setProfile_data] = useState("") 
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const getProfile = async () => {
