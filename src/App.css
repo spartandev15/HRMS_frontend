@@ -308,7 +308,7 @@ input[type="password"]:focus {
 
 .loader-blur-bg{
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.719);
+  background-color: rgba(0, 0, 0, 0.514);
   z-index: 1021;
   width: 100vw;
   height: 100vh;
@@ -331,11 +331,11 @@ input[type="password"]:focus {
 .loader:after {
   content: "";
   width: 16px;
-  background: #3FB8AF;
+  background: #F6A21E;
   animation: l3-1 1s infinite alternate;
 }
 .loader:after {
-  background: #FF3D7F;
+  background: #134d75;
   --s:-1;
 }
 

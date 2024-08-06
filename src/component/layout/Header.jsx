@@ -8,15 +8,15 @@ import { useDispatch } from "react-redux";
 import { isLoader } from "../../store/actions";
 
 const Header = () => {
-  const [Profile_data, setProfile_data] = useState("") 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const [Profile_data, setProfile_data] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const getProfile = async () => {
     try {
       const response = await GET_PROFILE();
       if (response.data.result) {
         console.log(response.data.user);
-        setProfile_data(response.data.user.profile_photo)
+        setProfile_data(response.data.user.profile_photo);
         localStorage.setItem("user", JSON.stringify(response.data.user));
       }
     } catch (err) {
@@ -25,34 +25,34 @@ const Header = () => {
   };
   const onLogout = async () => {
     try {
-      dispatch(isLoader(true))
+      dispatch(isLoader(true));
       const response = await LOGOUT_API();
-      if(response.data.result){
-        dispatch(isLoader(false))
-        localStorage.removeItem("token")
-        localStorage.removeItem("user")
-        navigate("/login")
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/login");
       }
     } catch (err) {
-      dispatch(isLoader(false))
+      dispatch(isLoader(false));
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getProfile()
-  }, [])
-  
+    getProfile();
+  }, []);
 
   return (
     <header className="navheader">
       <nav className="navbar navbar-expand-lg sticky-top navbar-light navbar-fixed-top">
         <div className="container">
-          
-          <div className="navbar-brand logobar" onClick={() => navigate("/dashboard")}>
-            <img src={logo} alt="Orpect" width={150}/>
+          <div
+            className="navbar-brand logobar"
+            onClick={() => navigate("/dashboard")}
+          >
+            <img src={logo} alt="Orpect" width={150} />
           </div>
-          
 
           <button
             className="navbar-toggler navbar-toggler-right  "
@@ -70,18 +70,27 @@ const Header = () => {
             id="navbar1"
           >
             <ul className="navbar-nav navlink" id="navmenu">
-              <li className="nav-item " onClick={() => navigate("/dashboard/manage_employee")}>
+              <li
+                className="nav-item "
+                onClick={() => navigate("/dashboard/manage_employee")}
+              >
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Employees
                 </NavLink>
               </li>
-              <li className="nav-item"  onClick={() => navigate("/dashboard/checklist")}>
+              <li
+                className="nav-item"
+                onClick={() => navigate("/dashboard/checklist")}
+              >
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Checklists
                 </NavLink>
               </li>
 
-              <li className="nav-item"  onClick={() => navigate("/dashboard/timeoff")}>
+              <li
+                className="nav-item"
+                onClick={() => navigate("/dashboard/timeoff")}
+              >
                 <NavLink activeclassname="active" className="nav-link" to=" ">
                   Time Off
                 </NavLink>
@@ -101,7 +110,14 @@ const Header = () => {
             </ul>
           </div>
 
-          <div className="nav-item dropdown userdropdown  ">
+          <div className="nav-item d-flex justify-content-center dropdown userdropdown  ">
+            <a
+              className="action-btns-bell"
+              data-bs-toggle="tooltip"
+              aria-label="Delete"
+            >
+              <i class="fa-solid fa-bell" style={{ color: "#F6A21E" }}></i>
+            </a>
             <div
               className="nav-link dropdownicon"
               id="navbarDropdown"
@@ -112,7 +128,7 @@ const Header = () => {
             >
               <img
                 // src={profile_photo ? profile_photo : user}
-                src={Profile_data? Profile_data : user}
+                src={Profile_data ? Profile_data : user}
                 className="droplogin"
                 alt="user"
                 height={35}
@@ -130,7 +146,9 @@ const Header = () => {
                 </NavLink>
               </li>
               <li onClick={onLogout}>
-                <Link className="dropdown-item dropbtn-txt" to=" ">Logout</Link>
+                <Link className="dropdown-item dropbtn-txt" to=" ">
+                  Logout
+                </Link>
               </li>
             </ul>
           </div>

@@ -164,4 +164,69 @@ const UPDATE_WORK_EXPERIENCE = async (data) => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE };
+const STORE_TIMER = async (id, data) => {
+  return axios
+    .post(`${BASE_URL}/api/projects/timers/store/${id}`, data,  {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const RUN_TIMER = async (id) => {
+  return axios
+    .get(`${BASE_URL}/api/projects/timers/active/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const PAUSE_TIMER = async (id) => {
+  return axios
+    .post(`${BASE_URL}/api/projects/timers/pause/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const TAKE_SCREENSHOT = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/projects/timers/screenshot`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const GET_TIMER = async (id) => {
+  return axios
+    .get(`${BASE_URL}/api/projects/timers/get`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE, STORE_TIMER, RUN_TIMER, PAUSE_TIMER, TAKE_SCREENSHOT, GET_TIMER };

@@ -586,6 +586,15 @@ li a.dropbtn-txt:hover {
   display: inline-block;
 }
 
+.action-btns-bell{
+  padding: 8px 8px;
+  text-align: center;
+  border-radius: 8px;
+  margin-right: 8px;
+  font-size: 18px;
+  display: inline-block;
+}
+
 .punch-info {
   margin: 0 0 20px;
 }
