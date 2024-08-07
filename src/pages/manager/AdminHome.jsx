@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import userLogo from "../../asset/images/account.png";
 import User from "../../asset/images/profile.png";
@@ -11,11 +11,44 @@ const AdminHome = () => {
   //   const navigate = useNavigate();
   // const name = localStorage.getItem("userName");
 
+  const [punch, setPunch] = useState(false);
+
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  let timerInterval = useRef(null);
+
+  const startTimer = () => {
+    timerInterval.current = setInterval(() => {
+      setSeconds(prevSeconds => {
+        if (prevSeconds === 59) {
+          setMinutes(prevMinutes => {
+            if (prevMinutes === 59) {
+              setHours(prevHours => prevHours + 1);
+              return 0;
+            }
+            return prevMinutes + 1;
+          });
+          return 0;
+        }
+        return prevSeconds + 1;
+      });
+    }, 1000);
+  };
+
+  const stopTimer = () => {
+    if (timerInterval.current) {
+      clearInterval(timerInterval.current);
+      timerInterval.current = null;
+    }
+  };
+
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const PunchOut = async () => {
-
-  }
+  const PunchOut = () => {
+    stopTimer()
+    setPunch(false)
+  };
 
   const getTimer = async () => {
     try {
@@ -29,16 +62,18 @@ const AdminHome = () => {
     } catch (err) {
       dispatch(isLoader(false));
     }
-  }
+  };
 
   const PunchIn = async () => {
     const postData = {
-      name: "name"
-    }
+      name: "name",
+    };
     try {
       dispatch(isLoader(true));
       const response = await STORE_TIMER(1, postData);
       if (response.data.result) {
+        setPunch(true);
+        startTimer();
         dispatch(isLoader(false));
       } else {
         dispatch(isLoader(false));
@@ -68,6 +103,13 @@ const AdminHome = () => {
 
   useEffect(() => {
     getTimer();
+  }, []);
+
+  useEffect(() => {
+    // Cleanup interval on component unmount
+    return () => {
+      stopTimer();
+    };
   }, []);
 
   return (
@@ -214,14 +256,22 @@ const AdminHome = () => {
 
                   <div class="punch-info mt-3">
                     <div class="punch-hours">
-                      <span>3.45 hrs</span>
+                      <span><small>{`${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`}</small></span>
                     </div>
                   </div>
                   <div class="punch-btn-section mb-0">
-                    <button type="button" onClick={PunchOut} class="btn mybtn punch-btn">
+                    <button
+                      type="button"
+                      onClick={PunchOut}
+                      class={`btn mybtn punch-btn ${!punch ? "d-none" : null}`}
+                    >
                       Punch Out
                     </button>
-                    <button type="button" onClick={PunchIn} class="btn mybtn punch-btn">
+                    <button
+                      type="button"
+                      onClick={PunchIn}
+                      class={`btn mybtn punch-btn ${punch ? "d-none" : null}`}
+                    >
                       Punch In
                     </button>
                   </div>
