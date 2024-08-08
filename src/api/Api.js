@@ -216,9 +216,9 @@ const TAKE_SCREENSHOT = async (data) => {
     });
 }
 
-const GET_TIMER = async (id) => {
+const GET_TIMER = async () => {
   return axios
-    .get(`${BASE_URL}/api/projects/timers/get`, {
+    .get(`${BASE_URL}/api/projects/timers/get/detail`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
     .then((res) => {

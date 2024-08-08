@@ -18,28 +18,22 @@ const AdminHome = () => {
   // const name = localStorage.getItem("userName");
 
   const [punch, setPunch] = useState(false);
+  const [isTimerRunning, setTimerRunning] = useState(false);
 
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
   let timerInterval = useRef(null);
 
   const startTimer = () => {
     timerInterval.current = setInterval(() => {
-      setSeconds((prevSeconds) => {
-        if (prevSeconds === 59) {
-          setMinutes((prevMinutes) => {
-            if (prevMinutes === 59) {
-              setHours((prevHours) => prevHours + 1);
-              return 0;
-            }
-            return prevMinutes + 1;
-          });
+      setMinutes((prevMinutes) => {
+        if (prevMinutes === 59) {
+          setHours((prevHours) => Math.floor(prevHours) + 1);
           return 0;
         }
-        return prevSeconds + 1;
+        return Math.floor(prevMinutes) + 1;
       });
-    }, 1000);
+    }, 60000);
   };
 
   const stopTimer = () => {
@@ -58,6 +52,7 @@ const AdminHome = () => {
       if (response.data.result) {
         stopTimer();
         setPunch(false);
+        getTimer();
         dispatch(isLoader(false));
       } else {
         dispatch(isLoader(false));
@@ -70,9 +65,36 @@ const AdminHome = () => {
   const getTimer = async () => {
     try {
       dispatch(isLoader(true));
-      const response = await GET_TIMER(1);
+      const response = await GET_TIMER();
       if (response.data.result) {
         dispatch(isLoader(false));
+        if (response.data.data.timer.status == "running") {
+          setPunch(true)
+          setTimerRunning(true);
+          if (response.data.data.timer.running_duration.length == 4) {
+            setHours(response.data.data.timer.running_duration.slice(0, 1));
+            setMinutes(response.data.data.timer.running_duration.slice(2, 4));
+            startTimer();
+          } else if (response.data.data.timer.running_duration.length == 5) {
+            setHours(response.data.data.timer.running_duration.slice(0, 2));
+            setMinutes(response.data.data.timer.running_duration.slice(3, 5));
+            startTimer();
+          }
+        } else {
+          setPunch(false)
+          setTimerRunning(false);
+          if (response.data.data.timer.running_duration.length == 4) {
+            setHours(response.data.data.timer.running_duration.slice(0, 1));
+            setMinutes(response.data.data.timer.running_duration.slice(2, 4));
+            stopTimer();
+          } else if (response.data.data.timer.running_duration.length == 5) {
+            setHours(response.data.data.timer.running_duration.slice(0, 2));
+            setMinutes(response.data.data.timer.running_duration.slice(3, 5));
+            stopTimer();
+          }
+        }
+
+        console.log("length", response.data.data.timer.running_duration.length);
       } else {
         dispatch(isLoader(false));
       }
@@ -108,7 +130,7 @@ const AdminHome = () => {
   // }, []);
 
   useEffect(() => {
-    // getTimer();
+    getTimer();
   }, []);
 
   useEffect(() => {
@@ -265,10 +287,7 @@ const AdminHome = () => {
                       <span>
                         <small>{`${String(hours).padStart(2, "0")} : ${String(
                           minutes
-                        ).padStart(2, "0")} : ${String(seconds).padStart(
-                          2,
-                          "0"
-                        )}`}</small>
+                        ).padStart(2, "0")}`}</small>
                       </span>
                     </div>
                   </div>
@@ -276,14 +295,18 @@ const AdminHome = () => {
                     <button
                       type="button"
                       onClick={PunchOut}
-                      class={`btn mybtn punch-btn ${!punch ? "d-none" : null}`}
+                      class={`btn mybtn punch-btn ${
+                        !punch? "d-none" : null
+                      }`}
                     >
                       Punch Out
                     </button>
                     <button
                       type="button"
                       onClick={PunchIn}
-                      class={`btn mybtn punch-btn ${punch ? "d-none" : null}`}
+                      class={`btn mybtn punch-btn ${
+                        punch? "d-none" : null
+                      }`}
                     >
                       Punch In
                     </button>
