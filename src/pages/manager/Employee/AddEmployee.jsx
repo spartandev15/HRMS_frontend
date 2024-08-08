@@ -4,14 +4,15 @@ import Coming_soon from "../../../component/Coming_soon";
 const AddEmployee = () => {
   return (
     <>
+      <div className="col-lg-8 m-auto">
       <div className="modal-content p-4">
         <div className="d-flex justify-content-between">
           <h5>Add Employee</h5>
-          <p type="button" 
-          // onClick={close}
+          {/* <p type="button" 
+          onClick={close}
           >
             <i class="fa fa-x"></i>
-          </p>
+          </p> */}
         </div>
         <form>
           <div className="row">
@@ -120,6 +121,7 @@ const AddEmployee = () => {
             </div>
           </div>
         </form>
+      </div>
       </div>
     </>
   );

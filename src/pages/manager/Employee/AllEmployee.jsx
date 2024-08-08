@@ -17,7 +17,7 @@ const AllEmployee = () => {
                 <h5 class="m-0">Employee</h5>
               </div>
             </div>
-            <div className="col-8 text-end">
+            {/* <div className="col-8 text-end">
               <div>
                 <Popup
                   trigger={<button className="btn mybtn">Add Employee</button>}
@@ -170,7 +170,7 @@ const AllEmployee = () => {
                   )}
                 </Popup>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
