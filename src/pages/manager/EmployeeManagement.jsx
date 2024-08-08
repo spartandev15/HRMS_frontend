@@ -21,6 +21,7 @@ const EmployeeManagement = () => {
               <div>
                 <Popup
                   trigger={<button className="btn mybtn">Add Employee</button>}
+                  className="popup_div"
                   position="top center"
                   modal
                   closeOnDocumentClick

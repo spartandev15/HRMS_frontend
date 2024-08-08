@@ -35,6 +35,7 @@ const Navigation = () => {
         <Route path="/leave" element={<LeaveManagement />} />
         <Route path="/dashboard" element={<AdminDash />}>
           <Route path="" element={<AdminHome />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="manage_employee" element={<EmployeeManagement />} />
           <Route path="checklist" element={<Checklist />} />
           <Route path="timeoff" element={<TimeOff />} />
