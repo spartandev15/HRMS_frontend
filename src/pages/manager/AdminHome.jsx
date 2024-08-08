@@ -4,7 +4,13 @@ import userLogo from "../../asset/images/account.png";
 import User from "../../asset/images/profile.png";
 import { isLoader } from "../../store/actions";
 import { useDispatch } from "react-redux";
-import { GET_TIMER, RUN_TIMER, STORE_TIMER } from "../../api/Api";
+import {
+  GET_TIMER,
+  PUNCH_IN,
+  PUNCH_OUT,
+  RUN_TIMER,
+  STORE_TIMER,
+} from "../../api/Api";
 
 const AdminHome = () => {
   const dispatch = useDispatch();
@@ -20,11 +26,11 @@ const AdminHome = () => {
 
   const startTimer = () => {
     timerInterval.current = setInterval(() => {
-      setSeconds(prevSeconds => {
+      setSeconds((prevSeconds) => {
         if (prevSeconds === 59) {
-          setMinutes(prevMinutes => {
+          setMinutes((prevMinutes) => {
             if (prevMinutes === 59) {
-              setHours(prevHours => prevHours + 1);
+              setHours((prevHours) => prevHours + 1);
               return 0;
             }
             return prevMinutes + 1;
@@ -45,9 +51,20 @@ const AdminHome = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const PunchOut = () => {
-    stopTimer()
-    setPunch(false)
+  const PunchOut = async () => {
+    try {
+      dispatch(isLoader(true));
+      const response = await PUNCH_OUT();
+      if (response.data.result) {
+        stopTimer();
+        setPunch(false);
+        dispatch(isLoader(false));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
   };
 
   const getTimer = async () => {
@@ -70,21 +87,10 @@ const AdminHome = () => {
     };
     try {
       dispatch(isLoader(true));
-      const response = await STORE_TIMER(1, postData);
+      const response = await PUNCH_IN();
       if (response.data.result) {
         setPunch(true);
         startTimer();
-        dispatch(isLoader(false));
-      } else {
-        dispatch(isLoader(false));
-      }
-    } catch (err) {
-      dispatch(isLoader(false));
-    }
-    try {
-      dispatch(isLoader(true));
-      const response = await RUN_TIMER(1);
-      if (response.data.result) {
         dispatch(isLoader(false));
       } else {
         dispatch(isLoader(false));
@@ -102,7 +108,7 @@ const AdminHome = () => {
   // }, []);
 
   useEffect(() => {
-    getTimer();
+    // getTimer();
   }, []);
 
   useEffect(() => {
@@ -183,7 +189,7 @@ const AdminHome = () => {
               <div className="new_section shadow">
                 <div className="new_section_inner">
                   <i className="fas fa-calendar new_section_icon"></i>
-                  <h5 className="font-weight-bold">Upcomming Events</h5>
+                  <h5 className="font-weight-bold">Upcoming Events</h5>
                   <a href="#" className="new_section_t">
                     View All
                   </a>
@@ -256,7 +262,14 @@ const AdminHome = () => {
 
                   <div class="punch-info mt-3">
                     <div class="punch-hours">
-                      <span><small>{`${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`}</small></span>
+                      <span>
+                        <small>{`${String(hours).padStart(2, "0")} : ${String(
+                          minutes
+                        ).padStart(2, "0")} : ${String(seconds).padStart(
+                          2,
+                          "0"
+                        )}`}</small>
+                      </span>
                     </div>
                   </div>
                   <div class="punch-btn-section mb-0">

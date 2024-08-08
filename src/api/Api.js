@@ -164,9 +164,9 @@ const UPDATE_WORK_EXPERIENCE = async (data) => {
     });
 }
 
-const STORE_TIMER = async (id, data) => {
+const PUNCH_IN = async () => {
   return axios
-    .post(`${BASE_URL}/api/projects/timers/store/${id}`, data,  {
+    .get(`${BASE_URL}/api/projects/timers/punchin`,{
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
     .then((res) => {
@@ -177,9 +177,9 @@ const STORE_TIMER = async (id, data) => {
     });
 }
 
-const RUN_TIMER = async (id) => {
+const PUNCH_OUT = async () => {
   return axios
-    .get(`${BASE_URL}/api/projects/timers/active/${id}`, {
+    .get(`${BASE_URL}/api/projects/timers/punchout`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
     .then((res) => {
@@ -229,4 +229,4 @@ const GET_TIMER = async (id) => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE, STORE_TIMER, RUN_TIMER, PAUSE_TIMER, TAKE_SCREENSHOT, GET_TIMER };
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE, PUNCH_IN, PUNCH_OUT, PAUSE_TIMER, TAKE_SCREENSHOT, GET_TIMER };

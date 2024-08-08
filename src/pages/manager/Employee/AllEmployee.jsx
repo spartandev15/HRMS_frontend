@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import user from "../../asset/images/profile.png";
+import user from "../../../asset/images/profile.png";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { Link } from "react-router-dom";
 
-const EmployeeManagement = () => {
+const AllEmployee = () => {
   const Arraytopopulate = [1, 2, 3, 4, 5, 6];
 
   return (
@@ -274,4 +274,4 @@ const EmployeeManagement = () => {
   );
 };
 
-export default EmployeeManagement;
+export default AllEmployee;

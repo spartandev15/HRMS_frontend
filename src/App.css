@@ -345,6 +345,24 @@ input[type="password"]:focus {
   z-index: 9999 !important;
 }
 
+.nav-dropdown-menu{
+  top: 56px;
+}
+
+.dropdown-toggle:focus{
+  border: none;
+}
+
+.dropdown-toggle:active{
+  border: none;
+}
+
+.nav-dropdown-menu .dropdown-item:hover{
+  color: white;
+}
+
+
+
 /* Profile page css */
 
 .pic-holder-account {

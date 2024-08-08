@@ -70,42 +70,122 @@ const Header = () => {
             id="navbar1"
           >
             <ul className="navbar-nav navlink" id="navmenu">
-              <li
-                className="nav-item "
-                onClick={() => navigate("/dashboard/manage_employee")}
-              >
-                <NavLink activeclassname="active" className="nav-link" to=" ">
-                  Employees
-                </NavLink>
+              <li className="nav-item">
+                <div activeClassName="active" className="nav-link" to="#">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      Employee
+                    </button>
+                    <div className="nav-dropdown-menu dropdown-menu">
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("add_employee")}
+                      >
+                        Add Employee
+                      </a>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("all_employee")}
+                      >
+                        All Employee
+                      </a>
+                      <a className="dropdown-item" onClick={() => navigate("employee_birthday")}>
+                        Employee Birthday
+                      </a>
+                      <a className="dropdown-item" onClick={() => navigate("employee_work_anniversary")}>
+                        Employee Work Anniversary
+                      </a>
+                      <a className="dropdown-item" onClick={() => navigate("provisional_employee")}>
+                        Provisional Employee
+                      </a>
+                      <a className="dropdown-item" onClick={() => navigate("category")}>
+                        Category
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li
                 className="nav-item"
-                onClick={() => navigate("/dashboard/checklist")}
               >
-                <NavLink activeclassname="active" className="nav-link" to=" ">
-                  Checklists
-                </NavLink>
+                <div activeClassName="active" className="nav-link" to="#">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      Leave
+                    </button>
+                    <div className="nav-dropdown-menu dropdown-menu">
+                      <a className="dropdown-item" onClick={() => navigate("paid_leave")}>
+                        Paid Leave
+                      </a>
+                      <a className="dropdown-item" onClick={() => navigate("unpaid_leave")}>
+                        Unpaid Leave
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </li>
-
               <li
                 className="nav-item"
-                onClick={() => navigate("/dashboard/timeoff")}
               >
-                <NavLink activeclassname="active" className="nav-link" to=" ">
-                  Time Off
-                </NavLink>
+                <div activeClassName="active" className="nav-link">
+                  <div className="btn-group">
+                    <button type="button" className="btn" onClick={() => navigate("over_time")}>
+                      Over Time
+                    </button>
+                  </div>
+                </div>
               </li>
-              <li onClick={() => navigate("/dashboard/attendance")}>
-                <NavLink activeclassname="active" className="nav-link" to=" ">
-                  {" "}
-                  Attendance
-                </NavLink>
+              <li className="nav-item">
+                <div activeClassName="active" className="nav-link">
+                  <div className="btn-group">
+                    <button type="button" className="btn" onClick={() => navigate("documents")}>
+                      Documents
+                    </button>
+                  </div>
+                </div>
               </li>
-
-              <li onClick={() => navigate("/dashboard/recruitment")}>
-                <NavLink activeclassname="active" className="nav-link" to=" ">
-                  Recruitment
-                </NavLink>
+              <li className="nav-item">
+                <div activeClassName="active" className="nav-link">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      Recruitment
+                    </button>
+                    <div className="nav-dropdown-menu dropdown-menu">
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("vacancy")}
+                      >
+                        Vacancy
+                      </a>
+                      <a
+                        className="dropdown-item"
+                        onClick={() =>
+                          navigate("schedule_interview")
+                        }
+                      >
+                        Schedule Interview
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
