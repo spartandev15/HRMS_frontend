@@ -1,11 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import user from "../../../asset/images/profile.png";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { Link } from "react-router-dom";
+import { DELETE_EMPLOYEE, GET_EMPLOYEE } from "../../../api/Api";
+import { useDispatch } from "react-redux";
+import { isLoader, IsToast } from "../../../store/actions";
 
 const AllEmployee = () => {
-  const Arraytopopulate = [1, 2, 3, 4, 5, 6];
+  const dispatch = useDispatch();
+  // const Arraytopopulate = [1, 2, 3, 4, 5, 6];
+
+  const data = JSON.parse(localStorage.getItem("allEmployeeData")) || [];
+
+  const getData = async () => {
+    dispatch(isLoader(true));
+    try {
+      const response = await GET_EMPLOYEE();
+      if (response.data.result) {
+        console.log(response.data.employee);
+        localStorage.setItem(
+          "allEmployeeData",
+          JSON.stringify(response.data.employee)
+        );
+        dispatch(isLoader(false));
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
+  };
+
+  const onDelete = async () => {
+    dispatch(isLoader(true));
+    // try {
+    //   const response = await DELETE_EMPLOYEE(ID);
+    //   if (response.data.result) {
+    //     console.log(response.data);
+    //     // localStorage.setItem(
+    //     //   "allEmployeeData",
+    //     //   JSON.stringify(response.data.employee)
+    //     // );
+    //     dispatch(isLoader(false));
+    //     dispatch(IsToast("Success"));
+    //   } else {
+    //     dispatch(isLoader(false));
+    //   }
+    // } catch (err) {
+    //   dispatch(isLoader(false));
+    // }
+    dispatch(IsToast("Delete Employee Functionality is Coming Soon!"))
+    dispatch(isLoader(false));
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -210,63 +262,74 @@ const AllEmployee = () => {
       <section>
         <div className="container mt-4">
           <div className="row">
-            {Arraytopopulate.map((x) => {
-              return (
-                <div className="col-lg-4 col-md-4 col-sm-6 col-12 mb-4" key={x}>
-                  <div className="profile-widget">
-                    <div className="profile-img">
-                      <a className="avatarimg" href="#">
-                        <img src={user} alt="" />
-                      </a>
-                    </div>
-                    <div className="dropdown profile-action">
-                      <a
-                        className="action-icon dropdown-toggle"
-                        data-bs-toggle="dropdown"
-                      >
-                        <i class="fa fa-ellipsis-v "></i>
-                      </a>
-                      <div className="dropdown-menu dropdown-menu-right">
-                        <Link
-                          className="dropdown-item"
-                          to="viewPersonalDetails"
+            {data
+              ? data.map((x) => {
+                  return (
+                    <div
+                      className="col-lg-4 col-md-4 col-sm-6 col-12 mb-4"
+                      key={x}
+                    >
+                      <div className="profile-widget">
+                        <div className="profile-img">
+                          <a className="avatarimg" href="#">
+                            <img src={user} alt="" />
+                          </a>
+                        </div>
+                        <div className="dropdown profile-action">
+                          <a
+                            className="action-icon dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                          >
+                            <i class="fa fa-ellipsis-v "></i>
+                          </a>
+                          <div className="dropdown-menu dropdown-menu-right">
+                            <Link
+                              className="dropdown-item"
+                              to="viewPersonalDetails"
+                            >
+                              <i className="fa fa-pencil m-r-5"></i> Edit
+                            </Link>
+                            <Link
+                              className="dropdown-item"
+                              to="#"
+                            >
+                              <i className="fa-regular fa-trash-can m-r-5" onClick={onDelete()}></i>{" "}
+                              Delete
+                            </Link>
+                          </div>
+                        </div>
+                        <h4 className="user-name m-t-10 mb-0 p-1 text-ellipsis">
+                          <a href="#">{x.first_name + " " + x.last_name}</a>
+                        </h4>
+                        <h6 className="user-name m-t-6 mb-0 text-ellipsis">
+                          <a href="#">{x.employee_id}</a>
+                        </h6>
+                        <div className="small text-muted">{x.designation}</div>
+                        <div
+                          className="small text-muted"
+                          href="tel:+1-7807114210"
                         >
-                          <i className="fa fa-pencil m-r-5"></i> Edit
-                        </Link>
-                        <Link
-                          className="dropdown-item"
+                          <i className="fa fa-phone"></i>&nbsp;{x.phone}
+                        </div>
+                        <div
+                          className="small text-muted"
+                          href={`mailto:${x.email}`}
                         >
-                          <i className="fa-regular fa-trash-can m-r-5"></i>{" "}
-                          Delete
-                        </Link>
+                          <i className="fa fa-envelope"></i>&nbsp;
+                          {x.email}
+                        </div>
+                        <hr
+                          class="hr"
+                          style={{ marginBlock: "0.5rem", opacity: "0.1" }}
+                        />
+                        <div className="small text-muted">
+                          Line Manager - {x.line_manager}
+                        </div>
                       </div>
                     </div>
-                    <h4 className="user-name m-t-10 mb-0 p-1 text-ellipsis">
-                      <a href="#">John Doe</a>
-                    </h4>
-                    <h6 className="user-name m-t-6 mb-0 text-ellipsis">
-                      <a href="#">SP1234</a>
-                    </h6>
-                    <div className="small text-muted">Web Designer</div>
-                    <div className="small text-muted" href="tel:+1-7807114210">
-                      <i className="fa fa-phone"></i>&nbsp;+1-7807114210
-                    </div>
-                    <div
-                      className="small text-muted"
-                      href="mailto:himanshu@spartanbots.com"
-                    >
-                      <i className="fa fa-envelope"></i>&nbsp;
-                      himanshu@spartanbots.com
-                    </div>
-                    <hr
-                    class="hr"
-                    style={{ marginBlock: "0.5rem", opacity: "0.1" }}
-                  />
-                     <div className="small text-muted">Line Manager -</div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })
+              : null}
           </div>
         </div>
       </section>

@@ -17,6 +17,8 @@ const AdminHome = () => {
   //   const navigate = useNavigate();
   // const name = localStorage.getItem("userName");
 
+  const punchInData = JSON.parse(localStorage.getItem("punchInData")) || {}
+
   const [punch, setPunch] = useState(false);
   const [isTimerRunning, setTimerRunning] = useState(false);
 
@@ -112,6 +114,7 @@ const AdminHome = () => {
       const response = await PUNCH_IN();
       if (response.data.result) {
         setPunch(true);
+        localStorage.setItem("punchInData", JSON.stringify(response.data.data.timer) )
         startTimer();
         dispatch(isLoader(false));
       } else {
@@ -278,7 +281,7 @@ const AdminHome = () => {
                     <i className="fas fa-plane new_section_icon"></i>
                     <h5 className="font-weight-bold">Timesheet</h5>
                     <a href="#" className="new_section_t">
-                      30 Aug 2023
+                    {(punchInData.started_at).slice(0,10)}
                     </a>
                   </div>
 
@@ -315,7 +318,7 @@ const AdminHome = () => {
                     <div class="punch-det text-start">
                       <h6>Punch In at</h6>
                       <div className="puch_t">
-                        <p>Wed, 30 Aug 2023</p> <span>10.00 AM</span>
+                        <p>{(punchInData.started_at).slice(0,10)}</p> <span>{(punchInData.started_at).slice(11,16)}</span>
                       </div>
                     </div>
                   </div>
