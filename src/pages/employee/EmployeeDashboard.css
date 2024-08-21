@@ -1,0 +1,114 @@
+/* src/EmployeeDashboard.css */
+
+.dashboard {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-header {
+  background-color: #4caf50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.sechrcard h2 {
+  margin-top: 0;
+  color: var(--second-color);
+}
+
+.dashboard-main {
+  padding: 2rem;
+}
+
+.profile-overview,
+.recent-activities,
+.quick-links {
+  background: #f4f4f4;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-image:hover {
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.44);
+  -moz-transform: translateX(-50%) translateY(-50%) scale(0.44);
+  -o-transform: translateX(-50%) translateY(-50%) scale(0.44);
+  transform: translateX(-50%) translateY(-50%) scale(0.44);
+}
+
+.profile-images {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 160px;
+  height: 160px;
+  margin: auto;
+  border: 3px solid var(--primary-color);
+  box-shadow: 2px 2px 6px 2px #888888b4; 
+}
+
+.profile-image {
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -ms-transition: all 0.4s ease-in-out;
+}
+
+.profile-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.4);
+  -moz-transform: translateX(-50%) translateY(-50%)  scale(0.4);
+  -o-transform: translateX(-50%) translateY(-50%)  scale(0.4);
+  transform: translateX(-50%) translateY(-50%)  scale(0.4);
+}
+
+.profile-details {
+  text-align: left;
+}
+
+.profile-details p {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.profile-details h3 {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 0.5rem 0;
+}
+
+a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .profile-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-image {
+    margin-bottom: 1rem;
+  }
+}

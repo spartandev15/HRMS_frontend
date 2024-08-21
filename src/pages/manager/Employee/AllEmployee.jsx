@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import user from "../../../asset/images/profile.png";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DELETE_EMPLOYEE, GET_EMPLOYEE } from "../../../api/Api";
 import { useDispatch } from "react-redux";
 import { isLoader, IsToast } from "../../../store/actions";
 
 const AllEmployee = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   // const Arraytopopulate = [1, 2, 3, 4, 5, 6];
 
@@ -33,27 +34,27 @@ const AllEmployee = () => {
     }
   };
 
-  const onDelete = async () => {
+  const onDelete = async (ID) => {
     dispatch(isLoader(true));
-    // try {
-    //   const response = await DELETE_EMPLOYEE(ID);
-    //   if (response.data.result) {
-    //     console.log(response.data);
-    //     // localStorage.setItem(
-    //     //   "allEmployeeData",
-    //     //   JSON.stringify(response.data.employee)
-    //     // );
-    //     dispatch(isLoader(false));
-    //     dispatch(IsToast("Success"));
-    //   } else {
-    //     dispatch(isLoader(false));
-    //   }
-    // } catch (err) {
-    //   dispatch(isLoader(false));
-    // }
-    dispatch(IsToast("Delete Employee Functionality is Coming Soon!"))
+    try {
+      const response = await DELETE_EMPLOYEE(ID);
+      if (response.data.result) {
+        console.log(response.data);
+        // localStorage.setItem(
+        //   "allEmployeeData",
+        //   JSON.stringify(response.data.employee)
+        // );
+        dispatch(isLoader(false));
+        dispatch(IsToast("Success"));
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+    }
+    dispatch(IsToast("Delete Employee Functionality is Coming Soon!"));
     dispatch(isLoader(false));
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -268,6 +269,7 @@ const AllEmployee = () => {
                     <div
                       className="col-lg-4 col-md-4 col-sm-6 col-12 mb-4"
                       key={x}
+                      // onClick={() => navigate("/")}
                     >
                       <div className="profile-widget">
                         <div className="profile-img">
@@ -285,29 +287,29 @@ const AllEmployee = () => {
                           <div className="dropdown-menu dropdown-menu-right">
                             <Link
                               className="dropdown-item"
-                              to="viewPersonalDetails"
-                            >
-                              <i className="fa fa-pencil m-r-5"></i> Edit
-                            </Link>
-                            <Link
-                              className="dropdown-item"
                               to="#"
                             >
-                              <i className="fa-regular fa-trash-can m-r-5" onClick={onDelete()}></i>{" "}
-                              Delete
+                              <span>
+                              <i className="fa fa-pencil m-r-5"></i> Edit
+                              </span>
+                            </Link>
+                            <Link className="dropdown-item" to="#">
+                              <span onClick={() => onDelete(x.id)}>
+                                <i className="fa-regular fa-trash-can m-r-5"></i>{" "}
+                                Delete
+                              </span>
                             </Link>
                           </div>
                         </div>
                         <h4 className="user-name m-t-10 mb-0 p-1 text-ellipsis">
-                          <a href="#">{x.first_name + " " + x.last_name}</a>
+                          {x.first_name + " " + x.last_name}
                         </h4>
                         <h6 className="user-name m-t-6 mb-0 text-ellipsis">
-                          <a href="#">{x.employee_id}</a>
+                          {x.employee_id}
                         </h6>
                         <div className="small text-muted">{x.designation}</div>
                         <div
                           className="small text-muted"
-                          href="tel:+1-7807114210"
                         >
                           <i className="fa fa-phone"></i>&nbsp;{x.phone}
                         </div>

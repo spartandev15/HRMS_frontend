@@ -281,7 +281,8 @@ const AdminHome = () => {
                     <i className="fas fa-plane new_section_icon"></i>
                     <h5 className="font-weight-bold">Timesheet</h5>
                     <a href="#" className="new_section_t">
-                    {(punchInData.started_at).slice(0,10)}
+                    {(punchInData.today_punchin).slice(0,10)}
+                    {/* 2024-08-13 */}
                     </a>
                   </div>
 
@@ -318,7 +319,8 @@ const AdminHome = () => {
                     <div class="punch-det text-start">
                       <h6>Punch In at</h6>
                       <div className="puch_t">
-                        <p>{(punchInData.started_at).slice(0,10)}</p> <span>{(punchInData.started_at).slice(11,16)}</span>
+                        <p>{(punchInData.today_punchin).slice(0,10)}</p> <span>{(punchInData.today_punchin).slice(11,16)}</span>
+                        {/* <p>2024-08-13</p> <span>09:25</span> */}
                       </div>
                     </div>
                   </div>

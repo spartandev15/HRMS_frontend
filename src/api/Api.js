@@ -257,7 +257,7 @@ const GET_EMPLOYEE = async () => {
 
 const DELETE_EMPLOYEE = async (ID) => {
   return axios
-    .get(`${BASE_URL}/api/delete/employee`, {id: ID}, {
+    .post(`${BASE_URL}/api/delete/employee`, {id: ID}, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
     .then((res) => {
@@ -268,4 +268,30 @@ const DELETE_EMPLOYEE = async (ID) => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE, PUNCH_IN, PUNCH_OUT, PAUSE_TIMER, TAKE_SCREENSHOT, GET_TIMER, ADD_EMPLOYEE, GET_EMPLOYEE, DELETE_EMPLOYEE };
+const ADD_LEAVE = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/add/leave`, data,  {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+const GET_LEAVES = async () => {
+  return axios
+    .get(`${BASE_URL}/api/get/leaves`,  {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE, PUNCH_IN, PUNCH_OUT, PAUSE_TIMER, TAKE_SCREENSHOT, GET_TIMER, ADD_EMPLOYEE, GET_EMPLOYEE, DELETE_EMPLOYEE, ADD_LEAVE, GET_LEAVES };
