@@ -2,8 +2,26 @@
 
 import React from "react";
 import "./EmployeeDashboard.css";
+import { GET_PROFILE } from "../../api/Api";
+import userLogo from "../../asset/images/profile.png"
 
 const EmployeeDashboard = () => {
+  const userData = JSON.parse(localStorage.getItem("myProfile"));
+
+  const getProfile = async () => {
+    try {
+      const response = await GET_PROFILE();
+      if (response.data.result) {
+        console.log(response.data.user);
+        localStorage.setItem("myProfile", JSON.stringify(response.data.user));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+
   return (
     <>
       <section className="mt-3">
@@ -17,7 +35,7 @@ const EmployeeDashboard = () => {
                     <div className="row">
                       <div className="col-lg-3 profile-images">
                         <img
-                          src="https://i.ibb.co/KqWRYhD/pexels-olly-762020.jpg"
+                          src={userData.profile_photo || userLogo}
                           alt="Profile"
                           className="profile-image"
                         />
@@ -26,21 +44,21 @@ const EmployeeDashboard = () => {
                       <div className="col-lg-3">
                         <div className="profile-details ml-3">
                           <p>Name</p>
-                          <h6>Test Employee</h6>
+                          <h6>{userData.name}</h6>
                           <p>Profile</p>
-                          <h6>Software Engineer</h6>
+                          <h6>{userData.designation}</h6>
                           <p>Employee ID</p>
-                          <h6>12345</h6>
+                          <h6>{userData.emp_id}</h6>
                         </div>
                       </div>
                       <div className="col-lg-3">
                         <div className="profile-details ml-3">
                           <p>Date of Joining</p>
-                          <h6>12-09-2023</h6>
+                          <h6>{userData.joining_date}</h6>
                           <p>Email</p>
-                          <h6>abc@gmail.com</h6>
+                          <h6>{userData.email}</h6>
                           <p>Phone</p>
-                          <h6>91+ 7689875788</h6>
+                          <h6>{userData.phone}</h6>
                         </div>
                       </div>
                       <div className="col-lg-3">
@@ -92,12 +110,23 @@ const EmployeeDashboard = () => {
                         <i class="fa-solid fa-pen-to-square"></i>
                       </td>
                     </tr>
-                    {[{date: 6, day: "Friday"}, {date: 5, day: "Thursday"}, {date: 4, day: "Wednesday"}, {date: 3, day: "Tuesday"}, {date: 2, day: "Monday"}, {date: 1, day: "Sunday"}].map((x) => {
+                    {[
+                      { date: 6, day: "Friday" },
+                      { date: 5, day: "Thursday" },
+                      { date: 4, day: "Wednesday" },
+                      { date: 3, day: "Tuesday" },
+                      { date: 2, day: "Monday" },
+                      { date: 1, day: "Sunday" },
+                    ].map((x) => {
                       return (
                         <tr>
                           <th scope="row">1{x.date}-08-2024</th>
                           <td>{x.day}</td>
-                          <td>{`${x.day === "Sunday" || x.day === "Saturday" ? "00:00" : "08:30"}`}</td>
+                          <td>{`${
+                            x.day === "Sunday" || x.day === "Saturday"
+                              ? "00:00"
+                              : "08:30"
+                          }`}</td>
                           <td>
                             <i class="fa-solid fa-pen-to-square"></i>
                           </td>

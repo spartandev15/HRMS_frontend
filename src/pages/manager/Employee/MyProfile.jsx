@@ -3,12 +3,7 @@ import user from "../../asset/images/profile.png";
 import $ from "jquery";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  isLoader,
-  IsToast,
-  updateProfile,
-  userDetail,
-} from "../../store/actions";
+import { isLoader, IsToast, updateProfile, userDetail } from "../../store/actions";
 import {
   GET_PROFILE,
   UPDATE_ADDRESS,
@@ -21,20 +16,20 @@ import {
   UPDATE_WORK_EXPERIENCE,
 } from "../../api/Api";
 
-const ViewEmployeeDetail = () => {
+const MyProfile = () => {
   const dispatch = useDispatch();
 
-  // const user_role = localStorage.getItem("role") || "";
+  const user_role = localStorage.getItem("role") || "";
 
-  // const isMyProfile = localStorage.getItem("isMyProfile") || true;
+  const isMyProfile = localStorage.getItem("isMyProfile") || true;
 
-  const Profile_data = JSON.parse(localStorage.getItem("user"));
+  const Profile_data = JSON.parse(localStorage.getItem("myProfile"));
 
   const navigate = useNavigate();
 
   const [profileImageFile, setprofileImageFile] = useState();
 
-  const oldData = JSON.parse(localStorage.getItem("user"));
+  const oldData = JSON.parse(localStorage.getItem("myProfile"));
 
   const [data, setData] = useState({
     fullname: oldData.name || "",
@@ -148,7 +143,7 @@ const ViewEmployeeDetail = () => {
       const response = await GET_PROFILE();
       if (response.data.result) {
         console.log(response.data.user);
-        dispatch(userDetail(response.data.user));
+        dispatch(userDetail(response.data.user))
         localStorage.setItem("user", JSON.stringify(response.data.user));
       }
     } catch (err) {
@@ -442,7 +437,7 @@ const ViewEmployeeDetail = () => {
             <div className="col-lg-3 col-md-3 col-sm-12 pd-4 ">
               <div className="viewem border">
                 <div className="employebox">
-                  {/* <div
+                  <div
                     className={`w-100 d-flex justify-content-center ${
                       isMyProfile ? "" : "d-none"
                     }`}
@@ -472,13 +467,21 @@ const ViewEmployeeDetail = () => {
                         </span>
                       </label>
                     </div>
-                  </div> */}
-                  <div className={`profile-pic-wrapper`}>
-                    <div className="pic-holder profile-images">
+                  </div>
+                  <div
+                    className={`profile-pic-wrapper ${
+                      !isMyProfile ? "" : "d-none"
+                    }`}
+                  >
+                    <div className="pic-holder">
                       <img
                         className="pic"
-                        src={Profile_data.profile_photo || user}
-                        alt="profile profile-image"
+                        src={
+                          Profile_data.profile_photo
+                            ? Profile_data.profile_photo
+                            : user
+                        }
+                        alt="profile"
                       />
                     </div>
                   </div>
@@ -548,9 +551,7 @@ const ViewEmployeeDetail = () => {
                       >
                         Line Manager
                       </h6>
-                      <div class="small text-muted">
-                        {job_details.line_member}
-                      </div>
+                      <div class="small text-muted">{job_details.line_member}</div>
                     </div>
                   </div>
                 </div>
@@ -2005,4 +2006,4 @@ const ViewEmployeeDetail = () => {
   );
 };
 
-export default ViewEmployeeDetail;
+export default MyProfile;

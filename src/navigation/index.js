@@ -36,6 +36,9 @@ import ApplyForLeave from "../pages/employee/leave&attendance/ApplyForLeave";
 import LeaveBalance from "../pages/employee/leave&attendance/LeaveBalance";
 import AttendanceHistory from "../pages/employee/leave&attendance/AttendanceHistory";
 import LeaveHistory from "../pages/employee/leave&attendance/LeaveHistory";
+import PendingLeave from "../pages/manager/Leave/PendingLeave";
+import AddEvent from "../pages/manager/AddEvent";
+import MyProfile from "../pages/manager/MyProfile";
 // import EmployeeManagement from "../pages/manager/EmployeeManagement";
 
 const Navigation = () => {
@@ -69,11 +72,14 @@ const Navigation = () => {
           <Route path="category" element={<Category />} />
           <Route path="paid_leave" element={<PaidLeave />} />
           <Route path="unpaid_leave" element={<UnpaidLeave />} />
+          <Route path="pending_leave" element={<PendingLeave />} />
           <Route path="over_time" element={<OverTime />} />
           <Route path="documents" element={<Documents />} />
+          <Route path="add_event" element={<AddEvent />} />
           <Route path="vacancy" element={<Vacancy />} />
           <Route path="schedule_interview" element={<ScheduleInterview />} />
-          <Route path="viewPersonalDetails" element={<ViewEmployeeDetail />} />
+          <Route path="myProfile" element={<MyProfile />} />
+          <Route path="employee_detail" element={<ViewEmployeeDetail />} />
         </Route>
         <Route path="/employee_dashboard" element={<EmployeeHome />}>
           <Route path="" element={<EmployeeDashboard />} />
@@ -86,6 +92,7 @@ const Navigation = () => {
           <Route path="leave_balance" element={<LeaveBalance />} />
           <Route path="attendance_history" element={<AttendanceHistory />} />
           <Route path="leave_history" element={<LeaveHistory />} />
+          <Route path="myProfile" element={<MyProfile />} />
         </Route>
       </Routes>
     </>

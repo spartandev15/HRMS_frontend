@@ -3,16 +3,18 @@ import user from "../../../asset/images/profile.png";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { Link, useNavigate } from "react-router-dom";
-import { DELETE_EMPLOYEE, GET_EMPLOYEE } from "../../../api/Api";
+import { DELETE_EMPLOYEE, GET_EMPLOYEE, GET_PROFILE } from "../../../api/Api";
 import { useDispatch } from "react-redux";
 import { isLoader, IsToast } from "../../../store/actions";
 
 const AllEmployee = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   // const Arraytopopulate = [1, 2, 3, 4, 5, 6];
 
   const data = JSON.parse(localStorage.getItem("allEmployeeData")) || [];
+
+  console.log(data);
 
   const getData = async () => {
     dispatch(isLoader(true));
@@ -34,6 +36,24 @@ const AllEmployee = () => {
     }
   };
 
+  const onViewUserDetails = async (id) => {
+    try {
+      dispatch(isLoader(true));
+      const response = await GET_PROFILE(id);
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        console.log("Employee Profile data: ", response.data.user);
+        navigate("/admin_dashboard/employee_detail");
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      dispatch(isLoader(false));
+      console.log(err);
+    }
+  };
+
   const onDelete = async (ID) => {
     dispatch(isLoader(true));
     try {
@@ -52,8 +72,8 @@ const AllEmployee = () => {
     } catch (err) {
       dispatch(isLoader(false));
     }
-    dispatch(IsToast("Delete Employee Functionality is Coming Soon!"));
-    dispatch(isLoader(false));
+    // dispatch(IsToast("Delete Employee Functionality is Coming Soon!"));
+    // dispatch(isLoader(false));
   };
 
   useEffect(() => {
@@ -70,160 +90,6 @@ const AllEmployee = () => {
                 <h5 class="m-0">Employee</h5>
               </div>
             </div>
-            {/* <div className="col-8 text-end">
-              <div>
-                <Popup
-                  trigger={<button className="btn mybtn">Add Employee</button>}
-                  className="popup_div"
-                  position="top center"
-                  modal
-                  closeOnDocumentClick
-                >
-                  {(close) => (
-                    <div className="modal-content p-4">
-                      <div className="d-flex justify-content-between">
-                        <h5>Add Employee</h5>
-                        <p type="button" onClick={close}>
-                        <i class="fa fa-x"></i>
-                        </p>
-                      </div>
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input
-                                type="text"
-                                id="first_name"
-                                name="first_name"
-                                required
-                              />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                First Name<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input
-                                type="text"
-                                id="last_name"
-                                name="last_name"
-                                required
-                              />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                Last Name
-                              </label>
-                            </div>
-                          </div>{" "}
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input
-                                type="text"
-                                id="user_name"
-                                name="user_name"
-                                required
-                              />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                User Name<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                required
-                              />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                Email<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>{" "}
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input type="password" required />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                Password<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input type="password" required />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                Confirm Password
-                                <span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>{" "}
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input type="text" required />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                Employee Id<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input
-                                type="date"
-                                name="dateOfJoining"
-                                required
-                              />
-                              <label className="form-label">
-                                {" "}
-                                Joining Date<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>{" "}
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input type="text" required />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                Phone Number<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="col-lg-6">
-                            <div className="form-outline">
-                              <input type="password" required />
-                              <label className="form-label" for="typeText">
-                                {" "}
-                                Designation<span className=" required">*</span>
-                              </label>
-                            </div>
-                          </div>{" "}
-                        </div>
-                        <div className="row">
-                          <div className="col-lg-12 text-center">
-                            <button className="btn mybtn">Submit</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  )}
-                </Popup>
-              </div>
-            </div> */}
           </div>
         </div>
       </section>
@@ -272,9 +138,9 @@ const AllEmployee = () => {
                       // onClick={() => navigate("/")}
                     >
                       <div className="profile-widget">
-                        <div className="profile-img">
+                        <div className="profile-img profile-images">
                           <a className="avatarimg" href="#">
-                            <img src={user} alt="" />
+                            <img src={x.employeeprofile || user} className="" alt="" />
                           </a>
                         </div>
                         <div className="dropdown profile-action">
@@ -285,12 +151,11 @@ const AllEmployee = () => {
                             <i class="fa fa-ellipsis-v "></i>
                           </a>
                           <div className="dropdown-menu dropdown-menu-right">
-                            <Link
-                              className="dropdown-item"
-                              to="#"
-                            >
-                              <span>
-                              <i className="fa fa-pencil m-r-5"></i> Edit
+                            <Link className="dropdown-item" to="#">
+                              <span
+                                onClick={() => onViewUserDetails(x.user_id)}
+                              >
+                                <i className="fa fa-pencil m-r-5"></i> Edit
                               </span>
                             </Link>
                             <Link className="dropdown-item" to="#">
@@ -308,9 +173,7 @@ const AllEmployee = () => {
                           {x.employee_id}
                         </h6>
                         <div className="small text-muted">{x.designation}</div>
-                        <div
-                          className="small text-muted"
-                        >
+                        <div className="small text-muted">
                           <i className="fa fa-phone"></i>&nbsp;{x.phone}
                         </div>
                         <div

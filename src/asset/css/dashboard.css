@@ -131,6 +131,7 @@ input[type="date"]::-moz-calendar-picker-indicator {
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .droplogin1 li {
@@ -639,6 +640,7 @@ li a.dropbtn-txt:hover {
 /*Employee Page*/
 .profile-widget {
   background-color: var(--white-color);
+  height: 340px;
   border: 1px solid #e9e9ea;
   border-radius: 4px;
   box-shadow: 0 1px 1px 0 #0003;
@@ -794,6 +796,7 @@ color: var(--white-color);
 
 .infoedit3 {
   color: #fff;
+  width: fit-content;
   background: var(--primary-color);
   padding: 3px 20px;
   border: none;

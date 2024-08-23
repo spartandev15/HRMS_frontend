@@ -27,3 +27,11 @@ export const updateProfile = (data) => {
     payload: data
   }
 }
+
+export const userDetail = (data) => {
+  return {
+    type: "USER_DETAIL",
+    payload: data
+  }
+}
+

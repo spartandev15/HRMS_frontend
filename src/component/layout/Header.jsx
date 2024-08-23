@@ -4,11 +4,11 @@ import logo from "../../asset/images/orpect1.png";
 import user from "../../asset/images/account.png";
 import "../../asset/css/dashboard.css";
 import { GET_PROFILE, LOGOUT_API } from "../../api/Api";
-import { useDispatch } from "react-redux";
-import { isLoader } from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { isLoader, userDetail } from "../../store/actions";
 
 const Header = () => {
-  const [Profile_data, setProfile_data] = useState("");
+  const Profile_data = useSelector((s) => s.user_detail)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dashboardType, setDashboardType] = useState("Employee");
@@ -16,12 +16,21 @@ const Header = () => {
     try {
       const response = await GET_PROFILE();
       if (response.data.result) {
-        console.log(response.data.user);
-        setProfile_data(response.data.user.profile_photo);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        dispatch(userDetail(response.data.user))
+        // console.log(response.data.user);
+        localStorage.setItem("myProfile", JSON.stringify(response.data.user));
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const setRole = () => {
+    const role = localStorage.getItem("role");
+    if (role == "HR") {
+      setDashboardType("Manager");
+    } else {
+      setDashboardType("Employee");
     }
   };
   const onLogout = async () => {
@@ -32,6 +41,7 @@ const Header = () => {
         dispatch(isLoader(false));
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        localStorage.removeItem("role");
         navigate("/login");
       }
     } catch (err) {
@@ -41,6 +51,7 @@ const Header = () => {
   };
 
   useEffect(() => {
+    setRole();
     getProfile();
   }, []);
 
@@ -50,13 +61,19 @@ const Header = () => {
         <div className="container">
           <div
             className="navbar-brand logobar"
-            onClick={() => navigate("/admin_dashboard")}
+            onClick={() =>
+              navigate(
+                `/${
+                  dashboardType == "Employee" ? "employee" : "admin"
+                }_dashboard`
+              )
+            }
           >
             <img src={logo} alt="Orpect" width={150} />
           </div>
 
           <button
-            className="navbar-toggler navbar-toggler-right  "
+            className="navbar-toggler navbar-toggler-right"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbar1"
@@ -126,6 +143,12 @@ const Header = () => {
                       >
                         Category
                       </a>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("documents")}
+                      >
+                        Documents
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -143,6 +166,12 @@ const Header = () => {
                       Leave
                     </button>
                     <div className="nav-dropdown-menu dropdown-menu">
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("pending_leave")}
+                      >
+                        Pending Leave
+                      </a>
                       <a
                         className="dropdown-item"
                         onClick={() => navigate("paid_leave")}
@@ -172,16 +201,32 @@ const Header = () => {
                   </div>
                 </div>
               </li>
-              <li className="nav-item"> 
-                <div activeClassName="active" className="nav-link">
+              <li className="nav-item">
+                <div activeClassName="active" className="nav-link" to="#">
                   <div className="btn-group">
                     <button
                       type="button"
-                      className="btn"
-                      onClick={() => navigate("documents")}
+                      className="btn dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
                     >
-                      Documents
+                      Events
                     </button>
+                    <div className="nav-dropdown-menu dropdown-menu">
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("add_event")}
+                      >
+                        Add Event
+                      </a>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("all_events")}
+                      >
+                        All Events
+                      </a>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -435,7 +480,7 @@ const Header = () => {
             >
               <img
                 // src={profile_photo ? profile_photo : user}
-                src={Profile_data ? Profile_data : user}
+                src={Profile_data.profile_photo || user}
                 className="droplogin"
                 alt="user"
                 height={35}
@@ -447,7 +492,7 @@ const Header = () => {
                 <NavLink
                   activeClassName="active"
                   className="dropdown-item dropbtn-txt"
-                  to="viewPersonalDetails"
+                  to="myProfile"
                 >
                   Profile
                 </NavLink>

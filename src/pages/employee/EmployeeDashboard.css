@@ -37,10 +37,10 @@
 }
 
 .profile-image:hover {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.44);
-  -moz-transform: translateX(-50%) translateY(-50%) scale(0.44);
-  -o-transform: translateX(-50%) translateY(-50%) scale(0.44);
-  transform: translateX(-50%) translateY(-50%) scale(0.44);
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.08);
+  -moz-transform: translateX(-50%) translateY(-50%) scale(0.08);
+  -o-transform: translateX(-50%) translateY(-50%) scale(0.08);
+  transform: translateX(-50%) translateY(-50%) scale(0.08);
 }
 
 .profile-images {
@@ -65,10 +65,10 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.4);
-  -moz-transform: translateX(-50%) translateY(-50%)  scale(0.4);
-  -o-transform: translateX(-50%) translateY(-50%)  scale(0.4);
-  transform: translateX(-50%) translateY(-50%)  scale(0.4);
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.07);
+  -moz-transform: translateX(-50%) translateY(-50%)  scale(0.07);
+  -o-transform: translateX(-50%) translateY(-50%)  scale(0.07);
+  transform: translateX(-50%) translateY(-50%)  scale(0.07);
 }
 
 .profile-details {

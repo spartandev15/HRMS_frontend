@@ -43,9 +43,9 @@ const LOGOUT_API = async () => {
     });
 };
 
-const GET_PROFILE = async () => {
+const GET_PROFILE = async (id) => {
   return axios
-    .get(`${BASE_URL}/api/get/profile`, {
+    .get(`${BASE_URL}/api/get/profile${id? `?id=${id}` : ''}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
     .then((res) => {
@@ -294,4 +294,17 @@ const GET_LEAVES = async () => {
     });
 }
 
-export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE, PUNCH_IN, PUNCH_OUT, PAUSE_TIMER, TAKE_SCREENSHOT, GET_TIMER, ADD_EMPLOYEE, GET_EMPLOYEE, DELETE_EMPLOYEE, ADD_LEAVE, GET_LEAVES };
+const ADD_EVENT = async (data) => {
+  return axios
+    .post(`${BASE_URL}/api/add/events`, data,  {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export { LOGIN_API, SIGNUP_API, LOGOUT_API, GET_PROFILE, UPDATE_PROFILE_INFORMATION, UPDATE_PROFILE_IMAGE, UPDATE_EMERGENCY_CONTACT, UPDATE_ADDRESS, UPDATE_SALARY, UPDATE_JOB_DETAILS, UPDATE_EDUCATION, UPDATE_WORK_EXPERIENCE, PUNCH_IN, PUNCH_OUT, PAUSE_TIMER, TAKE_SCREENSHOT, GET_TIMER, ADD_EMPLOYEE, GET_EMPLOYEE, DELETE_EMPLOYEE, ADD_LEAVE, GET_LEAVES, ADD_EVENT };

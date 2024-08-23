@@ -5,6 +5,7 @@ import User from "../../asset/images/profile.png";
 import { isLoader } from "../../store/actions";
 import { useDispatch } from "react-redux";
 import {
+  GET_LEAVES,
   GET_TIMER,
   PUNCH_IN,
   PUNCH_OUT,
@@ -17,9 +18,10 @@ const AdminHome = () => {
   //   const navigate = useNavigate();
   // const name = localStorage.getItem("userName");
 
-  const punchInData = JSON.parse(localStorage.getItem("punchInData")) || {}
+  const punchInData = JSON.parse(localStorage.getItem("punchInData")) || {};
 
   const [punch, setPunch] = useState(false);
+  const [leaves, setLeaves] = useState([]);
   const [isTimerRunning, setTimerRunning] = useState(false);
 
   const [hours, setHours] = useState(0);
@@ -71,7 +73,7 @@ const AdminHome = () => {
       if (response.data.result) {
         dispatch(isLoader(false));
         if (response.data.data.timer.status == "running") {
-          setPunch(true)
+          setPunch(true);
           setTimerRunning(true);
           if (response.data.data.timer.running_duration.length == 4) {
             setHours(response.data.data.timer.running_duration.slice(0, 1));
@@ -83,7 +85,7 @@ const AdminHome = () => {
             startTimer();
           }
         } else {
-          setPunch(false)
+          setPunch(false);
           setTimerRunning(false);
           if (response.data.data.timer.running_duration.length == 4) {
             setHours(response.data.data.timer.running_duration.slice(0, 1));
@@ -114,7 +116,10 @@ const AdminHome = () => {
       const response = await PUNCH_IN();
       if (response.data.result) {
         setPunch(true);
-        localStorage.setItem("punchInData", JSON.stringify(response.data.data.timer) )
+        localStorage.setItem(
+          "punchInData",
+          JSON.stringify(response.data.data.timer)
+        );
         startTimer();
         dispatch(isLoader(false));
       } else {
@@ -122,6 +127,22 @@ const AdminHome = () => {
       }
     } catch (err) {
       dispatch(isLoader(false));
+    }
+  };
+
+  const getLeaves = async () => {
+    dispatch(isLoader(true));
+    try {
+      const response = await GET_LEAVES();
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        setLeaves(response.data.data);
+        console.log(response.data.data);
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -133,6 +154,7 @@ const AdminHome = () => {
   // }, []);
 
   useEffect(() => {
+    getLeaves();
     getTimer();
   }, []);
 
@@ -192,12 +214,12 @@ const AdminHome = () => {
         </div>
       </section>
 
-      <section id="heading-txt">
+      <section>
         <div class="container">
           <div class="row">
             <div class="col-lg-12 text-start">
               <div class="heading-text-msg">
-                <h3 className="m-0">Welcome {user.name}!</h3>
+                <h3 className="mt-3">Welcome {user.name}!</h3>
                 <h5>
                   <i class="fa  fa-gauge"></i> HRMS Dashboard
                 </h5>
@@ -281,8 +303,8 @@ const AdminHome = () => {
                     <i className="fas fa-plane new_section_icon"></i>
                     <h5 className="font-weight-bold">Timesheet</h5>
                     <a href="#" className="new_section_t">
-                    {(punchInData.today_punchin).slice(0,10)}
-                    {/* 2024-08-13 */}
+                      {punchInData.today_punchin.slice(0, 10)}
+                      {/* 2024-08-13 */}
                     </a>
                   </div>
 
@@ -299,18 +321,14 @@ const AdminHome = () => {
                     <button
                       type="button"
                       onClick={PunchOut}
-                      class={`btn mybtn punch-btn ${
-                        !punch? "d-none" : null
-                      }`}
+                      class={`btn mybtn punch-btn ${!punch ? "d-none" : null}`}
                     >
                       Punch Out
                     </button>
                     <button
                       type="button"
                       onClick={PunchIn}
-                      class={`btn mybtn punch-btn ${
-                        punch? "d-none" : null
-                      }`}
+                      class={`btn mybtn punch-btn ${punch ? "d-none" : null}`}
                     >
                       Punch In
                     </button>
@@ -319,7 +337,8 @@ const AdminHome = () => {
                     <div class="punch-det text-start">
                       <h6>Punch In at</h6>
                       <div className="puch_t">
-                        <p>{(punchInData.today_punchin).slice(0,10)}</p> <span>{(punchInData.today_punchin).slice(11,16)}</span>
+                        <p>{punchInData.today_punchin.slice(0, 10)}</p>{" "}
+                        <span>{punchInData.today_punchin.slice(11, 16)}</span>
                         {/* <p>2024-08-13</p> <span>09:25</span> */}
                       </div>
                     </div>
@@ -743,65 +762,31 @@ const AdminHome = () => {
                     <p>5</p>
                   </span>
                 </div>
-
-                <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
-                  <div className="d-flex align-items-center ">
-                    <a href="#" className="hravatar">
-                      <img src={userLogo} alt="userimg" />
-                    </a>
-                    <div className="hrmr-3">
-                      <h6 className="mb-0 font-weight-bold">Jens Brincker</h6>
-                      <p className="hrtext-muted-5">Sick Leave</p>
-                      <p className="hrtext-muted-6 text-start ">
-                        Leave From: 22/05/2023 <br /> Leave to: 27/05/2023
-                      </p>
+                {leaves.map((x) => {
+                  return (
+                    <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
+                      <div className="d-flex align-items-center ">
+                        <a href="#" className="hravatar">
+                          <img src={userLogo} alt="userimg" />
+                        </a>
+                        <div className="hrmr-3">
+                          <h6 className="mb-0 font-weight-bold">
+                            {x.employee_detail.name}
+                          </h6>
+                          <p className="hrtext-muted-5">{x.leave_type}</p>
+                          <p className="hrtext-muted-6 text-start ">
+                            Leave From: {x.start_date} <br /> Leave to: {x.end_date}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-end">
+                        <button type="button" className="hrdetailbtn rounded">
+                          View Detail
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-end">
-                    <button type="button" className="hrdetailbtn rounded">
-                      View Detail
-                    </button>
-                  </div>
-                </div>
-                <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
-                  <div className="d-flex align-items-center ">
-                    <a href="#" className="hravatar">
-                      <img src={userLogo} alt="userimg" />
-                    </a>
-                    <div className="hrmr-3">
-                      <h6 className="mb-0 font-weight-bold">Jens Brincker</h6>
-                      <p className="hrtext-muted-5">Sick Leave</p>
-                      <p className="hrtext-muted-6 text-start ">
-                        Leave From: 22/05/2023 <br /> Leave to: 27/05/2023
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-end">
-                    <button type="button" className="hrdetailbtn rounded">
-                      View Detail
-                    </button>
-                  </div>
-                </div>
-
-                <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
-                  <div className="d-flex align-items-center ">
-                    <a href="#" className="hravatar">
-                      <img src={userLogo} alt="userimg" />
-                    </a>
-                    <div className="hrmr-3">
-                      <h6 className="mb-0 font-weight-bold">Jens Brincker</h6>
-                      <p className="hrtext-muted-5">Sick Leave</p>
-                      <p className="hrtext-muted-6 text-start ">
-                        Leave From: 22/05/2023 <br /> Leave to: 27/05/2023
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-end">
-                    <button type="button" className="hrdetailbtn rounded">
-                      View Detail
-                    </button>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
             <div className="col-lg-4">
@@ -855,7 +840,7 @@ const AdminHome = () => {
                   <div className="text-end">
                     <button type="button" className="hrdetailbtn rounded">
                       {" "}
-                      Pending
+                      Pending=
                     </button>
                   </div>
                 </div>

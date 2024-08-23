@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import orpectLogo from "../asset/images/orpect1.png";
 import { Await, Link, useNavigate } from "react-router-dom";
 import { LOGIN_API } from "../api/Api";
@@ -26,8 +26,15 @@ const Login = () => {
         dispatch(isLoader(false))
         localStorage.setItem("token", response.data.access_token);
         localStorage.setItem("user", JSON.stringify(response.data.user))
+        localStorage.setItem("role", response.data.user.status)
         dispatch(IsToast(`Hi ${response.data.user.name}, welcome to the HRMS`));
-        navigate("/admin_dashboard");
+
+        if(response.data.user.status == "HR"){
+          navigate("/admin_dashboard");
+        } else {
+          navigate("/employee_dashboard");
+        }
+        
       } else {
         dispatch(isLoader(false))
         dispatch(IsToast(`${response.data.message}`));
@@ -45,6 +52,18 @@ const Login = () => {
       navigate("employee");
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if(token){
+      const role = localStorage.getItem("role")
+      if(role == "employee"){
+        navigate("employee_dashboard")
+      } else {
+        navigate("admin_dashboard")
+      }
+    }
+  }, [])
 
   return (
     <div className="login-container">

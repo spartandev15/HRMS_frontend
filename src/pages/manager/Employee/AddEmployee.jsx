@@ -3,9 +3,11 @@ import Coming_soon from "../../../component/Coming_soon";
 import { isLoader, IsToast } from "../../../store/actions";
 import { ADD_EMPLOYEE, UPDATE_SALARY } from "../../../api/Api";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const Profile_data = JSON.parse(localStorage.getItem("employeeData")) || {};
 
@@ -62,7 +64,7 @@ const AddEmployee = () => {
         const response = await ADD_EMPLOYEE(data);
         if (response.data.result) {
           dispatch(isLoader(false));
-
+          navigate("/admin_dashboard/all_employee");
           // getProfile();
           dispatch(IsToast("Success"));
         } else {
@@ -75,187 +77,196 @@ const AddEmployee = () => {
   };
   return (
     <>
-      <div className="col-lg-8 m-auto">
-        <div className="modal-content p-4">
-          <div className="d-flex justify-content-between mb-3">
-            <h5>Add Employee</h5>
-            {/* <p type="button" 
-          onClick={close}
-          >
-            <i class="fa fa-x"></i>
-          </p> */}
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="shadow sechrcard mt-4">
+              
+                <section>
+                  <div className="container">
+                    <div className="row pb-3">
+                      <div className="col-4 p-0 text-start">
+                        <div class="heading-text-msg">
+                          <h5 class="m-0">Add Employee</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              
+              <form onSubmit={onSubmit}>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        onChange={handleInputs}
+                        value={data.first_name}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        First Name<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        onChange={handleInputs}
+                        value={data.last_name}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        Last Name
+                      </label>
+                    </div>
+                  </div>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="text"
+                        id="line_manager"
+                        name="line_manager"
+                        onChange={handleInputs}
+                        value={data.line_manager}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        Line Manager<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        onChange={handleInputs}
+                        value={data.email}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        Email<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="password"
+                        name="password"
+                        onChange={handleInputs}
+                        value={data.password}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        Password<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="password"
+                        name="confirm_password"
+                        onChange={handleInputs}
+                        value={data.confirm_password}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        Confirm Password
+                        <span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="text"
+                        name="employee_id"
+                        onChange={handleInputs}
+                        value={data.employee_id}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        Employee Id<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="date"
+                        name="joining_date"
+                        onChange={handleInputs}
+                        value={data.joining_date}
+                        required
+                      />
+                      <label className="form-label">
+                        {" "}
+                        Joining Date<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="text"
+                        name="phone"
+                        onChange={handleInputs}
+                        value={data.phone}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        Phone Number<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="form-outline">
+                      <input
+                        type="password"
+                        name="designation"
+                        onChange={handleInputs}
+                        value={data.designation}
+                        required
+                      />
+                      <label className="form-label" for="typeText">
+                        {" "}
+                        Designation<span className=" required">*</span>
+                      </label>
+                    </div>
+                  </div>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-lg-12 text-center">
+                    <button className="btn mybtn">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
-          <form onSubmit={onSubmit}>
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="text"
-                    id="first_name"
-                    name="first_name"
-                    onChange={handleInputs}
-                    value={data.first_name}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    First Name<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="text"
-                    id="last_name"
-                    name="last_name"
-                    onChange={handleInputs}
-                    value={data.last_name}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    Last Name
-                  </label>
-                </div>
-              </div>{" "}
-            </div>
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="text"
-                    id="line_manager"
-                    name="line_manager"
-                    onChange={handleInputs}
-                    value={data.line_manager}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    Line Manager<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    onChange={handleInputs}
-                    value={data.email}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    Email<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>{" "}
-            </div>
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="password"
-                    name="password"
-                    onChange={handleInputs}
-                    value={data.password}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    Password<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="password"
-                    name="confirm_password"
-                    onChange={handleInputs}
-                    value={data.confirm_password}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    Confirm Password
-                    <span className=" required">*</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="text"
-                    name="employee_id"
-                    onChange={handleInputs}
-                    value={data.employee_id}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    Employee Id<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="date"
-                    name="joining_date"
-                    onChange={handleInputs}
-                    value={data.joining_date}
-                    required
-                  />
-                  <label className="form-label">
-                    {" "}
-                    Joining Date<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="text"
-                    name="phone"
-                    onChange={handleInputs}
-                    value={data.phone}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    Phone Number<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="form-outline">
-                  <input
-                    type="password"
-                    name="designation"
-                    onChange={handleInputs}
-                    value={data.designation}
-                    required
-                  />
-                  <label className="form-label" for="typeText">
-                    {" "}
-                    Designation<span className=" required">*</span>
-                  </label>
-                </div>
-              </div>{" "}
-            </div>
-            <div className="row">
-              <div className="col-lg-12 text-center">
-                <button className="btn mybtn">Submit</button>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </>

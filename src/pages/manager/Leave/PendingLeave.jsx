@@ -4,7 +4,7 @@ import { isLoader } from "../../../store/actions";
 import { useDispatch } from "react-redux";
 import { GET_LEAVES } from "../../../api/Api";
 
-const PaidLeave = () => {
+const PendingLeave = () => {
   const dispatch = useDispatch();
   const [applications, setApplications] = useState([]);
 
@@ -41,7 +41,7 @@ const PaidLeave = () => {
                     <div className="row pb-3">
                       <div className="col-4  text-start">
                         <div class="heading-text-msg">
-                          <h5 class="m-0">Paid Leaves</h5>
+                          <h5 class="m-0">Pending Leave Applications</h5>
                         </div>
                       </div>
                     </div>
@@ -91,4 +91,4 @@ const PaidLeave = () => {
   );
 };
 
-export default PaidLeave;
+export default PendingLeave;
