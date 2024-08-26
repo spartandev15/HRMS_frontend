@@ -41,6 +41,7 @@ import AddEvent from "../pages/manager/AddEvent";
 import MyProfile from "../pages/manager/MyProfile";
 import ApplyLeave from "../pages/manager/Leave/ApplyLeave";
 import RejectedLeave from "../pages/manager/Leave/RejectedLeave";
+import ApprovedLeave from "../pages/manager/Leave/ApprovedLeave";
 // import EmployeeManagement from "../pages/manager/EmployeeManagement";
 
 const Navigation = () => {
@@ -76,6 +77,7 @@ const Navigation = () => {
           <Route path="apply_leave" element={<ApplyLeave />} />
           <Route path="unpaid_leave" element={<UnpaidLeave />} />
           <Route path="pending_leave" element={<PendingLeave />} />
+          <Route path="approved_leave" element={<ApprovedLeave />} />
           <Route path="rejected_leave" element={<RejectedLeave />} />
           <Route path="over_time" element={<OverTime />} />
           <Route path="documents" element={<Documents />} />

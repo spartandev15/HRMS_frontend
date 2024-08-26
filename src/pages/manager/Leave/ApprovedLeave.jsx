@@ -4,14 +4,14 @@ import { isLoader } from "../../../store/actions";
 import { useDispatch } from "react-redux";
 import { GET_ALL_LEAVES, GET_LEAVES, UPDATE_LEAVE_STATUS } from "../../../api/Api";
 
-const PendingLeave = () => {
+const ApprovedLeave = () => {
   const dispatch = useDispatch();
   const [applications, setApplications] = useState([]);
 
   const getPendingLeaves = async () => {
     dispatch(isLoader(true));
     try {
-      const response = await GET_ALL_LEAVES("pending");
+      const response = await GET_ALL_LEAVES("approved");
       if (response.data.result) {
         dispatch(isLoader(false));
         setApplications(response.data.data);
@@ -81,7 +81,7 @@ const PendingLeave = () => {
                     <div className="row pb-3">
                       <div className="col-4  text-start">
                         <div class="heading-text-msg">
-                          <h5 class="m-0">Pending Leave Applications</h5>
+                          <h5 class="m-0">Approved Leave Applications</h5>
                         </div>
                       </div>
                     </div>
@@ -101,7 +101,7 @@ const PendingLeave = () => {
                           <th>End Date</th>
                           <th>Reason</th>
                           <th>Status</th>
-                          <th>Action</th>
+                          {/* <th>Action</th> */}
                         </tr>
                       </thead>
                       <tbody>
@@ -114,12 +114,12 @@ const PendingLeave = () => {
                             <td>{app.end_date}</td>
                             <td>{app.reason}</td>
                             <td>{app.status}</td>
-                            <td>
+                            {/* <td>
                               <div className="d-flex flex-column justify-content-center">
                                 <button onClick={() => onApprove(app.id)}>Approve</button>
                                 <button onClick={() => onReject(app.id)} className="mt-3">Reject</button>
                               </div>
-                            </td>
+                            </td> */}
                           </tr>
                         ))}
                       </tbody>
@@ -135,4 +135,4 @@ const PendingLeave = () => {
   );
 };
 
-export default PendingLeave;
+export default ApprovedLeave;

@@ -176,6 +176,12 @@ const Header = () => {
                       </a>
                       <a
                         className="dropdown-item"
+                        onClick={() => navigate("approved_leave")}
+                      >
+                        Approved Leaves
+                      </a>
+                      <a
+                        className="dropdown-item"
                         onClick={() => navigate("rejected_leave")}
                       >
                         Rejected Leaves
