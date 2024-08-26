@@ -5,16 +5,17 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { GET_PROFILE } from "../../api/Api";
 
 const AdminDash = () => {
-  // const navigate = useNavigate();
-  // const name = localStorage.getItem("userName");
+  const navigate = useNavigate();
+  
 
   
 
   useEffect(() => {
-    // if (localStorage.getItem("token")) {
-    // } else {
-    //   navigate("/");
-    // }
+    const token = localStorage.getItem("token");
+    if (token) {
+    } else {
+      navigate("/");
+    }
   }, []);
 
   return (

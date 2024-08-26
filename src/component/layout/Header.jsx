@@ -5,10 +5,10 @@ import user from "../../asset/images/account.png";
 import "../../asset/css/dashboard.css";
 import { GET_PROFILE, LOGOUT_API } from "../../api/Api";
 import { useDispatch, useSelector } from "react-redux";
-import { isLoader, userDetail } from "../../store/actions";
+import { isLoader, myProfile, userDetail } from "../../store/actions";
 
 const Header = () => {
-  const Profile_data = useSelector((s) => s.user_detail)
+  const Profile_data = useSelector((s) => s.my_profile) || ""
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dashboardType, setDashboardType] = useState("Employee");
@@ -18,6 +18,7 @@ const Header = () => {
       if (response.data.result) {
         dispatch(userDetail(response.data.user))
         // console.log(response.data.user);
+        dispatch(myProfile(response.data.user))
         localStorage.setItem("myProfile", JSON.stringify(response.data.user));
       }
     } catch (err) {
@@ -42,6 +43,7 @@ const Header = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("role");
+        localStorage.removeItem("myProfile");
         navigate("/login");
       }
     } catch (err) {
@@ -170,7 +172,13 @@ const Header = () => {
                         className="dropdown-item"
                         onClick={() => navigate("pending_leave")}
                       >
-                        Pending Leave
+                        Pending Leaves
+                      </a>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("rejected_leave")}
+                      >
+                        Rejected Leaves
                       </a>
                       <a
                         className="dropdown-item"
@@ -183,6 +191,12 @@ const Header = () => {
                         onClick={() => navigate("unpaid_leave")}
                       >
                         Unpaid Leave
+                      </a>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => navigate("apply_leave")}
+                      >
+                        Apply Leave
                       </a>
                     </div>
                   </div>

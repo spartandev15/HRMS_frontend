@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./LeaveApplicationForm.css"; // Import custom styles
 import { ADD_LEAVE, GET_LEAVES } from "../../../api/Api";
 import { useDispatch } from "react-redux";
 import { isLoader } from "../../../store/actions";
 
-const ApplyForLeave = () => {
+const ApplyLeave = () => {
   const dispatch = useDispatch();
   const [applications, setApplications] = useState([]);
 
@@ -73,6 +72,23 @@ const ApplyForLeave = () => {
       dispatch(isLoader(false));
       console.log(err);
     }
+
+    // In a real application, you would send this data to a server
+    // console.log("Leave Application Submitted:", {
+    //   leaveType,
+    //   startDate,
+    //   endDate,
+    //   reason,
+    // });
+
+    // Show confirmation message
+    setSubmitted(true);
+
+    // Clear form
+    setLeaveType("");
+    setStartDate("");
+    setEndDate("");
+    setReason("");
   };
 
   return (
@@ -181,4 +197,4 @@ const ApplyForLeave = () => {
   );
 };
 
-export default ApplyForLeave;
+export default ApplyLeave;

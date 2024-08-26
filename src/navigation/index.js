@@ -39,6 +39,8 @@ import LeaveHistory from "../pages/employee/leave&attendance/LeaveHistory";
 import PendingLeave from "../pages/manager/Leave/PendingLeave";
 import AddEvent from "../pages/manager/AddEvent";
 import MyProfile from "../pages/manager/MyProfile";
+import ApplyLeave from "../pages/manager/Leave/ApplyLeave";
+import RejectedLeave from "../pages/manager/Leave/RejectedLeave";
 // import EmployeeManagement from "../pages/manager/EmployeeManagement";
 
 const Navigation = () => {
@@ -71,8 +73,10 @@ const Navigation = () => {
           />
           <Route path="category" element={<Category />} />
           <Route path="paid_leave" element={<PaidLeave />} />
+          <Route path="apply_leave" element={<ApplyLeave />} />
           <Route path="unpaid_leave" element={<UnpaidLeave />} />
           <Route path="pending_leave" element={<PendingLeave />} />
+          <Route path="rejected_leave" element={<RejectedLeave />} />
           <Route path="over_time" element={<OverTime />} />
           <Route path="documents" element={<Documents />} />
           <Route path="add_event" element={<AddEvent />} />

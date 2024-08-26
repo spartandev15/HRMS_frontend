@@ -4,9 +4,10 @@ import React from "react";
 import "./EmployeeDashboard.css";
 import { GET_PROFILE } from "../../api/Api";
 import userLogo from "../../asset/images/profile.png"
+import { useSelector } from "react-redux";
 
 const EmployeeDashboard = () => {
-  const userData = JSON.parse(localStorage.getItem("myProfile"));
+  const userData = useSelector((s) => s.my_profile) || ""
 
   const getProfile = async () => {
     try {

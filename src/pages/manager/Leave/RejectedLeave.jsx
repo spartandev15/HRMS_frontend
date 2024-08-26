@@ -4,14 +4,14 @@ import { isLoader } from "../../../store/actions";
 import { useDispatch } from "react-redux";
 import { GET_ALL_LEAVES, GET_LEAVES } from "../../../api/Api";
 
-const PendingLeave = () => {
+const RejectedLeave = () => {
   const dispatch = useDispatch();
   const [applications, setApplications] = useState([]);
 
-  const getPendingLeaves = async () => {
+  const getLeaves = async () => {
     dispatch(isLoader(true));
     try {
-      const response = await GET_ALL_LEAVES("pending");
+      const response = await GET_ALL_LEAVES("rejected");
       if (response.data.result) {
         dispatch(isLoader(false));
         setApplications(response.data.data);
@@ -27,7 +27,7 @@ const PendingLeave = () => {
   // Simulate fetching data
   useEffect(() => {
     // In a real app, fetch data from an API
-    getPendingLeaves();
+    getLeaves();
   }, []);
   return (
     <>
@@ -41,7 +41,7 @@ const PendingLeave = () => {
                     <div className="row pb-3">
                       <div className="col-4  text-start">
                         <div class="heading-text-msg">
-                          <h5 class="m-0">Pending Leave Applications</h5>
+                          <h5 class="m-0">Rejected Leave Applications</h5>
                         </div>
                       </div>
                     </div>
@@ -95,4 +95,4 @@ const PendingLeave = () => {
   );
 };
 
-export default PendingLeave;
+export default RejectedLeave;

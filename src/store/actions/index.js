@@ -35,3 +35,10 @@ export const userDetail = (data) => {
   }
 }
 
+export const myProfile = (data) => {
+  return {
+    type: "MY_PROFILE",
+    payload: data
+  }
+}
+
