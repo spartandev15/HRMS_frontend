@@ -61,7 +61,7 @@ const RejectedLeave = () => {
                           <th>End Date</th>
                           <th>Reason</th>
                           <th>Status</th>
-                          <th>Action</th>
+                          {/* <th>Action</th> */}
                         </tr>
                       </thead>
                       <tbody>
@@ -74,12 +74,12 @@ const RejectedLeave = () => {
                             <td>{app.end_date}</td>
                             <td>{app.reason}</td>
                             <td>{app.status}</td>
-                            <td>
+                            {/* <td>
                               <div className="d-flex flex-column justify-content-center">
                                 <button>Approve</button>
                                 <button className="mt-3">Reject</button>
                               </div>
-                            </td>
+                            </td> */}
                           </tr>
                         ))}
                       </tbody>

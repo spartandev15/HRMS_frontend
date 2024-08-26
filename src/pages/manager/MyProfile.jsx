@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import user from "../../asset/images/profile.png";
 import $ from "jquery";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isLoader, IsToast, updateProfile, userDetail } from "../../store/actions";
+import { isLoader, IsToast, myProfile, updateProfile, userDetail } from "../../store/actions";
 import {
   GET_PROFILE,
   UPDATE_ADDRESS,
@@ -23,7 +23,7 @@ const MyProfile = () => {
 
   const isMyProfile = localStorage.getItem("isMyProfile") || true;
 
-  const Profile_data = JSON.parse(localStorage.getItem("myProfile"));
+  const Profile_data = useSelector((s) => s.my_profile) || {};
 
   const navigate = useNavigate();
 
@@ -31,18 +31,18 @@ const MyProfile = () => {
 
   const oldData = JSON.parse(localStorage.getItem("myProfile"));
 
-  const [data, setData] = useState({
-    fullname: oldData.name || "",
-    email: oldData.email || "",
-    employee_id: oldData.emp_id || "",
-    date_of_joining: oldData.joining_date || "",
-    tax_number: oldData.tax_number || "",
-    date_of_birth: oldData.dob || "",
-    phone_number: oldData.phone_number || "",
-    position: oldData.job_title || "",
-    address: oldData.address || "",
-    profile_photo: Profile_data.profile_photo || "",
-  });
+  // const [data, setData] = useState({
+  //   fullname: oldData.name || "",
+  //   email: oldData.email || "",
+  //   employee_id: oldData.emp_id || "",
+  //   date_of_joining: oldData.joining_date || "",
+  //   tax_number: oldData.tax_number || "",
+  //   date_of_birth: oldData.dob || "",
+  //   phone_number: oldData.phone_number || "",
+  //   position: oldData.job_title || "",
+  //   address: oldData.address || "",
+  //   profile_photo: Profile_data.profile_photo || "",
+  // });
 
   const [information, setInformation] = useState({
     name: Profile_data.name ? Profile_data.name : "",
@@ -143,7 +143,7 @@ const MyProfile = () => {
       const response = await GET_PROFILE();
       if (response.data.result) {
         console.log(response.data.user);
-        dispatch(userDetail(response.data.user))
+        dispatch(myProfile(response.data.user))
         localStorage.setItem("user", JSON.stringify(response.data.user));
       }
     } catch (err) {
@@ -444,7 +444,7 @@ const MyProfile = () => {
                   >
                     <div className="pic-holder-account">
                       <img
-                        src={data.profile_photo ? data.profile_photo : user}
+                        src={Profile_data.profile_photo ? Profile_data.profile_photo : user}
                         alt="UploadPhoto"
                         id="blah1"
                         className="pic"

@@ -29,7 +29,7 @@ const PendingLeave = () => {
       dispatch(isLoader(true))
       const data = {
         id: id,
-        status: "approve"
+        status: "approved"
       }
       const response = await UPDATE_LEAVE_STATUS(data)
       if(response.data.result){
@@ -49,7 +49,7 @@ const PendingLeave = () => {
       dispatch(isLoader(true))
       const data = {
         id: id,
-        status: "reject"
+        status: "rejected"
       }
       const response = await UPDATE_LEAVE_STATUS(data)
       if(response.data.result){
