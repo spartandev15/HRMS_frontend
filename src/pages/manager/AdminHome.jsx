@@ -5,6 +5,7 @@ import User from "../../asset/images/profile.png";
 import { isLoader } from "../../store/actions";
 import { useDispatch } from "react-redux";
 import {
+  GET_HR_DASHBOARD,
   GET_LEAVES,
   GET_TIMER,
   PUNCH_IN,
@@ -12,6 +13,7 @@ import {
   RUN_TIMER,
   STORE_TIMER,
 } from "../../api/Api";
+import Notification from "../../component/NotificationPopup";
 
 const AdminHome = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ const AdminHome = () => {
 
   const [punch, setPunch] = useState(false);
   const [leaves, setLeaves] = useState([]);
+  const [dashboardData, setDashboardData] = useState();
   const [isTimerRunning, setTimerRunning] = useState(false);
 
   const [hours, setHours] = useState(0);
@@ -158,6 +161,26 @@ const AdminHome = () => {
     getTimer();
   }, []);
 
+  const getDashboard = async () => {
+    try {
+      dispatch(isLoader(true));
+      const response = await GET_HR_DASHBOARD();
+      if (response.data.result) {
+        dispatch(isLoader(false));
+        setDashboardData(response.data.data);
+        console.log(response.data.data);
+      } else {
+        dispatch(isLoader(false));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getDashboard();
+  }, []);
+
   useEffect(() => {
     // Cleanup interval on component unmount
     return () => {
@@ -167,6 +190,17 @@ const AdminHome = () => {
 
   return (
     <>
+    <section>
+      <div className="container">
+        <div className="row mt-4">
+          <div className="col-lg-12">
+            <div className="new_section shadow">
+              <Notification/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
       <section>
         <div className="container">
           <div className="row mt-4">
@@ -242,32 +276,49 @@ const AdminHome = () => {
                   </a>
                 </div>
                 <div className="row">
-                  <div className="col-lg-12">
-                    <div className="border d-flex justify-content-between align-items-center bg-white px-4 py-2">
-                      <div className="d-flex align-items-center ">
-                        <a href="#" className="hravatar">
-                          <img src={userLogo} alt="userimg" />
-                        </a>
-                        <div className="hrmr-3">
-                          <h6 className="mb-0 font-weight-bold">
-                            Jens Brincker{" "}
-                            <p className="hrtext-muted-5">(HR Specialist)</p>
-                          </h6>
+                  {dashboardData
+                    ? dashboardData.upcoming_events
+                        .filter((item, idx) => idx < 5)
+                        .map((x) => {
+                          return (
+                            <div className="col-lg-12">
+                              <div className="border d-flex justify-content-between align-items-center bg-white px-4 py-2">
+                                <div className="d-flex align-items-center ">
+                                  <a href="#" className="hravatar">
+                                    <img src={userLogo} alt="userimg" />
+                                  </a>
+                                  <div className="hrmr-3">
+                                    <h6 className="mb-0 font-weight-bold">
+                                      Jens Brincker{" "}
+                                      <p className="hrtext-muted-5">
+                                        (HR Specialist)
+                                      </p>
+                                    </h6>
 
-                          <p className="hrtext-muted-5">
-                            <i class="fas fa-cake-candles"></i> Birthday
-                          </p>
-                          <p className="hrtext-muted-6">Monday, 7 Aug 2023</p>
-                        </div>
-                      </div>
-                      <div className="text-end">
-                        <button type="button" className="hrdetailbtn rounded">
-                          Wish Them
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-12 mt-3">
+                                    <p className="hrtext-muted-5">
+                                      <i class="fas fa-cake-candles"></i>{" "}
+                                      Birthday
+                                    </p>
+                                    <p className="hrtext-muted-6">
+                                      Monday, 7 Aug 2023
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="text-end">
+                                  <button
+                                    type="button"
+                                    className="hrdetailbtn rounded"
+                                  >
+                                    Wish Them
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                    : null}
+
+                  {/* <div className="col-lg-12 mt-3">
                     <div className="border d-flex justify-content-between align-items-center bg-white px-4 py-2">
                       <div className="d-flex align-items-center ">
                         <a href="#" className="hravatar">
@@ -291,12 +342,12 @@ const AdminHome = () => {
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
 
-            <div className="col-lg-4">
+            <div className="col-lg-4 mt-4 mt-md-0">
               <div className="shadow sechrcard">
                 <div>
                   <div className="new_section_inner sechrcard-body">
@@ -621,68 +672,58 @@ const AdminHome = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-6">
+            <div className="col-lg-6 mt-4 mt-md-0">
               <div className="sechrcard shadow">
                 <div className="sechrcard-body">
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="font-weight-bold">Who's off today</h5>
                     <span className="badge-sec">
-                      <p>5</p>
+                      <p>
+                        {dashboardData ? dashboardData.whos_off_today_count : 0}
+                      </p>
                     </span>
                   </div>
                   {/* content part */}
-                  <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
-                    <div className="d-flex align-items-center">
-                      <a href="#" className="hravatar">
-                        <img
-                          src={userLogo}
-                          alt="userimg"
-                          className="img-fluid"
-                        />
-                      </a>
-                      <div className="hrmr-3">
-                        <h6 className="mb-0 font-weight-bold">John Doe</h6>
-                        <span className="text-muted">Frontend Developer</span>
-                      </div>
-                    </div>
-                    <div className="d-flex align-items-center text-start mt-3">
-                      <div className="w-50">
-                        <h6 className="mb-0">4 Aug 2023</h6>
-                        <span className="text-sm text-muted">Leave Date</span>
-                      </div>
-                      <div className="w-50 text-end">
-                        <span className="d-inline-block py-1 px-3 text-sm text-white mybtn">
-                          Pending
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
-                    <div className="d-flex align-items-center">
-                      <a href="#" className="hravatar">
-                        <img
-                          src={userLogo}
-                          alt="userimg"
-                          className="img-fluid"
-                        />
-                      </a>
-                      <div className="hrmr-3">
-                        <h6 className="mb-0 font-weight-bold">John Doe</h6>
-                        <span className="text-muted">Frontend Developer</span>
-                      </div>
-                    </div>
-                    <div className="d-flex align-items-center text-start  mt-3">
-                      <div className="w-50">
-                        <h6 className="mb-0">4 Aug 2023</h6>
-                        <span className="text-sm text-muted">Leave Date</span>
-                      </div>
-                      <div className="w-50 text-end">
-                        <span className="d-inline-block py-1 px-3 text-sm text-white mybtn">
-                          Pending
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  {dashboardData
+                    ? dashboardData.whos_off_today
+                        .filter((item, i) => i < 3)
+                        .map((x) => {
+                          return (
+                            <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
+                              <div className="d-flex align-items-center">
+                                <a href="#" className="hravatar">
+                                  <img
+                                    src={userLogo}
+                                    alt="userimg"
+                                    className="img-fluid"
+                                  />
+                                </a>
+                                <div className="hrmr-3">
+                                  <h6 className="mb-0 font-weight-bold">
+                                    {x.employee_detail.name}
+                                  </h6>
+                                  <span className="text-muted">
+                                    {x.employee_detail.designation}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="d-flex align-items-center text-start mt-3">
+                                <div className="w-50">
+                                  <h6 className="mb-0">{x.start_date}</h6>
+                                  <span className="text-sm text-muted">
+                                    Leave Date
+                                  </span>
+                                </div>
+                                <div className="w-50 text-end">
+                                  <span className="d-inline-block py-1 px-3 text-sm text-white mybtn">
+                                    {x.status}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                    : 0}
 
                   {/* load more button  */}
                   <div className="mt-4 text-center">
@@ -754,73 +795,96 @@ const AdminHome = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-4">
+            <div className="col-lg-4 mt-4 mt-md-0">
               <div className="sechrcard shadow">
                 <div className="d-flex justify-content-between align-items-center">
                   <h5 className="font-weight-bold">Leave Requests</h5>
                   <span className="badge-sec">
-                    <p>5</p>
+                    <p>
+                      {dashboardData ? dashboardData.leave_requests_count : 0}
+                    </p>
                   </span>
                 </div>
-                {leaves.map((x) => {
-                  return (
-                    <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
-                      <div className="d-flex align-items-center ">
-                        <a href="#" className="hravatar">
-                          <img src={userLogo} alt="userimg" />
-                        </a>
-                        <div className="hrmr-3">
-                          <h6 className="mb-0 font-weight-bold">
-                            {x.employee_detail.name}
-                          </h6>
-                          <p className="hrtext-muted-5">{x.leave_type}</p>
-                          <p className="hrtext-muted-6 text-start ">
-                            Leave From: {x.start_date} <br /> Leave to: {x.end_date}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-end">
-                        <button type="button" className="hrdetailbtn rounded">
-                          View Detail
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
+                {dashboardData
+                  ? dashboardData.leave_requests
+                      .filter((item, i) => i < 3)
+                      .map((x) => {
+                        return (
+                          <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
+                            <div className="d-flex align-items-center ">
+                              <a href="#" className="hravatar">
+                                <img src={userLogo} alt="userimg" />
+                              </a>
+                              <div className="hrmr-3">
+                                <h6 className="mb-0 font-weight-bold">
+                                  {x.employee_detail.name}
+                                </h6>
+                                <p className="hrtext-muted-5">{x.leave_type}</p>
+                                <p className="hrtext-muted-6 text-start ">
+                                  Leave From: {x.start_date} <br /> Leave to:{" "}
+                                  {x.end_date}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="text-end">
+                              <button
+                                type="button"
+                                className="hrdetailbtn rounded"
+                              >
+                                View Detail
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })
+                  : null}
               </div>
             </div>
-            <div className="col-lg-4">
+            <div className="col-lg-4 mt-4 mt-md-0">
               <div className="sechrcard shadow">
                 <div className="d-flex justify-content-between align-items-center">
                   <h5 className="font-weight-bold">My Time Off</h5>
                 </div>
-                <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
-                  <div className="d-flex align-items-center ">
-                    <a href="#" className="hravatar">
-                      <img src={userLogo} alt="userimg" />
-                    </a>
-                    <div className="hrmr-3">
-                      <h6 className="mb-0 font-weight-bold">
-                        Jens Brincker
-                        <p className="hrtext-muted-5">(HR Specialist)</p>
-                      </h6>
-                      <p className="hrtext-muted-5">
-                        <i className="fa fa-cake-candles"></i>Sick Leave
-                        (Unpaid)
-                      </p>
-                      <p className="hrtext-muted-6 text-start">
-                        Monday, 7 Aug 2023
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-end">
-                    <button type="button" className="hrdetailbtn rounded">
-                      {" "}
-                      Pending
-                    </button>
-                  </div>
-                </div>
-                <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
+                {dashboardData
+                  ? dashboardData.my_time_off.map((x) => {
+                      return (
+                        <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
+                          <div className="d-flex align-items-center ">
+                            <a href="#" className="hravatar">
+                              <img src={userLogo} alt="userimg" />
+                            </a>
+                            <div className="hrmr-3">
+                              <h6 className="mb-0 font-weight-bold">
+                                {x.employee_detail.name}
+                                <p className="hrtext-muted-5">
+                                  (HR Specialist)
+                                </p>
+                              </h6>
+                              <p className="hrtext-muted-5">
+                                {/* <i className="fa fa-cake-candles"></i> */}
+                                {x.leave_type}
+                                (Unpaid)
+                              </p>
+                              <p className="hrtext-muted-6 text-start">
+                                Monday, {x.start_date}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-end">
+                            <button
+                              type="button"
+                              className="hrdetailbtn rounded"
+                            >
+                              {" "}
+                              {x.status}
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : null}
+
+                {/* <div className="border border-#e5e5e5 bg-white px-4 py-2 mt-3">
                   <div className="d-flex align-items-center ">
                     <a href="#" className="hravatar">
                       <img src={userLogo} alt="userimg" />
@@ -843,7 +907,7 @@ const AdminHome = () => {
                       Pending=
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

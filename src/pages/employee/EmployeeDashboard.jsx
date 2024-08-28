@@ -1,12 +1,14 @@
 // src/EmployeeDashboard.js
 
-import React from "react";
+import React, { useEffect } from "react";
 import "./EmployeeDashboard.css";
-import { GET_PROFILE } from "../../api/Api";
+import { GET_EMPLOYEE_DASHBOARD, GET_PROFILE } from "../../api/Api";
 import userLogo from "../../asset/images/profile.png"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { isLoader } from "../../store/actions";
 
 const EmployeeDashboard = () => {
+  const dispatch = useDispatch()
   const userData = useSelector((s) => s.my_profile) || ""
 
   const getProfile = async () => {
@@ -21,7 +23,24 @@ const EmployeeDashboard = () => {
     }
   };
 
+  const getDashboard = async () => {
+    try{
+      dispatch(isLoader(true))
+      const response = await GET_EMPLOYEE_DASHBOARD();
+      if(response.data.result){
+        dispatch(isLoader(false))
+        console.log(response.data)
+      } else {
+        dispatch(isLoader(false))
+      }
+    } catch(err){
+      console.log(err)
+    }
+  }
 
+  useEffect(() => {
+    getDashboard()
+  }, [])
 
   return (
     <>

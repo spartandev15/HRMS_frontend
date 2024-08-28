@@ -1,0 +1,39 @@
+.notification-wrapper {
+    width: 100%;
+    display: block;
+    padding: 10px;
+  }
+  
+  .notification-content {
+    position: relative;
+    max-width: 100%;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f5c6cb;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    max-width: 600px; /* Optional: set a maximum width for better appearance */
+  }
+  
+  .notification-close {
+    /* top: 10px; */
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #721c24;
+  }
+  
+  @media (max-width: 600px) {
+    .notification-content {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+  

@@ -14,8 +14,8 @@ const AddEvent = () => {
     eventTime: "",
     location: "",
     description: "",
-    members: "",
-    status: ""
+    members: "JD",
+    status: "pending"
   });
 
   const handleChange = (e) => {
