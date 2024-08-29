@@ -192,13 +192,13 @@ const AdminHome = () => {
     <>
     <section>
       <div className="container">
-        <div className="row mt-4">
+        {/* <div className="row mt-4">
           <div className="col-lg-12">
-            <div className="new_section shadow">
+            <div className="new_section shadow"> */}
               <Notification/>
-            </div>
+            {/* </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
       <section>

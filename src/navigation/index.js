@@ -15,7 +15,7 @@ import Profile from "../pages/manager/Profile";
 import ViewEmployeeDetail from "../pages/manager/ViewEmployeeDetail";
 import AllEmployee from "../pages/manager/Employee/AllEmployee";
 import AddEmployee from "../pages/manager/Employee/AddEmployee";
-import EmployeeBirthday from "../pages/manager/Employee/EmployeeBirthday";
+import UpcomingBirthdays from "../pages/manager/Employee/UpcomingBirthdays";
 import EmployeeWorkAnniversary from "../pages/manager/Employee/EmployeeWorkAnniversary";
 import ProvisionalEmployee from "../pages/manager/Employee/ProvisionalEmployee";
 import Category from "../pages/manager/Employee/Category";
@@ -63,7 +63,7 @@ const Navigation = () => {
           <Route path="" element={<AdminHome />} />
           <Route path="all_employee" element={<AllEmployee />} />
           <Route path="add_employee" element={<AddEmployee />} />
-          <Route path="employee_birthday" element={<EmployeeBirthday />} />
+          <Route path="upcoming_birthday" element={<UpcomingBirthdays />} />
           <Route
             path="employee_work_anniversary"
             element={<EmployeeWorkAnniversary />}

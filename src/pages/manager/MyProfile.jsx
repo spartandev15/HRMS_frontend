@@ -3,7 +3,13 @@ import user from "../../asset/images/profile.png";
 import $ from "jquery";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isLoader, IsToast, myProfile, updateProfile, userDetail } from "../../store/actions";
+import {
+  isLoader,
+  IsToast,
+  myProfile,
+  updateProfile,
+  userDetail,
+} from "../../store/actions";
 import {
   GET_PROFILE,
   UPDATE_ADDRESS,
@@ -18,6 +24,8 @@ import {
 
 const MyProfile = () => {
   const dispatch = useDispatch();
+
+  const [data, setData] = useState();
 
   const user_role = localStorage.getItem("role") || "";
 
@@ -143,7 +151,7 @@ const MyProfile = () => {
       const response = await GET_PROFILE();
       if (response.data.result) {
         console.log(response.data.user);
-        dispatch(myProfile(response.data.user))
+        dispatch(myProfile(response.data.user));
         localStorage.setItem("user", JSON.stringify(response.data.user));
       }
     } catch (err) {
@@ -414,8 +422,102 @@ const MyProfile = () => {
   const [activeTab, setActiveTab] = useState("General");
 
   useEffect(() => {
-    // getProfile();
-  }, []);
+    setInformation({
+      name: Profile_data.name || "",
+      email: Profile_data.email || "",
+      emp_id: Profile_data.emp_id || "",
+      joining_date: Profile_data.joining_date || "",
+      tax_number: Profile_data.tax_number || "",
+      dob: Profile_data.dob || "",
+      phone: Profile_data.phone || "",
+      job_title: Profile_data.job_title || "",
+    });
+
+    setAddress({
+      address: Profile_data.address || "",
+      country: Profile_data.country || "",
+      state: Profile_data.state || "",
+      city: Profile_data.city || "",
+      zipcode: Profile_data.zipcode || "",
+    });
+
+    setEmergency_contact({
+      emergency_name: Profile_data.emergency_name
+      ? Profile_data.emergency_name
+      : "",
+    relationship: Profile_data.relationship ? Profile_data.relationship : "",
+    emergency_phone: Profile_data.emergency_phone
+      ? Profile_data.emergency_phone
+      : "",
+    })
+
+    setJob_details({
+      job_title: Profile_data.job_title ? Profile_data.job_title : "",
+    join_date: Profile_data.join_date ? Profile_data.join_date : "",
+    job_category: Profile_data.job_category ? Profile_data.job_category : "",
+    employment_status: Profile_data.employment_status
+      ? Profile_data.employment_status
+      : "",
+    line_member: Profile_data.line_member ? Profile_data.line_member : "",
+    })
+
+    setEducation({
+      education_level: Profile_data.education_level
+      ? Profile_data.education_level
+      : "",
+    education_institute: Profile_data.education_institude
+      ? Profile_data.education_institude
+      : "",
+    education_year: Profile_data.education_year
+      ? Profile_data.education_year
+      : "",
+    education_score: Profile_data.education_score
+      ? Profile_data.education_score
+      : "",
+    })
+
+    setExperience({
+      work_experience_company: Profile_data.work_experience_company
+      ? Profile_data.work_experience_company
+      : "",
+    work_experience_job_title: Profile_data.work_experience_job_title
+      ? Profile_data.work_experience_job_title
+      : "",
+    work_experience_from: Profile_data.work_experience_from
+      ? Profile_data.work_experience_from
+      : "",
+    work_experience_to: Profile_data.work_experience_to
+      ? Profile_data.work_experience_to
+      : "",
+    })
+
+    setSalary_details({
+      salary_component: Profile_data.salary_component
+      ? Profile_data.salary_component
+      : "",
+    salary_pay_frequency: Profile_data.salary_pay_frequency
+      ? Profile_data.salary_pay_frequency
+      : "",
+    salary_currency: Profile_data.salary_currency
+      ? Profile_data.salary_currency
+      : "",
+    salary_amount: Profile_data.salary_amount ? Profile_data.salary_amount : "",
+    salary_account_number: Profile_data.salary_account_number
+      ? Profile_data.salary_account_number
+      : "",
+    salary_account_type: Profile_data.salary_account_type
+      ? Profile_data.salary_account_type
+      : "",
+    salary_bank_name: Profile_data.salary_bank_name
+      ? Profile_data.salary_bank_name
+      : "",
+    salary_ifsc_code: Profile_data.salary_ifsc_code
+      ? Profile_data.salary_ifsc_code
+      : "",
+    })
+
+    
+  }, [Profile_data]);
 
   return (
     <>
@@ -444,7 +546,11 @@ const MyProfile = () => {
                   >
                     <div className="pic-holder-account">
                       <img
-                        src={Profile_data.profile_photo ? Profile_data.profile_photo : user}
+                        src={
+                          Profile_data.profile_photo
+                            ? Profile_data.profile_photo
+                            : user
+                        }
                         alt="UploadPhoto"
                         id="blah1"
                         className="pic"
@@ -551,7 +657,9 @@ const MyProfile = () => {
                       >
                         Line Manager
                       </h6>
-                      <div class="small text-muted">{job_details.line_member}</div>
+                      <div class="small text-muted">
+                        {job_details.line_member}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -626,7 +734,7 @@ const MyProfile = () => {
                                   onChange={handleInformation}
                                   class="form-control"
                                   required=""
-                                  value={information.name}
+                                  value={Profile_data ? information.name : null}
                                 />
                                 <label
                                   class="form-label"

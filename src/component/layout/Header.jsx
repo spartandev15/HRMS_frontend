@@ -123,7 +123,7 @@ const Header = () => {
                       </a>
                       <a
                         className="dropdown-item"
-                        onClick={() => navigate("employee_birthday")}
+                        onClick={() => navigate("upcoming_birthday")}
                       >
                         Employee Birthday
                       </a>

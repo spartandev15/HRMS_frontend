@@ -1,53 +1,49 @@
 import React from "react";
-import moment from "moment"; // Import Moment.js
-import "../css/EmployeeWorkAnniversary.css"; // Import the custom CSS file
+import moment from "moment"; // For date manipulation
+import "../css/UpcomingBirthdays.css"; // Import the custom CSS file
 
 // Sample data for demonstration
 const employees = [
   {
     id: 1,
     name: "Alice Johnson",
-    work_anniversary: "2015-09-05",
+    birthday: "1990-09-05",
     employee_id: "E001",
     designation: "Software Engineer",
   },
   {
     id: 2,
     name: "Bob Smith",
-    work_anniversary: "2018-08-30",
+    birthday: "1985-08-30",
     employee_id: "E002",
     designation: "Project Manager",
   },
   {
     id: 3,
     name: "Charlie Brown",
-    work_anniversary: "2016-09-15",
+    birthday: "1992-09-15",
     employee_id: "E003",
     designation: "UX Designer",
   },
   // Add more employees as needed
 ];
 
-// Function to get work anniversaries within the current month
-const getWorkAnniversaries = (employees) => {
+// Function to get upcoming birthdays within the next 30 days
+const getUpcomingBirthdays = (employees) => {
   const today = moment();
-  const startOfMonth = today.clone().startOf("month");
-  const endOfMonth = today.clone().endOf("month");
-
+  const endOfMonth = moment().endOf("month");
   return employees
     .filter((employee) => {
-      const anniversary = moment(employee.work_anniversary, "YYYY-MM-DD").year(
-        today.year()
-      );
-      return anniversary.isBetween(startOfMonth, endOfMonth, "day", "[]");
+      const birthday = moment(employee.birthday, "YYYY-MM-DD");
+      birthday.year(today.year());
+
+      return birthday.isBetween(today, endOfMonth, "day", "[]");
     })
-    .sort((a, b) =>
-      moment(a.work_anniversary).diff(moment(b.work_anniversary))
-    );
+    .sort((a, b) => moment(a.birthday).diff(moment(b.birthday)));
 };
 
-const EmployeeWorkAnniversary = () => {
-  const upcomingAnniversaries = getWorkAnniversaries(employees);
+const UpcomingBirthdays = () => {
+  const upcomingBirthdays = getUpcomingBirthdays(employees);
 
   return (
     <>
@@ -60,12 +56,12 @@ const EmployeeWorkAnniversary = () => {
                   <div className="row pb-3">
                     <div className="col-4  text-start">
                       <div class="heading-text-msg">
-                        <h5 class="m-0">Employee Work Anniversary</h5>
+                        <h5 class="m-0">Upcoming Employee Birthdays</h5>
                       </div>
                     </div>
                   </div>
                 </div>
-                {upcomingAnniversaries.length > 0 ? (
+                {upcomingBirthdays.length > 0 ? (
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered">
                       <thead className="thead-light">
@@ -73,19 +69,17 @@ const EmployeeWorkAnniversary = () => {
                           <th>Employee ID</th>
                           <th>Name</th>
                           <th>Designation</th>
-                          <th>Work Anniversary</th>
+                          <th>Birthday</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {upcomingAnniversaries.map((employee) => (
+                        {upcomingBirthdays.map((employee) => (
                           <tr key={employee.id}>
                             <td>{employee.employee_id}</td>
                             <td>{employee.name}</td>
                             <td>{employee.designation}</td>
                             <td>
-                              {moment(employee.work_anniversary).format(
-                                "MMMM D"
-                              )}
+                              {moment(employee.birthday).format("MMMM D")}
                             </td>
                           </tr>
                         ))}
@@ -94,7 +88,7 @@ const EmployeeWorkAnniversary = () => {
                   </div>
                 ) : (
                   <p className="text-muted">
-                    No work anniversaries this month!
+                    No upcoming birthdays this month!
                   </p>
                 )}
               </div>
@@ -106,4 +100,4 @@ const EmployeeWorkAnniversary = () => {
   );
 };
 
-export default EmployeeWorkAnniversary;
+export default UpcomingBirthdays;
